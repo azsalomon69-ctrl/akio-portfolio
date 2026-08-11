@@ -10,6 +10,7 @@ a,
 button,
 [role="button"],
 .dock-item,
+.desktop-shortcut,
 .close-window,
 .chip,
 .social-links a,
@@ -21,6 +22,7 @@ a:active,
 button:active,
 [role="button"]:active,
 .dock-item:active,
+.desktop-shortcut:active,
 .chip:active,
 .social-links a:active,
 .win-header .dots button:active {
@@ -313,6 +315,75 @@ button, a, input, textarea { touch-action: manipulation; }
 }
 .dock-item.bouncing .icon {
   animation: dockBounce 650ms cubic-bezier(.3, .8, .35, 1);
+}
+
+/* Music and Tetris live on the desktop instead of in the Dock. */
+.desktop-shortcuts {
+  position: absolute;
+  top: 66px;
+  left: 16px;
+  z-index: 6;
+  display: grid;
+  gap: 18px;
+}
+.desktop-shortcut {
+  width: 76px;
+  min-height: 88px;
+  padding: 5px 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  user-select: none;
+  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+.desktop-shortcut:hover,
+.desktop-shortcut:focus-visible {
+  border-color: rgba(255,255,255,.24);
+  background: rgba(255,255,255,.13);
+  outline: none;
+}
+.desktop-shortcut:active { transform: scale(.96); }
+.desktop-shortcut .icon,
+.desktop-shortcut .icon svg {
+  width: 58px;
+  height: 58px;
+  display: block;
+}
+.desktop-shortcut .icon {
+  filter: drop-shadow(0 6px 9px rgba(0,0,0,.38));
+}
+.desktop-shortcut .label {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.1;
+  text-shadow: 0 1px 4px rgba(0,0,0,.9), 0 2px 8px rgba(0,0,0,.65);
+}
+.desktop-shortcut.active::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  margin-top: -2px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.75);
+}
+.desktop-shortcut.bouncing .icon { animation: dockBounce 650ms cubic-bezier(.3, .8, .35, 1); }
+
+@media (min-width: 1051px) {
+  .desktop-profile { width: min(1340px, calc(100vw - 190px)); }
+}
+
+@media (max-width: 1050px) {
+  .desktop-shortcuts { top: 54px; left: 9px; gap: 8px; }
+  .desktop-shortcut { width: 62px; min-height: 73px; gap: 4px; }
+  .desktop-shortcut .icon, .desktop-shortcut .icon svg { width: 48px; height: 48px; }
+  .desktop-shortcut .label { font-size: 10px; }
 }
 @keyframes dockBounce {
   0%, 100% { transform: translateY(0); }

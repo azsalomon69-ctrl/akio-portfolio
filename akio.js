@@ -1,6 +1,7 @@
 (function () {
   const desktop = document.getElementById('desktop');
   const dock = document.getElementById('dock');
+  const desktopShortcuts = document.getElementById('desktopShortcuts');
   const clock = document.getElementById('clock');
   const activeAppName = document.getElementById('activeAppName');
   const chatMessages = document.getElementById('chatMessages');
@@ -21,6 +22,24 @@
     contact: document.getElementById('contact-window')
   };
   const appNames = { akio: 'Akio AI', about: 'About Me', tech: 'Technologies', projects: 'Projects', tetris: 'Tetris', music: 'Music', contact: 'Contact' };
+
+  const desktopLauncherQuery = window.matchMedia('(min-width: 721px)');
+  const dockReturnAnchor = dock.querySelector('.dock-item[data-window="about"]');
+  function syncEntertainmentLaunchers() {
+    ['tetris', 'music'].forEach(id => {
+      const item = document.querySelector(`.dock-item[data-window="${id}"], .desktop-shortcut[data-window="${id}"]`);
+      if (!item) return;
+      if (desktopLauncherQuery.matches) {
+        item.classList.replace('dock-item', 'desktop-shortcut');
+        desktopShortcuts.appendChild(item);
+      } else {
+        item.classList.replace('desktop-shortcut', 'dock-item');
+        dock.insertBefore(item, dockReturnAnchor);
+      }
+    });
+  }
+  syncEntertainmentLaunchers();
+  desktopLauncherQuery.addEventListener('change', syncEntertainmentLaunchers);
   let topZ = 100;
   let responseTimer = null;
   let aiBusy = false;
@@ -98,7 +117,7 @@
   }
 
   function primaryDockItem(id) {
-    return dock.querySelector(`.dock-item[data-window="${id}"]`);
+    return document.querySelector(`.dock-item[data-window="${id}"], .desktop-shortcut[data-window="${id}"]`);
   }
 
   function focusWindow(win) {
@@ -569,7 +588,7 @@
     contactForm.reset();
   });
 
-  document.querySelectorAll('.dock-item').forEach(item => {
+  document.querySelectorAll('.dock-item, .desktop-shortcut').forEach(item => {
     if (item.hidden) return;
     item.tabIndex = 0;
     item.setAttribute('role', 'button');
