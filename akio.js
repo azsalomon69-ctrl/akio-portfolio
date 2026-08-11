@@ -557,6 +557,7 @@
   document.querySelectorAll('[data-open-contact]').forEach(button => button.addEventListener('click', () => openWindow('contact')));
   document.querySelectorAll('[data-open-resume]').forEach(button => button.addEventListener('click', () => openWindow('resume')));
   document.querySelectorAll('[data-open-tech]').forEach(button => button.addEventListener('click', () => openWindow('tech')));
+  document.querySelectorAll('[data-open-projects]').forEach(button => button.addEventListener('click', () => openWindow('projects')));
   document.querySelectorAll('[data-open-ai]').forEach(button => button.addEventListener('click', () => openWindow('akio')));
   document.querySelectorAll('[data-ai-ask]').forEach(button => button.addEventListener('click', () => {
     openWindow('akio');

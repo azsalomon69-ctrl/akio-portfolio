@@ -88,10 +88,15 @@ button, a, input, textarea { touch-action: manipulation; }
 .desktop-availability { margin-top: 15px; padding: 14px 15px 15px; border: 1px solid rgba(0,0,0,.07); border-radius: 13px; background: rgba(255,255,255,.72); box-shadow: inset 0 1px 0 #fff; }
 .desktop-availability-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }.desktop-availability-heading small { color: #858791; font-size: 8px; }
 .desktop-availability h2 { margin-top: 5px; color: #2a2b31; font-size: 14px; letter-spacing: -.1px; }
+.desktop-availability > p { margin-top: 5px; color: #72747d; font-size: 10px; line-height: 1.45; }
 .desktop-rate-grid { margin-top: 10px; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
 .desktop-rate-grid article { min-width: 0; padding: 10px 11px; border: 1px solid #e4e5ea; border-radius: 10px; background: #f5f5f8; }.desktop-rate-grid article.featured { border-color: rgba(91,91,207,.28); background: linear-gradient(145deg, #f0efff, #fafaff); }
 .desktop-rate-grid article > span { min-height: 18px; display: block; color: #73757e; font-size: 7px; font-weight: 800; letter-spacing: .75px; line-height: 1.3; }.desktop-rate-grid strong { display: block; margin: 3px 0 2px; color: #24252b; font-size: 16px; }.desktop-rate-grid strong small { color: #71727a; font-size: 8px; font-weight: 600; }.desktop-rate-grid p { color: #85868e; font-size: 8px; line-height: 1.35; }
 .desktop-toolkit { margin-top: 15px; padding: 14px 15px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 1px solid rgba(0,0,0,.07); border-radius: 13px; background: rgba(238,239,245,.84); }.desktop-toolkit > div { min-width: 0; }.desktop-toolkit p { margin-top: 5px; color: #45464e; font-size: 11px; font-weight: 670; line-height: 1.5; }.desktop-toolkit button, .desktop-ai-primary { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; font: inherit; font-weight: 700; white-space: nowrap; }.desktop-toolkit button { min-height: 38px; padding: 8px 12px; border-radius: 9px; color: #fff; background: #303139; font-size: 11px; }.desktop-toolkit svg, .desktop-ai-primary svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.desktop-toolkit-stack { flex: 1 1 auto; }
+.desktop-tech-logos { margin-top: 9px; display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
+.desktop-tech-logos li { min-height: 31px; padding: 5px 8px 5px 6px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(76,80,111,.12); border-radius: 9px; color: #444650; background: rgba(255,255,255,.7); box-shadow: inset 0 1px 0 rgba(255,255,255,.84); font-size: 9px; font-weight: 720; }
+.desktop-tech-logos img { width: 20px; height: 20px; display: block; object-fit: contain; }
 .desktop-ai-card { padding: 30px 27px 26px; display: flex; flex-direction: column; align-items: flex-start; color: #e9e9ed; background: radial-gradient(circle at 20% 5%, rgba(153,127,246,.45), transparent 35%), linear-gradient(150deg, #292a31, #15161a 72%); }.desktop-ai-card .desktop-section-label { margin-top: 20px; color: #b5abd9; }.desktop-ai-mark { width: 52px; height: 52px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.16); border-radius: 15px; color: #fff; background: linear-gradient(145deg, #51535f, #23242a); box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 10px 22px rgba(0,0,0,.24); font-size: 30px; font-weight: 780; }.desktop-ai-card h2 { margin: 9px 0 11px; color: #fff; font-size: 27px; line-height: 1.12; letter-spacing: -.65px; }.desktop-ai-card > p { color: #b2b3bb; font-size: 12px; line-height: 1.6; }.desktop-ai-primary { width: 100%; min-height: 43px; margin-top: 21px; padding: 10px 13px; border-radius: 10px; color: #24252c; background: #fff; font-size: 12px; box-shadow: 0 8px 18px rgba(0,0,0,.2); }.desktop-ai-prompts { width: 100%; margin-top: 10px; display: grid; gap: 7px; }.desktop-ai-prompts button { width: 100%; min-height: 38px; padding: 9px 11px; border: 1px solid rgba(255,255,255,.1); border-radius: 9px; color: #d0d1d6; background: rgba(255,255,255,.05); font: inherit; font-size: 11px; text-align: left; }.desktop-ai-prompts button:hover { color: #fff; background: rgba(255,255,255,.1); }.desktop-contact-link { margin: auto auto 0; padding: 15px 0 0; border: 0; color: #a2a4ac; background: transparent; font: inherit; font-size: 10px; text-decoration: underline; text-underline-offset: 3px; }
 .desktop-profile button { cursor: url('images/mac-pointer.svg') 10 5, pointer; }
 .desktop-profile.is-dragging { box-shadow: 0 36px 90px rgba(18,22,34,.43), inset 0 1px 0 rgba(255,255,255,.72); }.desktop-profile.is-dragging .desktop-profile-windowbar { cursor: grabbing; }
@@ -138,7 +143,7 @@ button, a, input, textarea { touch-action: manipulation; }
 .desktop-ai-prompts { margin-top: 11px; gap: 8px; }
 .desktop-ai-prompts button { min-height: 41px; padding: 10px 12px; border-radius: 10px; }
 .desktop-contact-link { padding-top: 17px; }
-.desktop-toolkit-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; }
+.desktop-toolkit-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
 .desktop-toolkit .desktop-resume-button { color: #343641; border: 1px solid rgba(48,49,57,.15); background: rgba(255,255,255,.76); box-shadow: none; }
 
 /* embedded resume viewer */
@@ -1271,6 +1276,8 @@ button, a, input, textarea { touch-action: manipulation; }
   .desktop-capabilities strong { font-size: 14px; }
   .desktop-capabilities p { font-size: 11px; line-height: 1.4; }
   .desktop-toolkit, .desktop-availability { margin-top: 12px; border-radius: 14px; }
+  .desktop-tech-logos { gap: 5px; }
+  .desktop-tech-logos li { padding-right: 7px; }
   .desktop-rate-grid { gap: 7px; }
   .desktop-rate-grid article { min-height: 60px; padding: 10px; grid-template-columns: minmax(72px,.8fr) minmax(96px,1fr) minmax(0,1fr); }
   .desktop-ai-card { min-height: 360px; padding: 28px 22px calc(30px + env(safe-area-inset-bottom)); }
