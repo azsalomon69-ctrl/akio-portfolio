@@ -69,6 +69,14 @@
     return track?.user?.name || track?.user?.handle || 'Audius artist';
   }
 
+  function playableTracks(items) {
+    return (items || []).filter(track => track
+      && track.isStreamable !== false
+      && track.isStreamable !== 'false'
+      && track.isStreamGated !== true
+      && !track.streamConditions);
+  }
+
   function audiusLinkFor(track) {
     const value = String(track?.permalink || '');
     return /^https:\/\/(www\.)?audius\.co\//i.test(value) ? value : 'https://audius.co';
@@ -210,7 +218,7 @@
     setStatus(`Loading “${track.title || 'track'}”…`);
     const requestId = ++playRequest;
     try {
-      const streamUrl = await audius.tracks.getTrackStreamUrl({ trackId: track.id });
+      const streamUrl = await audius.tracks.getTrackStreamUrl({ trackId: track.id, apiKey });
       if (requestId !== playRequest) return;
       audio.src = streamUrl;
       audio.volume = Number(volume.value);
@@ -231,7 +239,7 @@
     setStatus('Loading trending tracks…');
     try {
       const response = await audius.tracks.getTrendingTracks({ time: 'week', limit: 24 });
-      tracks = (response?.data || []).filter(track => track?.isStreamable !== false && track?.isStreamable !== 'false');
+      tracks = playableTracks(response?.data);
       currentIndex = tracks.findIndex(track => String(track.id) === String(audio.dataset.trackId || ''));
       renderTracks();
       setStatus(tracks.length ? '' : 'No trending tracks are available right now.');
@@ -253,7 +261,7 @@
     setStatus(`Searching Audius for “${cleanQuery}”…`);
     try {
       const response = await audius.tracks.searchTracks({ query: cleanQuery, limit: 24, sortMethod: 'relevant' });
-      tracks = (response?.data || []).filter(track => track?.isStreamable !== false && track?.isStreamable !== 'false');
+      tracks = playableTracks(response?.data);
       currentIndex = tracks.findIndex(track => String(track.id) === String(audio.dataset.trackId || ''));
       renderTracks();
       setStatus(tracks.length ? '' : `No music matched “${cleanQuery}”.`);
