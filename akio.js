@@ -637,7 +637,7 @@
   profileDragHandle?.addEventListener('dblclick', () => {
     if (window.matchMedia('(max-width: 720px)').matches) return;
     profilePanel.style.left = '50%';
-    profilePanel.style.top = '46px';
+    profilePanel.style.top = '36px';
     profilePanel.style.transform = 'translateX(-50%)';
   });
 
