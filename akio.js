@@ -17,11 +17,12 @@
     about: document.getElementById('about-window'),
     tech: document.getElementById('tech-window'),
     projects: document.getElementById('projects-window'),
+    resume: document.getElementById('resume-window'),
     tetris: document.getElementById('tetris-window'),
     music: document.getElementById('music-window'),
     contact: document.getElementById('contact-window')
   };
-  const appNames = { akio: 'Akio AI', about: 'About Me', tech: 'Technologies', projects: 'Projects', tetris: 'Tetris', music: 'Music', contact: 'Contact' };
+  const appNames = { akio: 'Akio AI', about: 'About Me', tech: 'Technologies', projects: 'Projects', resume: 'Resume', tetris: 'Tetris', music: 'Music', contact: 'Contact' };
 
   const desktopLauncherQuery = window.matchMedia('(min-width: 721px)');
   const dockReturnAnchor = dock.querySelector('.dock-item[data-window="about"]');
@@ -439,7 +440,7 @@
       ['About Akio AI', 'aboutCurrent'], ['Reset Guide', 'newChat', '⌘R'], ['divider'], ['Hide Akio AI', 'minimize', '⌘H']
     ],
     file: [
-      ['Reset Portfolio Guide', 'newChat', '⌘R'], ['divider'], ['Open Technologies', 'tech'], ['Open Contact', 'contact'], ['divider'], ['Close Window', 'close', '⌘W']
+      ['Reset Portfolio Guide', 'newChat', '⌘R'], ['divider'], ['Open Resume', 'resume'], ['Open Technologies', 'tech'], ['Open Contact', 'contact'], ['divider'], ['Close Window', 'close', '⌘W']
     ],
     edit: [
       ['Reset Guide', 'clearChat', '⌘R']
@@ -448,7 +449,7 @@
       ['Toggle Dock', 'toggleDock'], ['Enter Full Screen', 'fullscreen', '⌃⌘F'], ['divider'], ['Actual Size', 'actualSize', '⌘0']
     ],
     window: [
-      ['Minimize', 'minimize', '⌘M'], ['Zoom', 'maximize'], ['divider'], ['Akio AI', 'akio'], ['Music', 'music'], ['Technologies', 'tech'], ['Contact', 'contact']
+      ['Minimize', 'minimize', '⌘M'], ['Zoom', 'maximize'], ['divider'], ['Akio AI', 'akio'], ['Resume', 'resume'], ['Music', 'music'], ['Technologies', 'tech'], ['Contact', 'contact']
     ],
     help: [
       ['Portfolio Guide', 'guide'], ['Send Akio a Message', 'contact']
@@ -545,6 +546,7 @@
     aiPrompt.style.height = `${Math.min(aiPrompt.scrollHeight, 110)}px`;
   });
   document.querySelectorAll('[data-open-contact]').forEach(button => button.addEventListener('click', () => openWindow('contact')));
+  document.querySelectorAll('[data-open-resume]').forEach(button => button.addEventListener('click', () => openWindow('resume')));
   document.querySelectorAll('[data-open-tech]').forEach(button => button.addEventListener('click', () => openWindow('tech')));
   document.querySelectorAll('[data-open-ai]').forEach(button => button.addEventListener('click', () => openWindow('akio')));
   document.querySelectorAll('[data-ai-ask]').forEach(button => button.addEventListener('click', () => {

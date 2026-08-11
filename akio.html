@@ -204,7 +204,12 @@
 
   </div>
 
-  <div id="desktopShortcuts" class="desktop-shortcuts" aria-label="Desktop applications"></div>
+  <div id="desktopShortcuts" class="desktop-shortcuts" aria-label="Desktop applications">
+    <div class="desktop-shortcut" data-window="resume" data-app-name="Resume">
+      <span class="icon resume-icon" aria-hidden="true"><span>PDF</span></span>
+      <span class="label">Resume</span>
+    </div>
+  </div>
 
   <div id="menuPopover" class="menu-popover" role="menu" aria-hidden="true"></div>
 
@@ -244,7 +249,10 @@
 
       <div class="desktop-toolkit">
         <div><span class="desktop-section-label">CORE TECHNOLOGIES</span><p>HTML · CSS · JavaScript · React · Next.js · Node.js · C# · SQL</p></div>
-        <button type="button" data-open-tech>View all technologies <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
+        <div class="desktop-toolkit-actions">
+          <button type="button" data-open-tech>View all technologies <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
+          <button type="button" class="desktop-resume-button" data-open-resume>View resume</button>
+        </div>
       </div>
 
       <section class="desktop-availability" aria-labelledby="desktopAvailabilityHeading">
@@ -395,6 +403,30 @@
       </section>
 
       <p class="project-confidentiality"><strong>Confidentiality note</strong> Company details are private. All names and data shown in these screenshots are mock data.</p>
+    </div>
+  </div>
+
+  <!-- ====== RESUME WINDOW ====== -->
+  <div id="resume-window" class="window resume-window">
+    <div class="win-header">
+      <div class="dots">
+        <button class="close close-window" data-window="resume" aria-label="Close Resume" title="Close"></button>
+        <button class="min" data-action="minimize" aria-label="Minimize Resume" title="Minimize"></button>
+        <button class="max" data-action="maximize" aria-label="Maximize Resume" title="Maximize"></button>
+      </div>
+      <span class="title">Resume</span>
+    </div>
+    <div class="win-body resume-body">
+      <header class="resume-toolbar">
+        <div><span>AKIO ZAKI SALOMON</span><strong>Full-stack Web Developer</strong></div>
+        <nav aria-label="Resume actions">
+          <a href="images/Akio%20Resume.pdf" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+          <a class="resume-download" href="images/Akio%20Resume.pdf" download="Akio-Zaki-Salomon-Resume.pdf">Download PDF</a>
+        </nav>
+      </header>
+      <object class="resume-viewer" data="images/Akio%20Resume.pdf#view=FitH" type="application/pdf" aria-label="Akio Zaki Salomon resume PDF">
+        <div class="resume-fallback"><strong>PDF preview unavailable</strong><p>Your browser cannot display the resume here.</p><a href="images/Akio%20Resume.pdf" target="_blank" rel="noopener noreferrer">Open the resume</a></div>
+      </object>
     </div>
   </div>
 

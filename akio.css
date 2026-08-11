@@ -138,6 +138,22 @@ button, a, input, textarea { touch-action: manipulation; }
 .desktop-ai-prompts { margin-top: 11px; gap: 8px; }
 .desktop-ai-prompts button { min-height: 41px; padding: 10px 12px; border-radius: 10px; }
 .desktop-contact-link { padding-top: 17px; }
+.desktop-toolkit-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; }
+.desktop-toolkit .desktop-resume-button { color: #343641; border: 1px solid rgba(48,49,57,.15); background: rgba(255,255,255,.76); box-shadow: none; }
+
+/* embedded resume viewer */
+.resume-window { width: min(1000px, calc(100vw - 34px)); height: min(760px, calc(100vh - 120px)); }
+.resume-body { min-height: 0; padding: 0; display: flex; flex-direction: column; overflow: hidden; background: #e9eaed; }
+.resume-toolbar { min-height: 70px; padding: 12px 17px; flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid rgba(0,0,0,.12); background: rgba(250,250,252,.96); }
+.resume-toolbar > div { display: grid; gap: 3px; }
+.resume-toolbar > div span { color: #85868d; font-size: 8px; font-weight: 800; letter-spacing: 1.35px; }
+.resume-toolbar > div strong { color: #292a30; font-size: 14px; }
+.resume-toolbar nav { display: flex; align-items: center; gap: 8px; }
+.resume-toolbar a { min-height: 36px; padding: 8px 11px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #d7d8dd; border-radius: 9px; color: #414249; background: #fff; font-size: 10px; font-weight: 700; text-decoration: none; }
+.resume-toolbar a.resume-download { color: #fff; border-color: #2f67da; background: #3478e5; box-shadow: 0 5px 12px rgba(52,120,229,.22); }
+.resume-viewer { width: 100%; min-height: 0; flex: 1; border: 0; background: #777980; }
+.resume-fallback { height: 100%; padding: 40px 20px; display: grid; place-content: center; justify-items: center; gap: 8px; color: #44454c; text-align: center; background: #f5f5f7; }
+.resume-fallback p { color: #77787f; font-size: 12px; }.resume-fallback a { color: #2868d7; font-size: 12px; font-weight: 700; }
 
 @media (min-width: 721px) and (max-width: 1050px) {
   .desktop-profile { width: calc(100vw - 24px); grid-template-columns: minmax(0, 1.7fr) minmax(280px, .82fr); }
@@ -357,6 +373,9 @@ button, a, input, textarea { touch-action: manipulation; }
 .desktop-shortcut .icon {
   filter: drop-shadow(0 6px 9px rgba(0,0,0,.38));
 }
+.desktop-shortcut .resume-icon { position: relative; display: grid; place-items: end center; padding-bottom: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,.9); border-radius: 7px; color: #fff; background: linear-gradient(145deg, #fff 0 64%, #e5e8ee 64% 100%); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
+.desktop-shortcut .resume-icon::before { content: ''; position: absolute; top: 9px; left: 9px; width: 28px; height: 3px; border-radius: 2px; background: #c7cbd3; box-shadow: 0 7px 0 #d5d8de, 0 14px 0 #d5d8de; }
+.desktop-shortcut .resume-icon > span { position: relative; z-index: 1; width: 100%; padding: 4px 0 3px; color: #fff; background: #e5484d; font-size: 10px; font-weight: 850; letter-spacing: .8px; }
 .desktop-shortcut .label {
   color: #fff;
   font-size: 12px;
@@ -1215,7 +1234,8 @@ button, a, input, textarea { touch-action: manipulation; }
   .ai-shell .guide-questions { grid-template-columns: 1fr; }
   .ai-composer-meta span:last-child { display: none; }
   .desktop-profile-header { align-items: flex-start; gap: 12px; }
-  .desktop-toolkit { align-items: stretch; flex-direction: column; }.desktop-toolkit button { width: 100%; }
+  .desktop-toolkit { align-items: stretch; flex-direction: column; }.desktop-toolkit-actions { width: 100%; flex-direction: column; }.desktop-toolkit button { width: 100%; }
+  .resume-toolbar { padding: 10px 12px; align-items: stretch; flex-direction: column; gap: 9px; }.resume-toolbar nav, .resume-toolbar a { width: 100%; }.resume-toolbar a { min-height: 40px; }
 }
 
 /* touch-first phone layout for iOS Safari and Android browsers */
