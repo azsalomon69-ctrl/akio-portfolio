@@ -88,6 +88,27 @@
     status.hidden = !message;
   }
 
+  async function resolveStreamUrl(trackId) {
+    const endpoint = new URL(`https://api.audius.co/v1/tracks/${encodeURIComponent(trackId)}/stream`);
+    endpoint.searchParams.set('api_key', apiKey);
+    endpoint.searchParams.set('no_redirect', 'true');
+    endpoint.searchParams.set('skip_play_count', 'false');
+    try {
+      const response = await fetch(endpoint, { headers: { Accept: 'application/json' } });
+      if (!response.ok) {
+        const error = new Error(`Audius stream request failed with ${response.status}`);
+        error.status = response.status;
+        throw error;
+      }
+      const payload = await response.json();
+      if (typeof payload?.data === 'string' && /^https:\/\//i.test(payload.data)) return payload.data;
+      throw new Error('Audius returned an invalid stream URL');
+    } catch (error) {
+      if (error?.status) throw error;
+      return audius.tracks.getTrackStreamUrl({ trackId, apiKey });
+    }
+  }
+
   function showSetupMessage() {
     results.replaceChildren();
     const card = document.createElement('div');
@@ -218,15 +239,26 @@
     setStatus(`Loading “${track.title || 'track'}”…`);
     const requestId = ++playRequest;
     try {
-      const streamUrl = await audius.tracks.getTrackStreamUrl({ trackId: track.id, apiKey });
+      const streamUrl = await resolveStreamUrl(track.id);
       if (requestId !== playRequest) return;
       audio.src = streamUrl;
       audio.volume = Number(volume.value);
-      await audio.play();
-      setStatus('');
-    } catch (_) {
+      try {
+        await audio.play();
+        setStatus('');
+      } catch (error) {
+        if (error?.name === 'NotAllowedError') {
+          setStatus('The track is ready. Press Play to start listening.');
+          return;
+        }
+        throw error;
+      }
+    } catch (error) {
       if (requestId !== playRequest) return;
-      setStatus('This track could not be played. Try another result.', 'error');
+      const rejected = [401, 403].includes(error?.status);
+      setStatus(rejected
+        ? 'Audius rejected this stream. Confirm the API key is enabled for the latest Vercel deployment.'
+        : 'This track is unavailable from Audius. Try another result.', 'error');
     }
   }
 
