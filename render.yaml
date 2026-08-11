@@ -12,6 +12,8 @@ services:
         value: "24.14.1"
       - key: FRONTEND_URL
         sync: false
+      - key: AUDIUS_API_KEY
+        sync: false
       - key: NVIDIA_API_KEY_1
         sync: false
       - key: NVIDIA_MODEL_1

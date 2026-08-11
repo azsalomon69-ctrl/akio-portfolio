@@ -23,9 +23,8 @@
   const duration = document.getElementById('musicDuration');
   const volume = document.getElementById('musicVolume');
   const trackLink = document.getElementById('musicTrackLink');
-  const apiKey = String(window.__AUDIUS_API_KEY__ || '').trim();
+  const apiBaseUrl = String(window.__AKIO_API_BASE_URL__ || '').trim().replace(/\/+$/, '');
 
-  let audius = null;
   let tracks = [];
   let currentIndex = -1;
   let initialized = false;
@@ -33,25 +32,23 @@
   let shuffle = false;
   let repeat = false;
   let playRequest = 0;
-  let sdkLoadPromise = null;
 
-  function loadAudiusSdk() {
-    if (typeof window.audiusSdk === 'function') return Promise.resolve();
-    if (sdkLoadPromise) return sdkLoadPromise;
-    sdkLoadPromise = new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/@audius/sdk@16.0.0/dist/sdk.min.js';
-      script.async = true;
-      script.crossOrigin = 'anonymous';
-      script.dataset.audiusSdk = 'true';
-      script.addEventListener('load', () => {
-        if (typeof window.audiusSdk === 'function') resolve();
-        else reject(new Error('Audius SDK did not initialize'));
-      }, { once: true });
-      script.addEventListener('error', () => reject(new Error('Audius SDK could not load')), { once: true });
-      document.head.appendChild(script);
-    });
-    return sdkLoadPromise;
+  function musicApiUrl(action, params = {}) {
+    const endpoint = new URL(`${apiBaseUrl}/api/music`, window.location.origin);
+    endpoint.searchParams.set('action', action);
+    for (const [name, value] of Object.entries(params)) endpoint.searchParams.set(name, String(value));
+    return endpoint.toString();
+  }
+
+  async function fetchMusic(action, params) {
+    const response = await fetch(musicApiUrl(action, params), { headers: { Accept: 'application/json' } });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const error = new Error(payload?.error || `Music request failed with ${response.status}`);
+      error.status = response.status;
+      throw error;
+    }
+    return payload;
   }
 
   function formatTime(value) {
@@ -86,49 +83,6 @@
     status.textContent = message;
     status.dataset.kind = kind;
     status.hidden = !message;
-  }
-
-  async function resolveStreamUrl(trackId) {
-    const endpoint = new URL(`https://api.audius.co/v1/tracks/${encodeURIComponent(trackId)}/stream`);
-    endpoint.searchParams.set('api_key', apiKey);
-    endpoint.searchParams.set('no_redirect', 'true');
-    endpoint.searchParams.set('skip_play_count', 'false');
-    try {
-      const response = await fetch(endpoint, { headers: { Accept: 'application/json' } });
-      if (!response.ok) {
-        const error = new Error(`Audius stream request failed with ${response.status}`);
-        error.status = response.status;
-        throw error;
-      }
-      const payload = await response.json();
-      if (typeof payload?.data === 'string' && /^https:\/\//i.test(payload.data)) return payload.data;
-      throw new Error('Audius returned an invalid stream URL');
-    } catch (error) {
-      if (error?.status) throw error;
-      return audius.tracks.getTrackStreamUrl({ trackId, apiKey });
-    }
-  }
-
-  function showSetupMessage() {
-    results.replaceChildren();
-    const card = document.createElement('div');
-    card.className = 'music-setup-card';
-    const mark = document.createElement('span');
-    mark.textContent = '♪';
-    const copy = document.createElement('div');
-    const title = document.createElement('strong');
-    title.textContent = 'Connect the free music catalog';
-    const body = document.createElement('p');
-    body.textContent = 'Add your Audius API key in Vercel to enable live search, trending tracks, and playback.';
-    const link = document.createElement('a');
-    link.href = 'https://api.audius.co/plans';
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.textContent = 'Create a free Audius API key ↗';
-    copy.append(title, body, link);
-    card.append(mark, copy);
-    results.appendChild(card);
-    setStatus('Music player setup is required.', 'setup');
   }
 
   function renderTracks() {
@@ -225,7 +179,7 @@
 
   async function playTrack(index) {
     const track = tracks[index];
-    if (!track || !audius || loading) return;
+    if (!track || loading) return;
     if (index === currentIndex && audio.src) {
       if (audio.paused) await audio.play().catch(() => setStatus('Press play again to start this track.', 'error'));
       else audio.pause();
@@ -239,7 +193,7 @@
     setStatus(`Loading “${track.title || 'track'}”…`);
     const requestId = ++playRequest;
     try {
-      const streamUrl = await resolveStreamUrl(track.id);
+      const streamUrl = musicApiUrl('stream', { id: track.id });
       if (requestId !== playRequest) return;
       audio.src = streamUrl;
       audio.volume = Number(volume.value);
@@ -255,22 +209,19 @@
       }
     } catch (error) {
       if (requestId !== playRequest) return;
-      const rejected = [401, 403].includes(error?.status);
-      setStatus(rejected
-        ? 'Audius rejected this stream. Confirm the API key is enabled for the latest Vercel deployment.'
-        : 'This track is unavailable from Audius. Try another result.', 'error');
+      setStatus('This track is unavailable from Audius. Try another result.', 'error');
     }
   }
 
   async function loadTrending() {
-    if (!audius || loading) return;
+    if (loading) return;
     loading = true;
     trendingButton.classList.add('active');
     eyebrow.textContent = 'DISCOVER';
     resultsTitle.textContent = 'Trending this week';
     setStatus('Loading trending tracks…');
     try {
-      const response = await audius.tracks.getTrendingTracks({ time: 'week', limit: 24 });
+      const response = await fetchMusic('trending');
       tracks = playableTracks(response?.data);
       currentIndex = tracks.findIndex(track => String(track.id) === String(audio.dataset.trackId || ''));
       renderTracks();
@@ -283,7 +234,7 @@
   }
 
   async function searchTracks(query) {
-    if (!audius || loading) return;
+    if (loading) return;
     const cleanQuery = query.trim().slice(0, 80);
     if (!cleanQuery) return loadTrending();
     loading = true;
@@ -292,7 +243,7 @@
     resultsTitle.textContent = cleanQuery;
     setStatus(`Searching Audius for “${cleanQuery}”…`);
     try {
-      const response = await audius.tracks.searchTracks({ query: cleanQuery, limit: 24, sortMethod: 'relevant' });
+      const response = await fetchMusic('search', { query: cleanQuery });
       tracks = playableTracks(response?.data);
       currentIndex = tracks.findIndex(track => String(track.id) === String(audio.dataset.trackId || ''));
       renderTracks();
@@ -321,14 +272,8 @@
   async function initialize() {
     if (initialized) return;
     initialized = true;
-    if (!apiKey) {
-      showSetupMessage();
-      return;
-    }
     try {
       setStatus('Connecting to the Audius music catalog…');
-      await loadAudiusSdk();
-      audius = window.audiusSdk({ apiKey });
       await loadTrending();
     } catch (_) {
       setStatus('The music service could not load. Check your connection and reopen Music.', 'error');
@@ -337,7 +282,6 @@
 
   searchForm.addEventListener('submit', event => {
     event.preventDefault();
-    if (!apiKey) return showSetupMessage();
     searchTracks(searchInput.value);
   });
   trendingButton.addEventListener('click', () => loadTrending());

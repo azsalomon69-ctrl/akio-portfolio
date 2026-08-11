@@ -53,7 +53,6 @@ function sendJson(response, status, payload) {
 function sendRuntimeConfig(response) {
   const script = [
     `window.__AKIO_API_BASE_URL__ = '';`,
-    `window.__AUDIUS_API_KEY__ = ${JSON.stringify((process.env.AUDIUS_API_KEY || '').trim())};`,
     ''
   ].join('\n');
   response.writeHead(200, {
@@ -154,11 +153,12 @@ function hasConfiguredKey() {
   });
 }
 
-import('./api/chat.mjs').then(chatModule => {
+Promise.all([import('./api/chat.mjs'), import('./api/music.mjs')]).then(([chatModule, musicModule]) => {
   const server = http.createServer(async (request, response) => {
     try {
       const pathname = new URL(request.url, `http://${request.headers.host || 'localhost'}`).pathname;
       if (pathname === '/api/chat') return await runApi(request, response, chatModule.default);
+      if (pathname === '/api/music') return await runApi(request, response, musicModule.default);
       if (pathname === '/health') return sendJson(response, 200, { status: 'ok' });
       if (pathname === '/config.js') return sendRuntimeConfig(response);
       return await serveStatic(request, response);

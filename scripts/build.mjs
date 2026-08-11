@@ -4,7 +4,6 @@ import path from 'node:path';
 const root = process.cwd();
 const output = path.join(root, 'dist');
 const apiBaseUrl = (process.env.API_BASE_URL || '').trim().replace(/\/+$/, '');
-const audiusApiKey = (process.env.AUDIUS_API_KEY || '').trim();
 
 if (apiBaseUrl) {
   let parsed;
@@ -25,11 +24,11 @@ for (const file of ['akio.html', 'akio.css', 'akio.js', 'music.js', 'tetris.js']
 await cp(path.join(root, 'images'), path.join(output, 'images'), { recursive: true });
 await writeFile(
   path.join(output, 'config.js'),
-  `window.__AKIO_API_BASE_URL__ = ${JSON.stringify(apiBaseUrl)};\nwindow.__AUDIUS_API_KEY__ = ${JSON.stringify(audiusApiKey)};\n`,
+  `window.__AKIO_API_BASE_URL__ = ${JSON.stringify(apiBaseUrl)};\n`,
   'utf8'
 );
 
 const html = await readFile(path.join(output, 'akio.html'), 'utf8');
 if (!html.includes('config.js')) throw new Error('akio.html must load config.js before akio.js');
 
-console.log(`Built static site in dist (AI API: ${apiBaseUrl || 'same origin/local server'}; Music: ${audiusApiKey ? 'configured' : 'setup required'})`);
+console.log(`Built static site in dist (API: ${apiBaseUrl || 'same origin/local server'})`);

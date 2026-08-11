@@ -11,15 +11,16 @@ Commit the deployment files and push the repository. Confirm that `.env` is not 
 1. In Render, choose **New > Blueprint** and connect the repository.
 2. Render reads `render.yaml` and creates `akio-portfolio-api`.
 3. Enter the newly generated `NVIDIA_API_KEY_1` through `NVIDIA_API_KEY_5` values when prompted. You may keep any existing keys that are still active; never commit keys to the repository.
-4. For `FRONTEND_URL`, initially enter the Vercel URL you expect, or a temporary value such as `https://example.invalid`; update it after step 3.
-5. Wait for `/health` to report a successful deploy, then copy the service URL, such as `https://akio-portfolio-api.onrender.com`.
+4. Add `AUDIUS_API_KEY` to Render using the API key from Audius. Do not add the Audius bearer token.
+5. For `FRONTEND_URL`, initially enter the Vercel URL you expect, or a temporary value such as `https://example.invalid`; update it after step 3.
+6. Wait for `/health` to report a successful deploy, then copy the service URL, such as `https://akio-portfolio-api.onrender.com`.
 
 ## 3. Create the Vercel frontend
 
 1. Import the same GitHub repository into Vercel.
 2. Keep the project root at the repository root. `vercel.json` supplies the build command and `dist` output directory.
 3. Add `API_BASE_URL` in **Project Settings > Environment Variables**. Set it to the Render service URL with no `/api/chat` suffix.
-4. Create a free frontend API key at [Audius API Plans](https://api.audius.co/plans), then add it in Vercel as `AUDIUS_API_KEY`. Do not add the Audius bearer token; the Music app only needs the frontend-safe API key.
+4. Do not add Audius credentials to Vercel; Music requests go through the Render backend.
 5. Deploy and copy the final Vercel URL.
 
 ## 4. Lock the backend to the frontend
