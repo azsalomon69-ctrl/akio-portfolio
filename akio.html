@@ -102,6 +102,20 @@
       <span class="label">Tetris</span>
     </div>
 
+    <!-- Music -->
+    <div class="dock-item" data-window="music" data-app-name="Music">
+      <div class="icon music-icon">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="music-bg" x1="7" y1="4" x2="49" y2="53"><stop stop-color="#ff7ab8"/><stop offset=".5" stop-color="#eb3d78"/><stop offset="1" stop-color="#a71959"/></linearGradient><radialGradient id="music-glow" cx=".2" cy=".1" r=".9"><stop stop-color="#fff" stop-opacity=".34"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#music-bg)"/>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#music-glow)"/>
+          <path d="M24 15v25.5a6.5 6.5 0 1 1-3.8-5.9V20l22-4.5V36a6.5 6.5 0 1 1-3.8-5.9V11.8L24 15Z" fill="#fff"/>
+          <path d="M7 17C11 8 20 4 30 4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".18"/>
+        </svg>
+      </div>
+      <span class="label">Music</span>
+    </div>
+
     <!-- About Me (separate app) -->
     <div class="dock-item" data-window="about" data-app-name="About Me" hidden>
       <div class="icon about-icon">
@@ -435,6 +449,55 @@
     </div>
   </div>
 
+  <!-- ====== MUSIC WINDOW ====== -->
+  <div id="music-window" class="window music-window">
+    <div class="win-header">
+      <div class="dots">
+        <button class="close close-window" data-window="music" aria-label="Close Music" title="Close"></button>
+        <button class="min" data-action="minimize" aria-label="Minimize Music" title="Minimize"></button>
+        <button class="max" data-action="maximize" aria-label="Maximize Music" title="Maximize"></button>
+      </div>
+      <span class="title">Music</span>
+    </div>
+    <div class="win-body music-body">
+      <aside class="music-sidebar">
+        <div class="music-brand"><span class="music-brand-mark">♪</span><span><strong>Akio Music</strong><small>Powered by Audius</small></span></div>
+        <button id="musicTrendingButton" class="music-nav-button active" type="button"><span>⌁</span>Trending</button>
+        <div class="music-sidebar-note"><strong>Open music</strong><p>Discover independent artists and stream tracks from Audius.</p></div>
+      </aside>
+      <section class="music-content">
+        <header class="music-content-header">
+          <form id="musicSearchForm" class="music-search" role="search">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg>
+            <input id="musicSearchInput" type="search" maxlength="80" autocomplete="off" placeholder="Search tracks or artists" aria-label="Search Audius music">
+            <button type="submit">Search</button>
+          </form>
+          <div class="music-heading"><div><span id="musicEyebrow">DISCOVER</span><h2 id="musicResultsTitle">Trending this week</h2></div><a href="https://audius.co" target="_blank" rel="noopener noreferrer">Open Audius ↗</a></div>
+        </header>
+        <div id="musicStatus" class="music-status" role="status" aria-live="polite">Open Music to load tracks.</div>
+        <div id="musicResults" class="music-results" aria-label="Music results"></div>
+      </section>
+      <footer class="music-player">
+        <div class="music-now-playing">
+          <span class="music-player-art"><img id="musicPlayerArt" alt="" hidden><i>♪</i></span>
+          <span><strong id="musicPlayerTitle">Choose a track</strong><small id="musicPlayerArtist">Search or browse trending music</small></span>
+        </div>
+        <div class="music-transport">
+          <div class="music-control-row">
+            <button id="musicShuffle" type="button" aria-label="Shuffle" aria-pressed="false" title="Shuffle">⇄</button>
+            <button id="musicPrevious" type="button" aria-label="Previous track" title="Previous">‹</button>
+            <button id="musicPlayPause" class="music-play-button" type="button" aria-label="Play" title="Play">▶</button>
+            <button id="musicNext" type="button" aria-label="Next track" title="Next">›</button>
+            <button id="musicRepeat" type="button" aria-label="Repeat" aria-pressed="false" title="Repeat">↻</button>
+          </div>
+          <div class="music-progress-row"><span id="musicCurrentTime">0:00</span><input id="musicProgress" type="range" min="0" max="1000" value="0" aria-label="Track progress"><span id="musicDuration">0:00</span></div>
+        </div>
+        <div class="music-volume"><span aria-hidden="true">♫</span><input id="musicVolume" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volume"><a id="musicTrackLink" href="https://audius.co" target="_blank" rel="noopener noreferrer" aria-label="Open current track on Audius">↗</a></div>
+        <audio id="musicAudio" preload="metadata"></audio>
+      </footer>
+    </div>
+  </div>
+
   <!-- ====== CONTACT WINDOW ====== -->
   <div id="contact-window" class="window contact-window">
     <div class="win-header">
@@ -516,6 +579,7 @@
 
   <script src="config.js"></script>
   <script src="akio.js"></script>
+  <script src="music.js"></script>
   <script src="tetris.js"></script>
 </body>
 </html>

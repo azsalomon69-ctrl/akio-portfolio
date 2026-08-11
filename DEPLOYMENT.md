@@ -19,7 +19,8 @@ Commit the deployment files and push the repository. Confirm that `.env` is not 
 1. Import the same GitHub repository into Vercel.
 2. Keep the project root at the repository root. `vercel.json` supplies the build command and `dist` output directory.
 3. Add `API_BASE_URL` in **Project Settings > Environment Variables**. Set it to the Render service URL with no `/api/chat` suffix.
-4. Deploy and copy the final Vercel URL.
+4. Create a free frontend API key at [Audius API Plans](https://api.audius.co/plans), then add it in Vercel as `AUDIUS_API_KEY`. Do not add the Audius bearer token; the Music app only needs the frontend-safe API key.
+5. Deploy and copy the final Vercel URL.
 
 ## 4. Lock the backend to the frontend
 

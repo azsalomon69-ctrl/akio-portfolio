@@ -50,6 +50,21 @@ function sendJson(response, status, payload) {
   response.end(JSON.stringify(payload));
 }
 
+function sendRuntimeConfig(response) {
+  const script = [
+    `window.__AKIO_API_BASE_URL__ = '';`,
+    `window.__AUDIUS_API_KEY__ = ${JSON.stringify((process.env.AUDIUS_API_KEY || '').trim())};`,
+    ''
+  ].join('\n');
+  response.writeHead(200, {
+    'Content-Type': 'text/javascript; charset=utf-8',
+    'Content-Length': Buffer.byteLength(script),
+    'Cache-Control': 'no-store',
+    'X-Content-Type-Options': 'nosniff'
+  });
+  response.end(script);
+}
+
 async function readBody(request) {
   const chunks = [];
   let size = 0;
@@ -145,6 +160,7 @@ import('./api/chat.mjs').then(chatModule => {
       const pathname = new URL(request.url, `http://${request.headers.host || 'localhost'}`).pathname;
       if (pathname === '/api/chat') return await runApi(request, response, chatModule.default);
       if (pathname === '/health') return sendJson(response, 200, { status: 'ok' });
+      if (pathname === '/config.js') return sendRuntimeConfig(response);
       return await serveStatic(request, response);
     } catch (error) {
       console.error('Request failed:', error.message);

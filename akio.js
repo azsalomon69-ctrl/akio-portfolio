@@ -17,9 +17,10 @@
     tech: document.getElementById('tech-window'),
     projects: document.getElementById('projects-window'),
     tetris: document.getElementById('tetris-window'),
+    music: document.getElementById('music-window'),
     contact: document.getElementById('contact-window')
   };
-  const appNames = { akio: 'Akio AI', about: 'About Me', tech: 'Technologies', projects: 'Projects', tetris: 'Tetris', contact: 'Contact' };
+  const appNames = { akio: 'Akio AI', about: 'About Me', tech: 'Technologies', projects: 'Projects', tetris: 'Tetris', music: 'Music', contact: 'Contact' };
   let topZ = 100;
   let responseTimer = null;
   let aiBusy = false;
@@ -124,6 +125,7 @@
     win.classList.add('open');
     win.dataset.minimized = 'false';
     focusWindow(win);
+    win.dispatchEvent(new CustomEvent('akio:window-open'));
     if (id === 'akio' && chatMessages.children.length === 0) showGreeting();
   }
 
@@ -133,6 +135,7 @@
     win.classList.remove('open', 'frontmost', 'maximized', 'minimizing');
     win.dataset.minimized = 'false';
     primaryDockItem(id)?.classList.remove('active');
+    win.dispatchEvent(new CustomEvent('akio:window-close'));
     focusNextWindow();
   }
 
@@ -426,7 +429,7 @@
       ['Toggle Dock', 'toggleDock'], ['Enter Full Screen', 'fullscreen', '⌃⌘F'], ['divider'], ['Actual Size', 'actualSize', '⌘0']
     ],
     window: [
-      ['Minimize', 'minimize', '⌘M'], ['Zoom', 'maximize'], ['divider'], ['Akio AI', 'akio'], ['Technologies', 'tech'], ['Contact', 'contact']
+      ['Minimize', 'minimize', '⌘M'], ['Zoom', 'maximize'], ['divider'], ['Akio AI', 'akio'], ['Music', 'music'], ['Technologies', 'tech'], ['Contact', 'contact']
     ],
     help: [
       ['Portfolio Guide', 'guide'], ['Send Akio a Message', 'contact']
