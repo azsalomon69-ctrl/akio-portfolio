@@ -26,8 +26,8 @@
 
   const desktopLauncherQuery = window.matchMedia('(min-width: 721px)');
   const dockReturnAnchor = dock.querySelector('.dock-item[data-window="about"]');
-  function syncEntertainmentLaunchers() {
-    ['tetris', 'music'].forEach(id => {
+  function syncResponsiveLaunchers() {
+    ['tetris', 'music', 'resume'].forEach(id => {
       const item = document.querySelector(`.dock-item[data-window="${id}"], .desktop-shortcut[data-window="${id}"]`);
       if (!item) return;
       if (desktopLauncherQuery.matches) {
@@ -38,9 +38,11 @@
         dock.insertBefore(item, dockReturnAnchor);
       }
     });
+    const techLauncher = dock.querySelector('.dock-item[data-window="tech"]');
+    if (techLauncher) techLauncher.hidden = desktopLauncherQuery.matches;
   }
-  syncEntertainmentLaunchers();
-  desktopLauncherQuery.addEventListener('change', syncEntertainmentLaunchers);
+  syncResponsiveLaunchers();
+  desktopLauncherQuery.addEventListener('change', syncResponsiveLaunchers);
   let topZ = 100;
   let responseTimer = null;
   let aiBusy = false;
@@ -94,9 +96,11 @@
 
   function updateClock() {
     const now = new Date();
-    clock.textContent = new Intl.DateTimeFormat('en-US', {
-      weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
-    }).format(now).replace(/,/g, '');
+    const compact = window.matchMedia('(max-width: 540px)').matches;
+    clock.textContent = new Intl.DateTimeFormat('en-US', compact
+      ? { hour: 'numeric', minute: '2-digit' }
+      : { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }
+    ).format(now).replace(/,/g, '');
     clock.dateTime = now.toISOString();
   }
 
@@ -136,6 +140,7 @@
       .sort((a, b) => Number(b.style.zIndex || 0) - Number(a.style.zIndex || 0));
     if (openWindows[0]) focusWindow(openWindows[0]);
     else activeAppName.textContent = 'Portfolio';
+    desktop.classList.toggle('app-open', openWindows.length > 0);
   }
 
   function openWindow(id) {
@@ -145,6 +150,10 @@
     win.classList.add('open');
     win.dataset.minimized = 'false';
     focusWindow(win);
+    desktop.classList.add('app-open');
+    if (!desktopLauncherQuery.matches) {
+      primaryDockItem(id)?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
     win.dispatchEvent(new CustomEvent('akio:window-open'));
     if (id === 'akio' && chatMessages.children.length === 0) showGreeting();
   }
@@ -591,7 +600,7 @@
   });
 
   document.querySelectorAll('.dock-item, .desktop-shortcut').forEach(item => {
-    if (item.hidden) return;
+    if (item.hidden && item.dataset.window !== 'tech') return;
     item.tabIndex = 0;
     item.setAttribute('role', 'button');
     item.setAttribute('aria-label', item.querySelector('.label')?.textContent || item.dataset.appName || 'Open app');

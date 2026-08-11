@@ -333,7 +333,7 @@ button, a, input, textarea { touch-action: manipulation; }
   animation: dockBounce 650ms cubic-bezier(.3, .8, .35, 1);
 }
 
-/* Music and Tetris live on the desktop instead of in the Dock. */
+/* Desktop-only launchers move into the Dock on phones. */
 .desktop-shortcuts {
   position: absolute;
   top: 66px;
@@ -393,6 +393,10 @@ button, a, input, textarea { touch-action: manipulation; }
   box-shadow: 0 1px 4px rgba(0,0,0,.75);
 }
 .desktop-shortcut.bouncing .icon { animation: dockBounce 650ms cubic-bezier(.3, .8, .35, 1); }
+
+.dock-item .resume-icon { position: relative; display: grid; place-items: end center; padding-bottom: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,.9); border-radius: 11px; color: #fff; background: linear-gradient(145deg, #fff 0 64%, #e5e8ee 64% 100%); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 5px 10px rgba(0,0,0,.2); }
+.dock-item .resume-icon::before { content: ''; position: absolute; top: 8px; left: 8px; width: 24px; height: 3px; border-radius: 2px; background: #c7cbd3; box-shadow: 0 6px 0 #d5d8de, 0 12px 0 #d5d8de; }
+.dock-item .resume-icon > span { position: relative; z-index: 1; width: 100%; padding: 3px 0; color: #fff; background: #e5484d; font-size: 8px; font-weight: 850; letter-spacing: .7px; text-align: center; }
 
 @media (min-width: 1051px) {
   .desktop-profile { width: min(1340px, calc(100vw - 190px)); }
@@ -1243,23 +1247,52 @@ button, a, input, textarea { touch-action: manipulation; }
   html, body { width: 100%; height: 100%; overflow: hidden; }
   #desktop { width: 100%; min-height: 100svh; height: 100dvh; overflow: hidden; }
 
-  #menu { height: calc(34px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 9px 0; font-size: 12px; }
-  #menu .left { gap: 1px; }.menu-button { min-height: 32px; padding-inline: 7px; }.menu-button.apple { width: 32px; }
-  #menu .right { gap: 5px; }.menu-status { min-width: 25px; min-height: 30px; justify-content: center; }.control-center { width: 32px; height: 32px; padding: 7px; }
+  * { cursor: auto; }
+  a, button, [role="button"], .dock-item, .desktop-shortcut { cursor: pointer; }
+  #menu { height: calc(42px + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 8px 0; font-size: 12px; }
+  #menu .left { min-width: 0; gap: 0; }.menu-button { min-height: 40px; padding-inline: 8px; }.menu-button.apple { width: 38px; }
+  #menu .left .menu-button:not(.apple):not(.active-app) { display: none; }
+  #menu .right { gap: 2px; }.menu-status { min-width: 32px; min-height: 40px; justify-content: center; }.control-center { width: 38px; height: 40px; padding: 9px; }
+  #clock { min-width: 61px; font-size: 12px; }
 
-  .desktop-profile { top: calc(42px + env(safe-area-inset-top)); bottom: calc(82px + env(safe-area-inset-bottom)); width: calc(100vw - 16px); max-height: none; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+  .desktop-profile { top: calc(48px + env(safe-area-inset-top)); bottom: calc(88px + env(safe-area-inset-bottom)); width: calc(100vw - 12px); max-height: none; border-radius: 20px; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; box-shadow: 0 18px 48px rgba(18,22,34,.3), inset 0 1px 0 rgba(255,255,255,.78); }
+  .desktop-profile-windowbar { min-height: 42px; padding-inline: 16px; display: flex; justify-content: flex-start; background: rgba(244,244,247,.9); }
+  .desktop-profile-windowbar .desktop-window-dots { display: none; }
+  .desktop-profile-windowbar strong { color: #6f7078; font-size: 10px; font-weight: 780; letter-spacing: .6px; text-transform: uppercase; }
+  .desktop-profile-main { padding: 22px 18px 20px; }
+  .desktop-profile-header { align-items: center; }
+  .desktop-photo { width: 76px; height: 76px; border-radius: 22px; }
+  .desktop-photo img { border-radius: 19px; }
+  .desktop-identity h1 { margin-block: 6px; font-size: clamp(29px, 9vw, 36px); line-height: 1; letter-spacing: -1.15px; }
+  .desktop-identity p { font-size: 12px; }
+  .desktop-intro { margin: 20px 0 16px; font-size: 16px; line-height: 1.5; }
+  .desktop-capabilities { gap: 8px; }
+  .desktop-capabilities article { min-height: 74px; padding: 12px; grid-template-columns: 22px 76px 1fr; border-radius: 14px; }
+  .desktop-capabilities strong { font-size: 14px; }
+  .desktop-capabilities p { font-size: 11px; line-height: 1.4; }
+  .desktop-toolkit, .desktop-availability { margin-top: 12px; border-radius: 14px; }
+  .desktop-rate-grid { gap: 7px; }
+  .desktop-rate-grid article { min-height: 60px; padding: 10px; grid-template-columns: minmax(72px,.8fr) minmax(96px,1fr) minmax(0,1fr); }
+  .desktop-ai-card { min-height: 360px; padding: 28px 22px calc(30px + env(safe-area-inset-bottom)); }
 
-  #dock { bottom: calc(8px + env(safe-area-inset-bottom)); height: 66px; max-width: calc(100vw - 14px); padding: 7px 7px 6px; gap: 0; overflow: visible; border-radius: 17px; }
-  .dock-item { width: min(46px, calc((100vw - 30px) / 8)); height: 50px; padding: 1px 2px 4px; --dock-scale: 1 !important; --dock-lift: 0px !important; }
-  .dock-item .icon, .dock-item .icon svg { width: 40px; height: 40px; max-width: 100%; max-height: 100%; }
+  #dock { bottom: calc(7px + env(safe-area-inset-bottom)); width: calc(100vw - 12px); max-width: none; height: 74px; padding: 9px 10px 8px; justify-content: flex-start; align-items: center; gap: 5px; overflow-x: auto; overflow-y: hidden; border-radius: 21px; scroll-snap-type: x proximity; scroll-padding-inline: 10px; scrollbar-width: none; touch-action: pan-x; -webkit-overflow-scrolling: touch; }
+  #dock::-webkit-scrollbar { display: none; }
+  .dock-item { width: 52px; min-width: 52px; height: 54px; padding: 2px 3px 4px; justify-content: center; scroll-snap-align: center; --dock-scale: 1 !important; --dock-lift: 0px !important; transition: filter 120ms ease, transform 120ms ease; }
+  .dock-item:active { filter: brightness(.88); transform: scale(.92); }
+  .dock-item .icon, .dock-item .icon svg { width: 46px; height: 46px; max-width: 100%; max-height: 100%; }
+  .dock-item .akio-icon::before { font-size: 28px; }
   .dock-item .label { display: none; }
+  .dock-item.active::after { bottom: -2px; width: 4px; height: 4px; background: rgba(255,255,255,.95); box-shadow: 0 1px 3px rgba(0,0,0,.5); }
+  .desktop-shortcuts { display: none; }
 
-  .window, .window.maximized, #akio-window, .wide-window, .contact-window { top: calc(38px + env(safe-area-inset-top)) !important; right: 0 !important; bottom: calc(78px + env(safe-area-inset-bottom)) !important; left: 0 !important; width: 100vw !important; height: auto !important; max-height: none !important; border-radius: 16px 16px 0 0; transform: none !important; }
+  .window, .window.maximized, #akio-window, .wide-window, .contact-window { top: calc(46px + env(safe-area-inset-top)) !important; right: 6px !important; bottom: calc(88px + env(safe-area-inset-bottom)) !important; left: 6px !important; width: auto !important; height: auto !important; max-height: none !important; border-radius: 20px !important; transform: none !important; box-shadow: 0 18px 50px rgba(10,12,20,.42), 0 0 0 1px rgba(255,255,255,.35); }
   .window.open { display: flex; }
-  .win-header { min-height: 49px; padding: 5px 10px; touch-action: manipulation; }
-  .win-header .dots { gap: 3px; }
-  .win-header .dots button { width: 28px; height: 28px; }
-  .win-header .title { margin-right: 88px; font-size: 12px; }
+  .win-header { position: relative; min-height: 52px; padding: 6px 10px; touch-action: manipulation; background: rgba(242,242,245,.94); }
+  .win-header .dots { z-index: 1; width: 40px; margin-right: 0; gap: 0; }
+  .win-header .dots .min, .win-header .dots .max { display: none; }
+  .win-header .dots .close { width: 40px; height: 40px; border: 0; background: rgba(118,118,128,.12); }
+  .win-header .dots .close::before, .win-header .dots .close::after { width: 13px; height: 1.5px; background: #4c4c52; }
+  .win-header .title { position: absolute; inset-inline: 58px; margin: 0; font-size: 13px; font-weight: 720; }
   .new-chat-button { width: 40px; height: 40px; padding: 10px; }
   .win-body { min-height: 0; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
 
@@ -1292,5 +1325,16 @@ button, a, input, textarea { touch-action: manipulation; }
 
   .control-center-panel { top: calc(40px + env(safe-area-inset-top)); right: 8px; width: min(340px, calc(100vw - 16px)); max-height: calc(100dvh - 58px - env(safe-area-inset-top)); overflow-y: auto; }
   .cc-toggle, .cc-focus, .cc-footer button { min-height: 44px; }
+}
+
+@media (max-width: 390px) {
+  #menu .battery-status { display: none; }
+  #menu .right { gap: 0; }
+  .desktop-profile-header { align-items: flex-start; }
+  .desktop-photo { width: 68px; height: 68px; }
+  .desktop-identity h1 { font-size: 28px; }
+  .desktop-rate-grid article { grid-template-columns: 1fr 1fr; }
+  .desktop-rate-grid p { grid-column: 1 / -1; text-align: left; }
+  .desktop-capabilities article { grid-template-columns: 20px 68px 1fr; }
 }
 
