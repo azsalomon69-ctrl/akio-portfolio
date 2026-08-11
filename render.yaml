@@ -15,16 +15,20 @@ services:
       - key: NVIDIA_API_KEY_1
         sync: false
       - key: NVIDIA_MODEL_1
-        value: nvidia/nemotron-3-super-120b-a12b
+        value: openai/gpt-oss-120b
       - key: NVIDIA_API_KEY_2
         sync: false
       - key: NVIDIA_MODEL_2
-        value: openai/gpt-oss-120b
+        value: nvidia/nemotron-3-ultra-550b-a55b
       - key: NVIDIA_API_KEY_3
         sync: false
       - key: NVIDIA_MODEL_3
-        value: meta/llama-3.3-70b-instruct
+        value: openai/gpt-oss-20b
       - key: NVIDIA_API_KEY_4
         sync: false
       - key: NVIDIA_MODEL_4
-        value: openai/gpt-oss-20b
+        value: meta/llama-3.1-8b-instruct
+      - key: NVIDIA_API_KEY_5
+        sync: false
+      - key: NVIDIA_MODEL_5
+        value: nvidia/nemotron-3-super-120b-a12b

@@ -99,10 +99,11 @@ function withinRateLimit(request) {
 
 function configuredProviders() {
   const defaults = [
-    'nvidia/nemotron-3-super-120b-a12b',
     'openai/gpt-oss-120b',
-    'meta/llama-3.3-70b-instruct',
-    'openai/gpt-oss-20b'
+    'nvidia/nemotron-3-ultra-550b-a55b',
+    'openai/gpt-oss-20b',
+    'meta/llama-3.1-8b-instruct',
+    'nvidia/nemotron-3-super-120b-a12b'
   ];
   const providers = [];
   for (let index = 1; index <= 5; index += 1) {
@@ -136,7 +137,7 @@ async function callProvider(provider, messages, timeoutMs) {
   try {
     const modelSettings = provider.model.startsWith('nvidia/nemotron')
       ? { temperature: 1, top_p: 0.95, max_tokens: 2048 }
-      : provider.model === 'meta/llama-3.3-70b-instruct'
+      : provider.model.startsWith('meta/llama-3.1-')
         ? { temperature: 0.2, top_p: 0.7, max_tokens: 1024 }
         : provider.model.startsWith('openai/gpt-oss')
           ? { temperature: 1, top_p: 1, max_tokens: 2048 }

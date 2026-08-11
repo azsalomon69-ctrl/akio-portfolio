@@ -298,11 +298,11 @@
 
   function friendlyModelName(model) {
     const names = {
-      'nvidia/nemotron-3-super-120b-a12b': 'Nemotron 3 Super',
       'openai/gpt-oss-120b': 'GPT-OSS 120B',
-      'meta/llama-3.3-70b-instruct': 'Llama 3.3 70B',
+      'nvidia/nemotron-3-ultra-550b-a55b': 'Nemotron 3 Ultra',
       'openai/gpt-oss-20b': 'GPT-OSS 20B',
-      'poolside/laguna-xs-2.1': 'Laguna XS 2.1'
+      'meta/llama-3.1-8b-instruct': 'Llama 3.1 8B',
+      'nvidia/nemotron-3-super-120b-a12b': 'Nemotron 3 Super'
     };
     return names[model] || model || 'NVIDIA NIM';
   }

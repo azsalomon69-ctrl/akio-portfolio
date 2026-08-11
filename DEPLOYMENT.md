@@ -10,7 +10,7 @@ Commit the deployment files and push the repository. Confirm that `.env` is not 
 
 1. In Render, choose **New > Blueprint** and connect the repository.
 2. Render reads `render.yaml` and creates `akio-portfolio-api`.
-3. Enter at least `NVIDIA_API_KEY_1` when prompted. The other API keys are optional fallbacks.
+3. Enter the newly generated `NVIDIA_API_KEY_1` through `NVIDIA_API_KEY_5` values when prompted. You may keep any existing keys that are still active; never commit keys to the repository.
 4. For `FRONTEND_URL`, initially enter the Vercel URL you expect, or a temporary value such as `https://example.invalid`; update it after step 3.
 5. Wait for `/health` to report a successful deploy, then copy the service URL, such as `https://akio-portfolio-api.onrender.com`.
 
