@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#e9c8c8" />
+  <title>Akio Zaki Salomon — Full-stack Web Developer</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+  <meta name="apple-mobile-web-app-title" content="Akio Portfolio" />
+  <link rel="stylesheet" href="akio.css" />
+</head>
+<body>
+
+<div id="desktop">
+
+  <!-- macOS menu bar -->
+  <div id="menu">
+    <div class="left">
+      <button class="menu-button apple" data-menu="apple" aria-label="Apple menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.7 19.5c-.8 1.2-1.7 2.4-3 2.5-1.3 0-1.8-.8-3.3-.8s-2 .8-3.3.8c-1.3.1-2.3-1.3-3.1-2.5-1.7-2.5-3-7-1.2-10C5.6 8 7.2 7 8.8 7c1.3 0 2.5.9 3.3.9.8 0 2.3-1.1 3.8-.9.7 0 2.5.3 3.7 2-2.2 1.3-2.2 4.7 0 6.5-.2.8-.5 1.9-.9 2.7M15.8 2c.1 1.2-.3 2.4-1 3.2-.7.9-1.8 1.5-2.9 1.4-.1-1.1.4-2.3 1-3.1.7-.8 1.9-1.4 2.9-1.5Z"/></svg>
+      </button>
+      <button class="menu-button active-app" id="activeAppName" data-menu="app">Portfolio</button>
+      <button class="menu-button" data-menu="file">File</button>
+      <button class="menu-button" data-menu="edit">Edit</button>
+      <button class="menu-button" data-menu="view">View</button>
+      <button class="menu-button" data-menu="window">Window</button>
+      <button class="menu-button" data-menu="help">Help</button>
+    </div>
+    <div class="right">
+      <span class="menu-status" aria-label="Wi-Fi connected">
+        <svg class="wifi-icon" viewBox="0 0 18 14" aria-hidden="true"><path d="M1 4.5a12.2 12.2 0 0 1 16 0M4 7.5a7.7 7.7 0 0 1 10 0M7 10.3a3.3 3.3 0 0 1 4 0"/><circle cx="9" cy="12.7" r=".9" fill="currentColor" stroke="none"/></svg>
+      </span>
+      <span class="menu-status battery-status" id="batteryStatus" aria-label="Battery 100 percent">
+        <svg viewBox="0 0 24 12" aria-hidden="true"><rect x=".75" y="1" width="20" height="10" rx="2.3"/><path class="battery-level" id="batteryLevel" d="M3 3h16v6H3z"/><path d="M22 4v4"/></svg>
+        <span id="batteryText">100%</span>
+      </span>
+      <button class="menu-button control-center" id="controlCenterButton" aria-label="Control Center" aria-expanded="false">
+        <svg viewBox="0 0 18 16" aria-hidden="true"><path d="M2 4h14M2 12h14"/><circle cx="6" cy="4" r="2.1"/><circle cx="12" cy="12" r="2.1"/></svg>
+      </button>
+      <time id="clock" datetime="">Tue Aug 11&nbsp;&nbsp;7:30 PM</time>
+    </div>
+  </div>
+
+  <!-- DOCK -->
+  <div id="dock">
+
+    <!-- Akio AI -->
+    <div class="dock-item" data-window="akio" data-app-name="Akio AI">
+      <div class="icon akio-icon">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <defs>
+            <linearGradient id="akio-bg" x1="7" y1="3" x2="49" y2="54"><stop stop-color="#454A55"/><stop offset=".52" stop-color="#202228"/><stop offset="1" stop-color="#0E0F12"/></linearGradient>
+            <radialGradient id="akio-glow" cx="0" cy="0" r="1" gradientTransform="translate(18 11) rotate(48) scale(44)"><stop stop-color="#A98BFF" stop-opacity=".58"/><stop offset="1" stop-color="#7D5CFF" stop-opacity="0"/></radialGradient>
+          </defs>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#akio-bg)"/>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#akio-glow)"/>
+          <g fill="none" stroke="#FFF" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M28 13.2c5 0 8.1 3.3 8.1 7.5v5.2L28 30.6l-8.1-4.7v-5.2c0-4.2 3.1-7.5 8.1-7.5Z"/>
+            <path d="M40.8 20.6c2.5 4.3 1.2 8.7-2.4 10.8l-4.5 2.6-8.1-4.7v-9.4l4.5-2.6c3.7-2.1 8-.9 10.5 3.3Z"/>
+            <path d="M40.8 35.4c-2.5 4.3-6.9 5.5-10.5 3.4l-4.5-2.6v-9.4l8.1-4.7 4.5 2.6c3.6 2.1 4.9 6.4 2.4 10.7Z"/>
+            <path d="M28 42.8c-5 0-8.1-3.3-8.1-7.5v-5.2l8.1-4.7 8.1 4.7v5.2c0 4.2-3.1 7.5-8.1 7.5Z"/>
+            <path d="M15.2 35.4c-2.5-4.3-1.2-8.7 2.4-10.8l4.5-2.6 8.1 4.7v9.4l-4.5 2.6c-3.7 2.1-8 .9-10.5-3.3Z"/>
+            <path d="M15.2 20.6c2.5-4.3 6.9-5.5 10.5-3.4l4.5 2.6v9.4l-8.1 4.7-4.5-2.6c-3.6-2.1-4.9-6.4-2.4-10.7Z"/>
+          </g>
+          <circle cx="28" cy="28" r="3.1" fill="#A78BFA"/>
+          <path d="M7 17C11 8 20 4 30 4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round" opacity=".12"/>
+        </svg>
+      </div>
+      <span class="label">Akio AI</span>
+    </div>
+
+    <!-- Projects -->
+    <div class="dock-item" data-window="projects" data-app-name="Projects">
+      <div class="icon projects-icon">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="projects-bg" x1="7" y1="4" x2="49" y2="53"><stop stop-color="#B594FF"/><stop offset=".48" stop-color="#7057E8"/><stop offset="1" stop-color="#3D2E9E"/></linearGradient><linearGradient id="projects-sheet" x1="13" y1="12" x2="43" y2="44"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#EAE7FF"/></linearGradient></defs>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#projects-bg)"/>
+          <rect x="12" y="14" width="32" height="29" rx="6" fill="url(#projects-sheet)" stroke="#FFF" stroke-opacity=".72"/>
+          <rect x="16" y="19" width="24" height="10" rx="3" fill="#715AE5" opacity=".18"/>
+          <path d="M18 35h10m-10 3h17" stroke="#715AE5" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="35" cy="24" r="3" fill="#7B61E9"/>
+          <path d="M7 17C11 8 20 4 30 4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round" opacity=".2"/>
+        </svg>
+      </div>
+      <span class="label">Projects</span>
+    </div>
+
+    <!-- Tetris -->
+    <div class="dock-item" data-window="tetris" data-app-name="Tetris">
+      <div class="icon tetris-icon">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="tetris-bg" x1="7" y1="3" x2="49" y2="54"><stop stop-color="#26324A"/><stop offset="1" stop-color="#0B1020"/></linearGradient></defs>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#tetris-bg)"/>
+          <g stroke="#FFF" stroke-opacity=".2" stroke-width=".6">
+            <path fill="#35C5F0" d="M9 11h9v9H9zm9 0h9v9h-9zm9 0h9v9h-9zm9 0h9v9h-9z"/>
+            <path fill="#A96BFF" d="M18 23h9v9h-9zm9 0h9v9h-9zm9 0h9v9h-9zm9 9h-9v9h9z"/>
+            <path fill="#FFCC32" d="M9 35h9v9H9zm9 0h9v9h-9zm0-9h9v9h-9z"/>
+          </g>
+          <path d="M7 17C11 8 20 4 30 4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round" opacity=".16"/>
+        </svg>
+      </div>
+      <span class="label">Tetris</span>
+    </div>
+
+    <!-- About Me (separate app) -->
+    <div class="dock-item" data-window="about" data-app-name="About Me" hidden>
+      <div class="icon about-icon">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="about-bg" x1="8" y1="3" x2="48" y2="54"><stop stop-color="#7BD8FF"/><stop offset=".5" stop-color="#258DF2"/><stop offset="1" stop-color="#1849B5"/></linearGradient><clipPath id="about-photo"><circle cx="28" cy="27" r="17.5"/></clipPath></defs>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#about-bg)"/>
+          <circle cx="28" cy="27" r="20" fill="#FFF" opacity=".24"/>
+          <image href="images/profile.png" x="10.5" y="9.5" width="35" height="35" preserveAspectRatio="xMidYMid slice" clip-path="url(#about-photo)"/>
+          <circle cx="28" cy="27" r="17.5" fill="none" stroke="#FFF" stroke-width="2.2"/>
+          <circle cx="42" cy="42" r="6.2" fill="#FFF"/><circle cx="42" cy="42" r="4.2" fill="#30C866"/>
+          <path d="M7 17C11 8 20 4 30 4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round" opacity=".18"/>
+        </svg>
+      </div>
+      <span class="label">About</span>
+    </div>
+
+    <!-- Technologies -->
+    <div class="dock-item" data-window="tech" data-app-name="Technologies" hidden>
+      <div class="icon tech-icon">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="tech-bg" x1="7" y1="4" x2="49" y2="53"><stop stop-color="#7BE6FF"/><stop offset=".52" stop-color="#357BEF"/><stop offset="1" stop-color="#3745A5"/></linearGradient><linearGradient id="tech-panel" x1="14" y1="12" x2="42" y2="44"><stop stop-color="#263449"/><stop offset="1" stop-color="#111722"/></linearGradient></defs>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#tech-bg)"/>
+          <rect x="9" y="10" width="38" height="36" rx="7" fill="url(#tech-panel)" stroke="#FFF" stroke-opacity=".48"/>
+          <path d="M9.5 18h37" stroke="#FFF" stroke-opacity=".2"/><circle cx="14" cy="14" r="1.4" fill="#FF6259"/><circle cx="18" cy="14" r="1.4" fill="#FFBD2E"/><circle cx="22" cy="14" r="1.4" fill="#28C840"/>
+          <path d="m23 25-6 5 6 5m10-10 6 5-6 5" fill="none" stroke="#7EDCFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><path d="m30 23-4 14" stroke="#B596FF" stroke-width="2" stroke-linecap="round"/>
+          <path d="M7 17C11 8 20 4 30 4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round" opacity=".18"/>
+        </svg>
+      </div>
+      <span class="label">Tech</span>
+    </div>
+
+    <!-- Contact -->
+    <div class="dock-item" data-window="contact" data-app-name="Contact">
+      <div class="icon contact-icon">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="contact-bg" x1="7" y1="3" x2="49" y2="54"><stop stop-color="#7FDBFF"/><stop offset=".48" stop-color="#2687F7"/><stop offset="1" stop-color="#3152C9"/></linearGradient><linearGradient id="mail-paper" x1="12" y1="14" x2="44" y2="44"><stop stop-color="#FFF"/><stop offset="1" stop-color="#E9F2FF"/></linearGradient></defs>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#contact-bg)"/>
+          <rect x="8.5" y="14" width="39" height="29" rx="6.5" fill="url(#mail-paper)" stroke="#FFF" stroke-opacity=".7"/>
+          <path d="m11.5 18 13.8 10.4a4.4 4.4 0 0 0 5.4 0L44.5 18" fill="none" stroke="#3182E8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="m11.5 39.5 11.2-10m21.8 10-11.2-10" stroke="#BBD8FA" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="43" cy="13" r="6" fill="#FF3B30" stroke="#FFF" stroke-width="2"/><circle cx="43" cy="13" r="1.4" fill="#FFF"/>
+          <path d="M7 17C11 8 20 4 30 4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round" opacity=".18"/>
+        </svg>
+      </div>
+      <span class="label">Contact</span>
+    </div>
+
+    <!-- GitHub redirect -->
+    <div class="dock-item" data-url="https://github.com/azsalomon69-ctrl">
+      <div class="icon github-icon">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="github-bg" x1="9" y1="4" x2="47" y2="53"><stop stop-color="#404552"/><stop offset=".55" stop-color="#20232A"/><stop offset="1" stop-color="#0D0F12"/></linearGradient></defs>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#github-bg)"/>
+          <path fill="#FFF" d="M28 11.4a17 17 0 0 0-5.4 33.1c.8.2 1.1-.3 1.1-.8v-3.3c-4.5 1-5.5-1.9-5.5-1.9-.7-1.9-1.8-2.4-1.8-2.4-1.5-1-.1-1 .1-1 1.6.1 2.5 1.7 2.5 1.7 1.5 2.5 3.8 1.8 4.7 1.4.2-1.1.6-1.8 1-2.2-3.6-.4-7.4-1.8-7.4-8a6.3 6.3 0 0 1 1.7-4.4c-.2-.4-.7-2.1.2-4.4 0 0 1.4-.4 4.7 1.7a16.2 16.2 0 0 1 8.6 0c3.3-2.2 4.7-1.7 4.7-1.7.9 2.3.3 4 .2 4.4a6.3 6.3 0 0 1 1.7 4.4c0 6.2-3.8 7.6-7.4 8 .6.5 1.1 1.5 1.1 3.1v4c0 .5.3 1 1.1.8A17 17 0 0 0 28 11.4Z"/>
+          <path d="M7 18C11 8 20 4 30 4" stroke="#FFF" stroke-width="2" stroke-linecap="round" opacity=".12"/>
+        </svg>
+      </div>
+      <span class="label">GitHub</span>
+    </div>
+
+    <!-- LinkedIn redirect -->
+    <div class="dock-item" data-url="https://www.linkedin.com/in/akio-zaki-salomon-900785353/">
+      <div class="icon linkedin-icon">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="linkedin-bg" x1="8" y1="4" x2="48" y2="54"><stop stop-color="#39A5E8"/><stop offset=".5" stop-color="#0877B7"/><stop offset="1" stop-color="#04517E"/></linearGradient></defs>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#linkedin-bg)"/>
+          <circle cx="17.7" cy="19" r="3.5" fill="#FFF"/>
+          <path fill="#FFF" d="M14.7 24.5h6v18h-6v-18Zm9.7 0h5.8V27h.1c.8-1.5 2.7-3.1 5.6-3.1 6 0 7.1 3.9 7.1 9.1v9.5h-6V34c0-2 0-4.7-2.9-4.7s-3.3 2.2-3.3 4.5v8.7h-6v-18Z"/>
+          <path d="M7 18C11 8 20 4 30 4" stroke="#FFF" stroke-width="2" stroke-linecap="round" opacity=".18"/>
+        </svg>
+      </div>
+      <span class="label">LinkedIn</span>
+    </div>
+
+    <div class="dock-item" data-url="https://www.facebook.com/nathe.arceo">
+      <div class="icon facebook-icon">
+        <svg viewBox="0 0 56 56" aria-hidden="true">
+          <defs><linearGradient id="facebook-bg" x1="8" y1="4" x2="48" y2="54"><stop stop-color="#68AEFF"/><stop offset=".46" stop-color="#1877F2"/><stop offset="1" stop-color="#0755BC"/></linearGradient></defs>
+          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#facebook-bg)"/>
+          <path fill="#FFF" d="M31.9 47V30.4h5.6l.8-6.5h-6.4v-4.1c0-1.9.5-3.2 3.2-3.2h3.4v-5.8c-.6-.1-2.6-.3-5-.3-4.9 0-8.2 3-8.2 8.4v5h-5.5v6.5h5.5V47h6.6Z"/>
+          <path d="M7 18C11 8 20 4 30 4" stroke="#FFF" stroke-width="2" stroke-linecap="round" opacity=".18"/>
+        </svg>
+      </div>
+      <span class="label">Facebook</span>
+    </div>
+
+  </div>
+
+  <div id="menuPopover" class="menu-popover" role="menu" aria-hidden="true"></div>
+
+  <aside id="controlCenter" class="control-center-panel" aria-hidden="true">
+    <div class="cc-connectivity">
+      <button class="cc-toggle enabled" data-setting="wifi" aria-pressed="true"><span class="cc-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9a14 14 0 0 1 18 0M6.5 12.5a8.7 8.7 0 0 1 11 0M10 16a3.3 3.3 0 0 1 4 0"/><circle cx="12" cy="19" r="1"/></svg></span><span><strong>Wi‑Fi</strong><small>Connected</small></span></button>
+      <button class="cc-toggle enabled" data-setting="bluetooth" aria-pressed="true"><span class="cc-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 5 4.5-5 4.5V3Zm0 9 5 4.5-5 4.5v-9ZM7 7l10 9.5M7 17l10-9.5"/></svg></span><span><strong>Bluetooth</strong><small>On</small></span></button>
+    </div>
+    <button class="cc-focus" data-setting="focus" aria-pressed="false"><span class="moon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg></span><span><strong>Focus</strong><small>Off</small></span></button>
+    <label class="cc-slider"><span>Display</span><span class="slider-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2m0-14-2 2M7 17l-2 2"/></svg><input id="brightnessControl" type="range" min="45" max="100" value="100" aria-label="Display brightness"></span></label>
+    <div class="cc-footer"><button data-quick="tech">Technologies</button><button data-quick="contact">Contact</button></div>
+  </aside>
+
+  <main class="desktop-profile" aria-labelledby="desktopProfileName">
+    <div class="desktop-profile-windowbar" data-profile-drag-handle>
+      <span class="desktop-window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <strong>Akio Zaki Salomon</strong>
+      <span class="desktop-drag-hint">Drag to move</span>
+    </div>
+    <section class="desktop-profile-main">
+      <header class="desktop-profile-header">
+        <div class="desktop-photo"><img src="images/profile.png" alt="Akio Zaki Salomon"><span aria-label="Available online"></span></div>
+        <div class="desktop-identity">
+          <span class="desktop-eyebrow">FULL-STACK WEB DEVELOPER</span>
+          <h1 id="desktopProfileName">Akio Zaki Salomon</h1>
+          <p><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 18s6-5.4 6-11A6 6 0 1 0 4 7c0 5.6 6 11 6 11Z"/><circle cx="10" cy="7" r="2.2"/></svg>Santa Rosa City, Philippines</p>
+        </div>
+      </header>
+
+      <p class="desktop-intro">I build websites and web applications from the interface customers use to the server, API, and database behind it.</p>
+
+      <div class="desktop-capabilities" aria-label="What Akio can build">
+        <article><span>01</span><strong>Frontend</strong><p>Responsive pages and interfaces that are clear and easy to use.</p></article>
+        <article><span>02</span><strong>Backend</strong><p>Server logic and APIs that connect the application together.</p></article>
+        <article><span>03</span><strong>Data</strong><p>SQL databases for storing and managing application information.</p></article>
+      </div>
+
+      <section class="desktop-availability" aria-labelledby="desktopAvailabilityHeading">
+        <div class="desktop-availability-heading"><span class="desktop-section-label">AVAILABILITY &amp; COMPENSATION</span><small>Entry-level · negotiable by responsibilities</small></div>
+        <h2 id="desktopAvailabilityHeading">Open to part-time and full-time work</h2>
+        <div class="desktop-rate-grid">
+          <article><span>PART-TIME</span><strong>₱15,000<small>/month</small></strong><p>Up to 20 hours per week</p></article>
+          <article class="featured"><span>FULL-TIME · PH</span><strong>₱30,000<small>/month</small></strong><p>Discounted entry-level rate</p></article>
+          <article><span>FULL-TIME · INTERNATIONAL</span><strong>$800<small> USD/month</small></strong><p>Remote international role</p></article>
+        </div>
+      </section>
+
+      <div class="desktop-toolkit">
+        <div><span class="desktop-section-label">CORE TECHNOLOGIES</span><p>HTML · CSS · JavaScript · React · Next.js · Node.js · C# · SQL</p></div>
+        <button type="button" data-open-tech>View all technologies <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
+      </div>
+    </section>
+
+    <aside class="desktop-ai-card">
+      <span class="desktop-ai-mark" aria-hidden="true">A</span>
+      <span class="desktop-section-label">TRY AKIO AI</span>
+      <h2>Want to know more about me?</h2>
+      <p>Ask about my skills, what I can build, or why I may fit your team. The AI answers using verified information from this portfolio.</p>
+      <button type="button" class="desktop-ai-primary" data-open-ai>Open Akio AI <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10m-4-4 4 4-4 4"/></svg></button>
+      <div class="desktop-ai-prompts">
+        <button type="button" data-ai-ask="What can Akio build as a full-stack developer?">What can Akio build?</button>
+        <button type="button" data-ai-ask="Why should a company consider hiring Akio?">Why hire Akio?</button>
+      </div>
+      <button type="button" class="desktop-contact-link" data-open-contact>Or send me a message</button>
+    </aside>
+  </main>
+
+  <!-- ====== ABOUT WINDOW (standalone) ====== -->
+  <template id="retired-about-window">
+    <div class="win-header">
+      <div class="dots">
+        <button class="close close-window" data-window="about" aria-label="Close About Me"></button>
+        <button class="min" data-action="minimize" aria-label="Minimize About Me"></button>
+        <button class="max" data-action="maximize" aria-label="Maximize About Me"></button>
+      </div>
+      <span class="title">About Me</span>
+    </div>
+    <div class="win-body about-body">
+      <section class="about-hero">
+        <div class="profile-frame"><img src="images/profile.png" alt="Akio Zaki Salomon" class="profile-img" /><span class="profile-ring"></span></div>
+        <div class="about-intro">
+          <span class="about-eyebrow">ABOUT ME</span>
+          <h2>Akio Zaki Salomon</h2>
+          <p class="role">Full-stack Web Developer</p>
+          <p class="location"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 18s6-5.4 6-11A6 6 0 1 0 4 7c0 5.6 6 11 6 11Z"/><circle cx="10" cy="7" r="2.2"/></svg>Santa Rosa City, Philippines</p>
+          <div class="about-primary-actions">
+            <button type="button" data-open-contact class="primary-contact"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5.5h14v9H3z"/><path d="m3.5 6 6.5 5 6.5-5"/></svg>Contact Me</button>
+            <a href="mailto:azsalomon69@gmail.com"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5.5h14v9H3z"/><path d="m3.5 6 6.5 5 6.5-5"/></svg>Email</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="about-content-grid">
+        <article class="about-story">
+          <span class="section-label">WHAT I DO</span>
+          <h3>I build the complete website, not just one part of it.</h3>
+          <p>I create customer-facing websites and web applications. I work on the interface people use, the server code behind it, and the database that stores the information.</p>
+          <p>My goal is straightforward: make the product clear to use, responsive on different screens, and dependable.</p>
+        </article>
+        <aside class="about-focus">
+          <span class="section-label">FOCUS</span>
+          <ul>
+            <li><span>01</span>Customer-facing websites</li>
+            <li><span>02</span>Full web applications</li>
+            <li><span>03</span>Frontend and backend</li>
+            <li><span>04</span>APIs and databases</li>
+          </ul>
+        </aside>
+      </div>
+
+      <section class="about-stack-preview">
+        <span class="section-label">CORE TOOLS</span>
+        <div><span>React</span><span>Next.js</span><span>Node.js</span><span>C#</span><span>SQL</span><button type="button" data-open-tech>View all technologies <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button></div>
+      </section>
+
+      <nav class="about-contact-bar" aria-label="Contact Akio">
+        <a href="https://github.com/azsalomon69-ctrl" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.9c-2.6.6-3.2-1.1-3.2-1.1-.4-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 0 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.8.8.1-.6.4-1.1.6-1.3-2.1-.2-4.3-1.1-4.3-4.7 0-1 .4-1.9 1-2.6-.1-.3-.4-1.2.1-2.6 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 4.9 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.3.1 2.6.6.7 1 1.6 1 2.6 0 3.6-2.2 4.5-4.3 4.7.4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg><span><strong>GitHub</strong><small>View my code</small></span></a>
+        <a href="https://www.linkedin.com/in/akio-zaki-salomon-900785353/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 8.2H2V22h3.2V8.2ZM3.6 2a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8ZM22 14.1c0-4.2-2.3-6.2-5.3-6.2-2.4 0-3.5 1.3-4.1 2.3v-2h-3.2V22h3.2v-6.8c0-1.8.3-3.6 2.6-3.6 2.2 0 2.3 2.1 2.3 3.7V22H22v-7.9Z"/></svg><span><strong>LinkedIn</strong><small>Professional profile</small></span></a>
+        <a href="https://www.facebook.com/nathe.arceo" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.7 1.8-1.7h1.9V2.4c-.3 0-1.5-.1-2.8-.1-2.7 0-4.5 1.6-4.5 4.7v2.6h-3v3.5h3v9h3.6Z"/></svg><span><strong>Facebook</strong><small>Social profile</small></span></a>
+      </nav>
+    </div>
+  </template>
+
+  <!-- ====== TECHNOLOGIES WINDOW ====== -->
+  <div id="tech-window" class="window wide-window">
+    <div class="win-header">
+      <div class="dots">
+        <button class="close close-window" data-window="tech" aria-label="Close Technologies"></button>
+        <button class="min" data-action="minimize" aria-label="Minimize Technologies"></button>
+        <button class="max" data-action="maximize" aria-label="Maximize Technologies"></button>
+      </div>
+      <span class="title">Technologies</span>
+    </div>
+    <div class="win-body tech-body">
+      <div class="app-hero tech-hero"><span class="hero-kicker">MY TOOLKIT</span><h2>Tools I build with</h2><p>Languages, frameworks, databases, and tools I use for websites and web applications.</p></div>
+      <div class="tech-grid">
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML logo"><span>HTML</span><small>Structure</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS logo"><span>CSS</span><small>Styling</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript logo"><span>JavaScript</span><small>Language</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" alt="React logo"><span>React</span><small>Interface</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg" alt="Vite logo"><span>Vite</span><small>Build tool</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" alt="Next.js logo"><span>Next.js</span><small>Framework</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" alt="Node.js logo"><span>Node.js</span><small>Server</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg" alt="Express logo"><span>Express</span><small>Server</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" alt="C sharp logo"><span>C#</span><small>Language</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg" alt="SQL logo"><span>SQL</span><small>Queries</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" alt="PostgreSQL logo"><span>PostgreSQL</span><small>Database</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" alt="MySQL logo"><span>MySQL</span><small>Database</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg" alt="SQLite logo"><span>SQLite</span><small>Database</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git logo"><span>Git</span><small>Version control</small></article>
+        <article class="tech-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" alt="GitHub logo"><span>GitHub</span><small>Code hosting</small></article>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== PROJECTS WINDOW ====== -->
+  <div id="projects-window" class="window projects-window" data-no-maximize>
+    <div class="win-header">
+      <div class="dots">
+        <button class="close close-window" data-window="projects" aria-label="Close Projects"></button>
+        <button class="min" data-action="minimize" aria-label="Minimize Projects"></button>
+        <button class="max disabled" type="button" aria-label="Full screen unavailable for Projects" disabled></button>
+      </div>
+      <span class="title">Projects</span>
+    </div>
+    <div class="win-body projects-body">
+      <header class="projects-hero">
+        <div><span class="hero-kicker">FEATURED WORK</span><span class="private-project-badge">Private company</span></div>
+        <h2>AI-assisted applicant matching</h2>
+        <p>A recruitment web application that helps teams review applicants and match them with the right campaign.</p>
+      </header>
+
+      <section class="project-gallery" aria-label="Project screenshots">
+        <figure><img src="images/project1.png" alt="Mock recruitment dashboard from Akio's private company project"><figcaption>Recruitment dashboard with campaign activity and applicant summaries.</figcaption></figure>
+        <figure><img src="images/project1-2.png" alt="Mock applicant assessment page from Akio's private company project"><figcaption>Applicant review with AI-assisted matching recommendations.</figcaption></figure>
+      </section>
+
+      <section class="project-details">
+        <div class="project-story">
+          <span class="project-detail-label">WHAT IT DOES</span>
+          <p>Built a web application that helps HR review applicants faster. It assesses submitted resumes or portfolios, identifies strengths and gaps, and compares each applicant with campaign criteria.</p>
+          <p>If someone is not suitable for one campaign, the system checks where they may be a better match.</p>
+        </div>
+        <aside class="project-users">
+          <span class="project-detail-label">USED BY</span>
+          <ul><li>HR</li><li>Administrators</li><li>Company leadership</li></ul>
+        </aside>
+      </section>
+
+      <p class="project-confidentiality"><strong>Confidentiality note</strong> Company details are private. All names and data shown in these screenshots are mock data.</p>
+    </div>
+  </div>
+
+  <!-- ====== TETRIS WINDOW ====== -->
+  <div id="tetris-window" class="window tetris-window">
+    <div class="win-header">
+      <div class="dots">
+        <button class="close close-window" data-window="tetris" aria-label="Close Tetris"></button>
+        <button class="min" data-action="minimize" aria-label="Minimize Tetris"></button>
+        <button class="max" data-action="maximize" aria-label="Maximize Tetris"></button>
+      </div>
+      <span class="title">Tetris</span>
+    </div>
+    <div class="win-body tetris-body">
+      <div class="tetris-game-shell">
+        <section class="tetris-board-wrap" aria-label="Tetris game board">
+          <canvas id="tetrisCanvas" width="300" height="600" tabindex="0" aria-label="Tetris board. Use the arrow keys to move and rotate pieces." role="img"></canvas>
+          <div id="tetrisOverlay" class="tetris-overlay">
+            <strong>Ready?</strong>
+            <span>Clear lines and keep the board from reaching the top.</span>
+            <button id="tetrisStart" type="button">New Game</button>
+          </div>
+        </section>
+
+        <aside class="tetris-sidebar">
+          <div class="tetris-stats">
+            <article><span>SCORE</span><strong id="tetrisScore">0</strong></article>
+            <article><span>LINES</span><strong id="tetrisLines">0</strong></article>
+            <article><span>LEVEL</span><strong id="tetrisLevel">1</strong></article>
+          </div>
+          <div class="tetris-preview-card"><span>NEXT</span><canvas id="tetrisNext" width="112" height="112" aria-label="Next piece"></canvas></div>
+          <div class="tetris-preview-card"><span>HOLD</span><canvas id="tetrisHold" width="112" height="82" aria-label="Held piece"></canvas></div>
+          <div class="tetris-actions">
+            <button id="tetrisPause" type="button">Pause</button>
+            <button id="tetrisSound" type="button" aria-pressed="true">Sound on</button>
+          </div>
+          <div class="tetris-keyboard-help">
+            <span><kbd>←</kbd><kbd>→</kbd> Move</span><span><kbd>↑</kbd> Rotate</span>
+            <span><kbd>↓</kbd> Soft drop</span><span><kbd>Space</kbd> Hard drop</span>
+            <span><kbd>C</kbd> Hold</span><span><kbd>P</kbd> Pause</span>
+          </div>
+        </aside>
+      </div>
+
+      <div class="tetris-touch-controls" aria-label="Touch game controls">
+        <button type="button" data-tetris-action="left" aria-label="Move left">←</button>
+        <button type="button" data-tetris-action="rotate" aria-label="Rotate piece">↻</button>
+        <button type="button" data-tetris-action="right" aria-label="Move right">→</button>
+        <button type="button" data-tetris-action="down" aria-label="Soft drop">↓</button>
+        <button type="button" data-tetris-action="drop" aria-label="Hard drop">DROP</button>
+        <button type="button" data-tetris-action="hold" aria-label="Hold piece">HOLD</button>
+      </div>
+      <p id="tetrisStatus" class="tetris-status" role="status" aria-live="polite">Press New Game to start.</p>
+    </div>
+  </div>
+
+  <!-- ====== CONTACT WINDOW ====== -->
+  <div id="contact-window" class="window contact-window">
+    <div class="win-header">
+      <div class="dots">
+        <button class="close close-window" data-window="contact" aria-label="Close Contact"></button>
+        <button class="min" data-action="minimize" aria-label="Minimize Contact"></button>
+        <button class="max" data-action="maximize" aria-label="Maximize Contact"></button>
+      </div>
+      <span class="title">Contact</span>
+    </div>
+    <div class="win-body contact-body">
+      <div class="contact-heading"><span class="contact-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6.5h17v11h-17z"/><path d="m4 7 8 6 8-6"/></svg></span><div><h2>Send Akio a message</h2><p>Tell me what you want to build or ask me a question.</p></div></div>
+      <form id="contactForm" class="contact-form" action="https://script.google.com/macros/s/AKfycbwa-rtvIMpoS0p7UFmJLgVturuqDjr2aSGimCmmqLEKmzkK-MXBTIsUwGOz-emn4ivqFw/exec" method="POST" target="contactSubmitFrame" accept-charset="UTF-8">
+        <label>Your name<input id="visitorName" name="name" type="text" placeholder="Your name" autocomplete="name" required></label>
+        <label>Your email<input id="visitorEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required></label>
+        <label>Your message<textarea id="visitorMessage" name="message" rows="6" placeholder="Write your message here…" required></textarea></label>
+        <div class="form-footer"><small>Your message is sent directly to Akio.</small><button type="submit">Send Message <svg class="button-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5m-5 0h5v5"/></svg></button></div>
+        <p id="contactStatus" class="contact-status" role="status"></p>
+      </form>
+      <iframe id="contactSubmitFrame" name="contactSubmitFrame" class="contact-submit-frame" title="Contact form submission"></iframe>
+    </div>
+  </div>
+
+  <!-- ====== AKIO AI CHAT WINDOW ====== -->
+  <div id="akio-window" class="window">
+    <div class="win-header">
+      <div class="dots">
+        <button class="close close-window" data-window="akio" aria-label="Close Akio AI"></button>
+        <button class="min" data-action="minimize" aria-label="Minimize Akio AI"></button>
+        <button class="max" data-action="maximize" aria-label="Maximize Akio AI"></button>
+      </div>
+      <span class="title">Akio AI</span>
+      <button id="newChatButton" class="new-chat-button" aria-label="Reset portfolio guide" title="Reset Guide">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 7V3m0 0h-4m4 0-3 3a6 6 0 1 0 2.1 6.7"/></svg>
+      </button>
+    </div>
+    <div class="win-body ai-shell">
+      <template id="retiredAiSidebar">
+        <div class="ai-brand"><span class="ai-brand-mark"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M14 4c3.2 0 5.2 2.1 5.2 4.8v3.3L14 15l-5.2-2.9V8.8C8.8 6.1 10.8 4 14 4Z"/><path d="M22.2 8.8c1.6 2.7.8 5.5-1.5 6.9l-2.9 1.6-5.2-2.9v-6l2.9-1.7c2.3-1.3 5.1-.5 6.7 2.1Z"/><path d="M22.2 18.2c-1.6 2.7-4.4 3.5-6.7 2.2l-2.9-1.7v-6l5.2-3 2.9 1.7c2.3 1.3 3.1 4.1 1.5 6.8Z"/><path d="M14 23c-3.2 0-5.2-2.1-5.2-4.8v-3.3L14 12l5.2 2.9v3.3c0 2.7-2 4.8-5.2 4.8Z"/><path d="M5.8 18.2c-1.6-2.7-.8-5.5 1.5-6.9l2.9-1.6 5.2 2.9v6l-2.9 1.7c-2.3 1.3-5.1.5-6.7-2.1Z"/><path d="M5.8 8.8c1.6-2.7 4.4-3.5 6.7-2.2l2.9 1.7v6l-5.2 3-2.9-1.7C5 14.3 4.2 11.5 5.8 8.8Z"/></svg></span><span><strong>Akio AI</strong><small>Portfolio intelligence</small></span></div>
+        <div class="ai-sidebar-label">WORKSPACE</div>
+        <nav class="ai-nav" aria-label="Akio AI sections">
+          <button class="ai-nav-button active" data-ai-view="overview"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="11" y="3" width="6" height="6" rx="1"/><rect x="3" y="11" width="6" height="6" rx="1"/><rect x="11" y="11" width="6" height="6" rx="1"/></svg>Overview</button>
+          <button class="ai-nav-button" data-ai-topic="about"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="7" r="3"/><path d="M4 17c.5-4 2.5-6 6-6s5.5 2 6 6"/></svg>Profile</button>
+          <button class="ai-nav-button" data-ai-topic="tech"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="4" width="12" height="12" rx="2"/><path d="M8 1v3m4-3v3M8 16v3m4-3v3M1 8h3m-3 4h3m12-4h3m-3 4h3"/></svg>Technologies</button>
+          <button class="ai-nav-button" data-ai-topic="what"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 6-4 4 4 4m6-8 4 4-4 4m-2-10L9 16"/></svg>Work</button>
+          <button class="ai-nav-button" data-ai-topic="services"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="5" width="14" height="10" rx="2"/><path d="m4 6 6 4.5L16 6"/></svg>Contact</button>
+        </nav>
+        <div class="ai-system-card"><span class="ai-system-dot"></span><div><strong>Knowledge ready</strong><small>4 verified sources</small></div></div>
+      </template>
+      <main class="ai-workspace">
+        <header class="ai-toolbar"><div class="ai-toolbar-identity"><span class="ai-toolbar-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2m0-14-2 2M7 17l-2 2"/></svg></span><span><strong>Akio AI</strong><small>Ask about Akio or anything else</small></span></div><span class="ai-ready"><i></i>Online</span></header>
+        <div class="ai-scroll-area">
+          <section class="ai-hero">
+            <div><span class="ai-kicker">CURATED PORTFOLIO MODEL</span><h2>Understand Akio’s work,<br>without guessing.</h2><p>A focused intelligence layer built from verified portfolio information. Select a source to inspect what Akio does.</p></div>
+            <div class="ai-profile-chip"><img src="images/profile.png" alt=""><span><strong>Akio Zaki Salomon</strong><small>Full-stack Web Developer</small></span><i></i></div>
+          </section>
+          <div class="ai-conversation" id="chatMessages" aria-live="polite"></div>
+          <section class="ai-source-section"><div class="ai-section-heading"><span>KNOWLEDGE SOURCES</span><small>4 available</small></div>
+            <div class="guide-questions" id="chatSuggestions">
+              <button class="guide-question" data-prompt="about"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.6-5 3.4-7.5 7.5-7.5s6.9 2.5 7.5 7.5"/></svg><span><strong>Profile</strong><small>Background and location</small></span><i>01</i></button>
+              <button class="guide-question" data-prompt="tech"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3"/></svg><span><strong>Technology map</strong><small>Languages and tools</small></span><i>02</i></button>
+              <button class="guide-question" data-prompt="what"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 8-4 4 4 4m8-8 4 4-4 4M14 5l-4 14"/></svg><span><strong>Work scope</strong><small>Websites and applications</small></span><i>03</i></button>
+              <button class="guide-question" data-prompt="services"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4z"/><path d="m4.5 7 7.5 5.8L19.5 7"/></svg><span><strong>Contact route</strong><small>Start a conversation</small></span><i>04</i></button>
+            </div>
+          </section>
+        </div>
+        <form id="aiComposer" class="ai-composer">
+          <div class="ai-composer-box">
+            <textarea id="aiPrompt" rows="1" maxlength="4000" placeholder="Ask about Akio or anything else…" aria-label="Message Akio AI" required></textarea>
+            <button id="aiSendButton" type="submit" aria-label="Send message"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 6-6 6 6m-6-6v12"/></svg></button>
+          </div>
+          <div class="ai-composer-meta"><span id="aiModelStatus">Ready · automatic model fallback</span><span>Enter to send · Shift+Enter for a new line</span></div>
+        </form>
+      </main>
+    </div>
+  </div>
+
+</div>
+
+  <script src="config.js"></script>
+  <script src="akio.js"></script>
+  <script src="tetris.js"></script>
+</body>
+</html>

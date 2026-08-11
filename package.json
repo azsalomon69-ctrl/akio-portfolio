@@ -1,0 +1,14 @@
+{
+  "name": "akio-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Akio Zaki Salomon portfolio and AI assistant",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node server.js",
+    "check": "node --check server.js && node --check api/chat.mjs && node --check akio.js && node --check tetris.js"
+  },
+  "engines": {
+    "node": "24.x"
+  }
+}

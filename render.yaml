@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: akio-portfolio-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "24.14.1"
+      - key: FRONTEND_URL
+        sync: false
+      - key: NVIDIA_API_KEY_1
+        sync: false
+      - key: NVIDIA_MODEL_1
+        value: nvidia/nemotron-3-super-120b-a12b
+      - key: NVIDIA_API_KEY_2
+        sync: false
+      - key: NVIDIA_MODEL_2
+        value: openai/gpt-oss-120b
+      - key: NVIDIA_API_KEY_3
+        sync: false
+      - key: NVIDIA_MODEL_3
+        value: meta/llama-3.3-70b-instruct
+      - key: NVIDIA_API_KEY_4
+        sync: false
+      - key: NVIDIA_MODEL_4
+        value: openai/gpt-oss-20b
