@@ -368,32 +368,31 @@ button, a, input, textarea { touch-action: manipulation; }
   background: #28c840;
 }
 .win-header .dots .max.disabled { background: #b8b8bd; cursor: default; opacity: .72; }
-.win-header .dots:hover .close::before,
-.win-header .dots:hover .close::after {
+.win-header .dots .close::before,
+.win-header .dots .close::after {
   content: '';
   position: absolute;
   width: 6px;
   height: 1px;
   background: #7d1b16;
 }
-.win-header .dots:hover .close::before { transform: rotate(45deg); }
-.win-header .dots:hover .close::after { transform: rotate(-45deg); }
-.win-header .dots:hover .min::before {
+.win-header .dots .close::before { transform: rotate(45deg); }
+.win-header .dots .close::after { transform: rotate(-45deg); }
+.win-header .dots .min::before {
   content: '';
   width: 6px;
   height: 1px;
   background: #8a6500;
 }
-.win-header .dots:hover .max::before,
-.win-header .dots:hover .max::after {
+.win-header .dots .max::before {
   content: '';
   position: absolute;
   width: 5px;
-  height: 1px;
-  background: #0c6e1f;
+  height: 5px;
+  border: 1px solid #0c6e1f;
+  border-radius: 1px;
 }
-.win-header .dots:hover .max::before { transform: rotate(45deg); }
-.win-header .dots:hover .max::after { transform: rotate(-45deg); }
+.win-header .dots .max.disabled::before { border-color: #747478; }
 .window:not(.frontmost) .win-header .dots button {
   background: #c7c7c9;
   border-color: #b5b5b7;
