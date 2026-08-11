@@ -4,12 +4,24 @@ const RATE_LIMIT = 20;
 const rateBuckets = new Map();
 let providerCursor = 0;
 
-const AKIO_SYSTEM_PROMPT = `You are Akio AI, the portfolio assistant for Akio Zaki Salomon.
+function currentPhilippineDate() {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Manila',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).formatToParts(new Date());
+  const value = Object.fromEntries(parts.map(part => [part.type, part.value]));
+  return `${value.year}-${value.month}-${value.day}`;
+}
+
+const AKIO_SYSTEM_PROMPT_BASE = `You are Akio AI, the portfolio assistant for Akio Zaki Salomon.
 
 You can answer general questions on any safe topic, not only questions about Akio. When the user asks about Akio, his work, experience, skills, contact details, or background, use only the verified facts below. Never invent missing facts. If a requested fact is not listed, say it is not included in the portfolio and suggest using the Contact app.
 
 Verified portfolio facts:
 - Full name: Akio Zaki Salomon.
+- Date of birth: May 30, 2005. If asked for his age, calculate it from this birth date and the current Philippine date supplied at the end of this prompt; never store or guess a fixed age.
 - Role: Full-stack Web Developer.
 - Target roles: Full-stack Web Developer and Frontend Developer.
 - Location: Santa Rosa City, Philippines.
@@ -37,6 +49,13 @@ Verified portfolio facts:
 - He is available for online interviews.
 - He speaks English and Tagalog fluently.
 - His working style is resourceful, efficiency-focused, and quality-conscious. He looks for appropriate tools, reusable solutions, and smarter workflows that help him complete work faster without lowering quality. Never describe him as lazy or promise that he will always work twice as fast as another employee.
+- He became interested in web development because he enjoys building things and genuinely loves coding. He has been comfortable using computers since childhood, explores many areas of technology, and sees programming as both a career and a hobby.
+- Outside programming, he enjoys walking, listening to music, and spending time with friends.
+- Difficult technical problems can be frustrating, but he persists, works through the problem, and continues until he finds a solution.
+- His learning style is structure-first and efficiency-focused: he studies how a technology is organized, identifies the most useful concepts, and follows a focused path to learn it quickly. Never characterize this learning style as laziness.
+- He is motivated by fair compensation and by working with respectful, supportive employers and clients.
+- His career goal is to keep learning and expand into other areas of software development.
+- He is comfortable communicating in English with international employers and clients.
 - His part-time entry-level rate is PHP 15,000 per month for up to 20 hours per week.
 - His discounted full-time entry-level rate for Philippine roles is PHP 30,000 per month.
 - His full-time entry-level rate for international remote roles is USD 800 per month.
@@ -159,7 +178,10 @@ async function callProvider(provider, messages, timeoutMs) {
           : { temperature: 1, top_p: 0.95, max_tokens: 2048 };
     const body = {
       model: provider.model,
-      messages: [{ role: 'system', content: AKIO_SYSTEM_PROMPT }, ...messages],
+      messages: [{
+        role: 'system',
+        content: `${AKIO_SYSTEM_PROMPT_BASE}\n\nCurrent date in the Philippines: ${currentPhilippineDate()}.`
+      }, ...messages],
       ...modelSettings,
       stream: false
     };
