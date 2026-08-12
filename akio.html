@@ -408,6 +408,10 @@
       <section class="side-projects" aria-labelledby="sideProjectsHeading">
         <div class="side-projects-heading"><span class="project-detail-label">SIDE PROJECTS &amp; EXPERIMENTS</span><h3 id="sideProjectsHeading">More things I built</h3><p>Smaller interactive projects are grouped here so all of my work is easy to find.</p></div>
         <div class="side-project-grid">
+          <article class="side-project-card social-project-card">
+            <div class="social-project-preview" aria-hidden="true"><span class="social-preview-sidebar"></span><span class="social-preview-feed"><i></i><i></i><i></i></span></div>
+            <div><span>Node.js · SQLite · Full-stack</span><h4>Loopline Community</h4><p>A working social platform with secure accounts, profiles, image posts, likes, comments, user search, private messages, notifications, and an authorized admin dashboard.</p><button type="button" data-open-window="social">Open in Safari</button></div>
+          </article>
           <article class="side-project-card">
             <div class="side-project-icon tetris-mini" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
             <div><span>JavaScript · Canvas</span><h4>Browser Tetris</h4><p>A playable Tetris implementation with keyboard and touch controls, scoring, levels, hold, and next-piece previews.</p><button type="button" data-open-window="tetris">Open Tetris</button></div>
@@ -419,6 +423,27 @@
         </div>
       </section>
     </div>
+  </div>
+
+  <!-- ====== LOOPLINE / SAFARI WINDOW ====== -->
+  <div id="social-window" class="window safari-window">
+    <div class="win-header safari-titlebar">
+      <div class="dots">
+        <button class="close close-window" data-window="social" aria-label="Close Loopline" title="Close"></button>
+        <button class="min" aria-hidden="true" disabled></button>
+        <button class="max" aria-hidden="true" disabled></button>
+      </div>
+      <span class="title">Loopline — Safari</span>
+    </div>
+    <div class="safari-toolbar" aria-label="Safari toolbar">
+      <button type="button" class="safari-back" aria-label="Back" disabled>‹</button>
+      <button type="button" class="safari-forward" aria-label="Forward" disabled>›</button>
+      <button type="button" class="safari-sidebar-button" aria-label="Sidebar">▣</button>
+      <div class="safari-address"><span aria-hidden="true">🔒</span><strong>Loopline Community</strong><small>localhost</small></div>
+      <button type="button" class="safari-reload" aria-label="Reload Loopline">↻</button>
+      <a href="social.html" target="_blank" rel="noopener noreferrer" aria-label="Open Loopline in a new tab">↗</a>
+    </div>
+    <div class="win-body safari-body"><iframe id="socialFrame" src="social.html" title="Loopline social community application" loading="lazy"></iframe></div>
   </div>
 
   <!-- ====== RESUME WINDOW ====== -->

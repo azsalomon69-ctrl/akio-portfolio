@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "start": "node server.js",
-    "check": "node --check server.js && node --check api/chat.mjs && node --check api/music.mjs && node --check akio.js && node --check music.js && node --check tetris.js"
+    "check": "node --check server.js && node --check api/chat.mjs && node --check api/music.mjs && node --check api/social.mjs && node --check akio.js && node --check music.js && node --check tetris.js && node --check social.js"
   },
   "engines": {
     "node": "24.x"

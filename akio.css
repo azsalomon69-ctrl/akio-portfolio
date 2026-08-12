@@ -1421,3 +1421,34 @@ button, a, input, textarea { touch-action: manipulation; }
   .side-project-card { grid-template-columns: 58px 1fr; padding: 12px; gap: 11px; }
   .side-project-icon { width: 58px; height: 58px; border-radius: 12px; }
 }
+
+/* Loopline project and Safari presentation */
+.social-project-card { grid-column: 1 / -1; grid-template-columns: minmax(210px, .8fr) 1.2fr; align-items: center; }
+.social-project-preview { min-height: 135px; display: grid; grid-template-columns: 58px 1fr; overflow: hidden; border-radius: 13px; background: #f4f5f8; border: 1px solid #e2e3e9; }
+.social-preview-sidebar { background: linear-gradient(160deg, #5f50ee, #3427b6); }
+.social-preview-feed { padding: 15px; display: grid; gap: 8px; }
+.social-preview-feed i { display: block; border-radius: 7px; background: #fff; box-shadow: 0 3px 10px rgba(39, 35, 83, .08); }
+.social-preview-feed i:first-child { height: 25px; background: linear-gradient(90deg, #dedaff 22%, #fff 22%); }
+.social-preview-feed i:nth-child(2) { height: 48px; }
+.social-preview-feed i:nth-child(3) { height: 34px; }
+
+.safari-window { top: 42px; width: min(1240px, calc(100vw - 54px)); height: min(790px, calc(100vh - 125px)); max-height: none; border-radius: 13px; background: #eef0f3; }
+.safari-titlebar { min-height: 34px; padding-block: 7px; background: rgba(226, 227, 231, .95); }
+.safari-toolbar { min-height: 48px; padding: 7px 10px; display: grid; grid-template-columns: 31px 31px 31px minmax(180px, 1fr) 31px 31px; gap: 7px; align-items: center; border-bottom: 1px solid rgba(0, 0, 0, .14); background: rgba(239, 240, 243, .96); }
+.safari-toolbar button, .safari-toolbar > a { height: 30px; display: grid; place-items: center; border: 0; border-radius: 7px; color: #55565d; background: rgba(255, 255, 255, .58); font-size: 18px; text-decoration: none; }
+.safari-toolbar button:disabled { opacity: .42; }
+.safari-address { height: 32px; min-width: 0; padding: 4px 12px; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid rgba(0, 0, 0, .08); border-radius: 9px; color: #4d4e54; background: rgba(255, 255, 255, .82); }
+.safari-address span { font-size: 9px; }
+.safari-address strong { font-size: 11px; }
+.safari-address small { color: #8a8b91; font-size: 9px; }
+.safari-body { min-height: 0; padding: 0; overflow: hidden; background: #fff; }
+.safari-body iframe { width: 100%; height: 100%; display: block; border: 0; background: #f5f7f8; }
+
+@media (max-width: 720px) {
+  .social-project-card { grid-template-columns: 1fr; }
+  .social-project-preview { min-height: 120px; }
+  .safari-toolbar { grid-template-columns: 28px minmax(120px, 1fr) 28px 28px; }
+  .safari-back, .safari-forward { display: none !important; }
+  .safari-sidebar-button { display: grid !important; }
+  .safari-address small { display: none; }
+}

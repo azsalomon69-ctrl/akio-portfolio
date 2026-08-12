@@ -17,12 +17,13 @@
     about: document.getElementById('about-window'),
     tech: document.getElementById('tech-window'),
     projects: document.getElementById('projects-window'),
+    social: document.getElementById('social-window'),
     resume: document.getElementById('resume-window'),
     tetris: document.getElementById('tetris-window'),
     music: document.getElementById('music-window'),
     contact: document.getElementById('contact-window')
   };
-  const appNames = { akio: 'Akio AI', about: 'About Me', tech: 'Technologies', projects: 'Projects', resume: 'Resume', tetris: 'Tetris', music: 'Music', contact: 'Contact' };
+  const appNames = { akio: 'Akio AI', about: 'About Me', tech: 'Technologies', projects: 'Projects', social: 'Loopline — Safari', resume: 'Resume', tetris: 'Tetris', music: 'Music', contact: 'Contact' };
 
   const desktopLauncherQuery = window.matchMedia('(min-width: 721px)');
   const dockReturnAnchor = dock.querySelector('.dock-item[data-window="about"]');
@@ -560,6 +561,7 @@
   document.querySelectorAll('[data-open-projects]').forEach(button => button.addEventListener('click', () => openWindow('projects')));
   document.querySelectorAll('[data-open-ai]').forEach(button => button.addEventListener('click', () => openWindow('akio')));
   document.querySelectorAll('[data-open-window]').forEach(button => button.addEventListener('click', () => openWindow(button.dataset.openWindow)));
+  document.querySelector('.safari-reload')?.addEventListener('click', () => document.getElementById('socialFrame').contentWindow.location.reload());
   document.querySelectorAll('[data-ai-ask]').forEach(button => button.addEventListener('click', () => {
     openWindow('akio');
     sendAiMessage(button.dataset.aiAsk);

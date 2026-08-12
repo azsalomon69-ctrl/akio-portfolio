@@ -14,6 +14,10 @@ services:
         sync: false
       - key: AUDIUS_API_KEY
         sync: false
+      - key: SOCIAL_ADMIN_EMAIL
+        sync: false
+      - key: SOCIAL_DATA_DIR
+        value: ./data
       - key: NVIDIA_API_KEY_1
         sync: false
       - key: NVIDIA_MODEL_1

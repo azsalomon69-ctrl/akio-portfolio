@@ -7,7 +7,7 @@ const projectRoot = __dirname;
 const preferredPort = Number(process.env.PORT || 4173);
 const host = process.env.HOST || '0.0.0.0';
 let activePort = preferredPort;
-const maxBodyBytes = 50_000;
+const maxBodyBytes = 2_200_000;
 
 const mimeTypes = {
   '.css': 'text/css; charset=utf-8',
@@ -154,12 +154,13 @@ function hasConfiguredKey() {
   });
 }
 
-Promise.all([import('./api/chat.mjs'), import('./api/music.mjs')]).then(([chatModule, musicModule]) => {
+Promise.all([import('./api/chat.mjs'), import('./api/music.mjs'), import('./api/social.mjs')]).then(([chatModule, musicModule, socialModule]) => {
   const server = http.createServer(async (request, response) => {
     try {
       const pathname = new URL(request.url, `http://${request.headers.host || 'localhost'}`).pathname;
       if (pathname === '/api/chat') return await runApi(request, response, chatModule.default);
       if (pathname === '/api/music') return await runApi(request, response, musicModule.default);
+      if (pathname.startsWith('/api/social')) return await runApi(request, response, socialModule.default);
       if (pathname === '/health') return sendJson(response, 200, { status: 'ok' });
       if (pathname === '/config.js') return sendRuntimeConfig(response);
       return await serveStatic(request, response);
