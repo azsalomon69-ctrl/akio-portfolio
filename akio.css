@@ -171,7 +171,7 @@ button, a, input, textarea { touch-action: manipulation; }
   .desktop-ai-card h2 { font-size: 29px; }
 }
 
-.dock-item[hidden] { display: none !important; }
+.dock-item[hidden], .desktop-shortcut[hidden] { display: none !important; }
 #menu .left {
   display: flex;
   gap: 2px;
@@ -1343,4 +1343,81 @@ button, a, input, textarea { touch-action: manipulation; }
   .desktop-rate-grid article { grid-template-columns: 1fr 1fr; }
   .desktop-rate-grid p { grid-column: 1 / -1; text-align: left; }
   .desktop-capabilities article { grid-template-columns: 20px 68px 1fr; }
+}
+
+/* Career-focused revision: preserve the macOS desktop while removing UX duplication. */
+.desktop-experience {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 20px;
+  padding: 18px 19px;
+  border: 1px solid rgba(79, 85, 132, .14);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, .82);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .035), inset 0 1px 0 #fff;
+}
+.desktop-experience > div:first-child { padding-right: 18px; border-right: 1px solid rgba(0, 0, 0, .08); }
+.desktop-experience strong { display: block; margin-top: 8px; color: #24252b; font-size: 25px; letter-spacing: -.5px; }
+.desktop-experience h2 { margin-bottom: 6px; color: #282930; font-size: 18px; letter-spacing: -.25px; }
+.desktop-experience p { color: #666872; font-size: 12px; line-height: 1.55; }
+
+.desktop-career-card {
+  padding: 34px 30px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #e9e9ed;
+  background: radial-gradient(circle at 15% 0%, rgba(134, 110, 230, .35), transparent 32%), linear-gradient(150deg, #292a31, #15161a 72%);
+}
+.desktop-career-card .desktop-section-label { color: #bbb1df; }
+.desktop-project-preview { width: 100%; aspect-ratio: 16 / 9; margin: 16px 0 15px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .14); border-radius: 13px; background: #25262c; box-shadow: 0 12px 28px rgba(0, 0, 0, .28); }
+.desktop-project-preview img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: left top; }
+.desktop-career-card .private-project-badge { margin-bottom: 12px; }
+.desktop-career-card h2 { color: #fff; font-size: 29px; line-height: 1.08; letter-spacing: -.7px; }
+.desktop-career-card > p { margin-top: 12px; color: #b8b9c0; font-size: 12px; line-height: 1.6; }
+.desktop-project-primary { width: 100%; min-height: 44px; margin-top: 22px; padding: 10px 13px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 0; border-radius: 10px; color: #24252c; background: #fff; font: inherit; font-size: 12px; font-weight: 760; box-shadow: 0 8px 18px rgba(0, 0, 0, .2); }
+.desktop-project-primary svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.desktop-career-card > small { margin-top: auto; padding-top: 16px; color: #8f919a; font-size: 9px; line-height: 1.45; }
+
+.win-header .dots .min:disabled,
+.win-header .dots .max:disabled { pointer-events: none; opacity: .72; }
+
+.side-projects { margin: 26px 22px 24px; padding-top: 23px; border-top: 1px solid rgba(36, 28, 74, .11); }
+.side-projects-heading h3 { margin: 5px 0 4px; color: #29282f; font-size: 21px; }
+.side-projects-heading p { color: #74737d; font-size: 11px; }
+.side-project-grid { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+.side-project-card { min-width: 0; padding: 15px; display: grid; grid-template-columns: 72px 1fr; gap: 14px; border: 1px solid rgba(36, 28, 74, .09); border-radius: 14px; background: rgba(255, 255, 255, .88); box-shadow: 0 8px 20px rgba(43, 35, 80, .07); }
+.side-project-card > div:last-child > span { color: #77737e; font-size: 8px; font-weight: 780; letter-spacing: .65px; text-transform: uppercase; }
+.side-project-card h4 { margin: 4px 0; color: #2c2b32; font-size: 16px; }
+.side-project-card p { color: #74737d; font-size: 10px; line-height: 1.45; }
+.side-project-card button { margin-top: 11px; padding: 7px 10px; border: 0; border-radius: 8px; color: #fff; background: #4f48a6; font: inherit; font-size: 9px; font-weight: 760; }
+.side-project-icon { width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; border-radius: 15px; background: #171b2a; }
+.tetris-mini { display: grid; grid-template-columns: repeat(2, 18px); grid-auto-rows: 18px; align-content: center; }
+.tetris-mini i { height: 18px; background: #55c8f1; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .2); }
+.tetris-mini i:nth-child(2), .tetris-mini i:nth-child(3) { background: #a96bff; }
+.music-mini { gap: 4px; }
+.music-mini i { width: 5px; height: 22px; border-radius: 5px; background: #ff5e9f; }
+.music-mini i:nth-child(2), .music-mini i:nth-child(4) { height: 38px; }
+.music-mini i:nth-child(3) { height: 50px; background: #b99aff; }
+
+@media (min-width: 721px) and (max-width: 1050px) {
+  .desktop-career-card { padding: 28px 22px 25px; }
+  .desktop-career-card h2 { font-size: 25px; }
+  .desktop-experience { grid-template-columns: 125px 1fr; padding: 16px; }
+}
+
+@media (max-width: 720px) {
+  .desktop-experience { grid-template-columns: 1fr; gap: 10px; padding: 14px; }
+  .desktop-experience > div:first-child { padding: 0 0 9px; border-right: 0; border-bottom: 1px solid rgba(0, 0, 0, .08); }
+  .desktop-experience strong { display: inline; margin: 0 0 0 8px; font-size: 17px; }
+  .desktop-career-card { min-height: 0; padding: 24px 20px calc(26px + env(safe-area-inset-bottom)); }
+  .desktop-project-preview { max-height: 220px; }
+  .desktop-career-card > small { margin-top: 0; }
+  .side-project-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .side-projects { margin-inline: 14px; }
+  .side-project-card { grid-template-columns: 58px 1fr; padding: 12px; gap: 11px; }
+  .side-project-icon { width: 58px; height: 58px; border-radius: 12px; }
 }

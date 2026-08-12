@@ -39,7 +39,7 @@
       }
     });
     const techLauncher = dock.querySelector('.dock-item[data-window="tech"]');
-    if (techLauncher) techLauncher.hidden = desktopLauncherQuery.matches;
+    if (techLauncher) techLauncher.hidden = true;
   }
   syncResponsiveLaunchers();
   desktopLauncherQuery.addEventListener('change', syncResponsiveLaunchers);
@@ -446,10 +446,10 @@
       ['About This Portfolio', 'aboutCurrent'], ['divider'], ['System Settings…', 'settings'], ['divider'], ['Restart Desktop', 'restart']
     ],
     app: [
-      ['About Akio AI', 'aboutCurrent'], ['Reset Guide', 'newChat', '⌘R'], ['divider'], ['Hide Akio AI', 'minimize', '⌘H']
+      ['About This Portfolio', 'aboutCurrent'], ['Reset Akio AI', 'newChat']
     ],
     file: [
-      ['Reset Portfolio Guide', 'newChat', '⌘R'], ['divider'], ['Open Resume', 'resume'], ['Open Technologies', 'tech'], ['Open Contact', 'contact'], ['divider'], ['Close Window', 'close', '⌘W']
+      ['Open Projects', 'projects'], ['Open Resume', 'resume'], ['Open Contact', 'contact'], ['divider'], ['Close Window', 'close']
     ],
     edit: [
       ['Reset Guide', 'clearChat', '⌘R']
@@ -502,8 +502,8 @@
     button.classList.add('menu-open');
     menuPopover.replaceChildren();
     const currentAppMenu = activeAppName.textContent === 'Akio AI'
-      ? [['About Akio AI', 'aboutCurrent'], ['Reset Guide', 'newChat', '⌘R'], ['divider'], ['Hide Akio AI', 'minimize', '⌘H']]
-      : [[`About ${activeAppName.textContent}`, 'aboutCurrent'], ['divider'], [`Hide ${activeAppName.textContent}`, 'minimize', '⌘H']];
+      ? [['About Akio AI', 'aboutCurrent'], ['Reset Guide', 'newChat']]
+      : [[`About ${activeAppName.textContent}`, 'aboutCurrent'], ['divider'], ['Open Projects', 'projects'], ['Open Resume', 'resume'], ['Open Contact', 'contact']];
     const entries = name === 'app' ? currentAppMenu : (menuDefinitions[name] || []);
     entries.forEach(item => {
       if (item[0] === 'divider') {
@@ -559,6 +559,7 @@
   document.querySelectorAll('[data-open-tech]').forEach(button => button.addEventListener('click', () => openWindow('tech')));
   document.querySelectorAll('[data-open-projects]').forEach(button => button.addEventListener('click', () => openWindow('projects')));
   document.querySelectorAll('[data-open-ai]').forEach(button => button.addEventListener('click', () => openWindow('akio')));
+  document.querySelectorAll('[data-open-window]').forEach(button => button.addEventListener('click', () => openWindow(button.dataset.openWindow)));
   document.querySelectorAll('[data-ai-ask]').forEach(button => button.addEventListener('click', () => {
     openWindow('akio');
     sendAiMessage(button.dataset.aiAsk);
@@ -677,9 +678,12 @@
     const header = win.querySelector('.win-header');
     win.addEventListener('pointerdown', () => focusWindow(win));
     win.querySelector('.close').addEventListener('click', event => { event.stopPropagation(); closeWindow(id); });
-    win.querySelector('.min').addEventListener('click', event => { event.stopPropagation(); minimizeWindow(win); });
-    win.querySelector('.max').addEventListener('click', event => { event.stopPropagation(); toggleMaximize(win); });
-    header.addEventListener('dblclick', event => { if (!win.hasAttribute('data-no-maximize') && !event.target.closest('.dots, .new-chat-button')) toggleMaximize(win); });
+    win.querySelectorAll('.min, .max').forEach(control => {
+      control.disabled = true;
+      control.tabIndex = -1;
+      control.setAttribute('aria-hidden', 'true');
+      control.removeAttribute('title');
+    });
     header.addEventListener('pointerdown', event => {
       if (event.pointerType !== 'mouse' || window.matchMedia('(max-width: 720px)').matches || event.button !== 0 || event.target.closest('.dots, .new-chat-button') || win.classList.contains('maximized')) return;
       focusWindow(win);

@@ -21,9 +21,6 @@
       </button>
       <button class="menu-button active-app" id="activeAppName" data-menu="app">Portfolio</button>
       <button class="menu-button" data-menu="file">File</button>
-      <button class="menu-button" data-menu="edit">Edit</button>
-      <button class="menu-button" data-menu="view">View</button>
-      <button class="menu-button" data-menu="window">Window</button>
       <button class="menu-button" data-menu="help">Help</button>
     </div>
     <div class="right">
@@ -86,7 +83,7 @@
     </div>
 
     <!-- Tetris -->
-    <div class="dock-item" data-window="tetris" data-app-name="Tetris">
+    <div class="dock-item" data-window="tetris" data-app-name="Tetris" hidden>
       <div class="icon tetris-icon">
         <svg viewBox="0 0 56 56" aria-hidden="true">
           <defs><linearGradient id="tetris-bg" x1="7" y1="3" x2="49" y2="54"><stop stop-color="#26324A"/><stop offset="1" stop-color="#0B1020"/></linearGradient></defs>
@@ -103,7 +100,7 @@
     </div>
 
     <!-- Music -->
-    <div class="dock-item" data-window="music" data-app-name="Music">
+    <div class="dock-item" data-window="music" data-app-name="Music" hidden>
       <div class="icon music-icon">
         <svg viewBox="0 0 56 56" aria-hidden="true">
           <defs><linearGradient id="music-bg" x1="7" y1="4" x2="49" y2="53"><stop stop-color="#ff7ab8"/><stop offset=".5" stop-color="#eb3d78"/><stop offset="1" stop-color="#a71959"/></linearGradient><radialGradient id="music-glow" cx=".2" cy=".1" r=".9"><stop stop-color="#fff" stop-opacity=".34"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
@@ -190,7 +187,7 @@
       <span class="label">LinkedIn</span>
     </div>
 
-    <div class="dock-item" data-url="https://www.facebook.com/nathe.arceo">
+    <div class="dock-item" data-url="https://www.facebook.com/nathe.arceo" hidden>
       <div class="icon facebook-icon">
         <svg viewBox="0 0 56 56" aria-hidden="true">
           <defs><linearGradient id="facebook-bg" x1="8" y1="4" x2="48" y2="54"><stop stop-color="#68AEFF"/><stop offset=".46" stop-color="#1877F2"/><stop offset="1" stop-color="#0755BC"/></linearGradient></defs>
@@ -220,7 +217,7 @@
     </div>
     <button class="cc-focus" data-setting="focus" aria-pressed="false"><span class="moon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg></span><span><strong>Focus</strong><small>Off</small></span></button>
     <label class="cc-slider"><span>Display</span><span class="slider-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2m0-14-2 2M7 17l-2 2"/></svg><input id="brightnessControl" type="range" min="45" max="100" value="100" aria-label="Display brightness"></span></label>
-    <div class="cc-footer"><button data-quick="tech">Technologies</button><button data-quick="contact">Contact</button></div>
+    <div class="cc-footer"><button data-quick="projects">Projects</button><button data-quick="contact">Contact</button></div>
   </aside>
 
   <main class="desktop-profile" aria-labelledby="desktopProfileName">
@@ -241,11 +238,10 @@
 
       <p class="desktop-intro">I build websites and web applications from the interface customers use to the server, API, and database behind it.</p>
 
-      <div class="desktop-capabilities" aria-label="What Akio can build">
-        <article><span>01</span><strong>Frontend</strong><p>Responsive pages and interfaces that are clear and easy to use.</p></article>
-        <article><span>02</span><strong>Backend</strong><p>Server logic and APIs that connect the application together.</p></article>
-        <article><span>03</span><strong>Data</strong><p>SQL databases for storing and managing application information.</p></article>
-      </div>
+      <section class="desktop-experience" aria-labelledby="desktopExperienceHeading">
+        <div><span class="desktop-section-label">PROFESSIONAL EXPERIENCE</span><strong>1 year</strong></div>
+        <div><h2 id="desktopExperienceHeading">Full-stack Web Developer</h2><p>Built an AI-assisted recruitment application for a private company, working across the frontend, backend, APIs, database integration, and security-related implementation.</p></div>
+      </section>
 
       <div class="desktop-toolkit">
         <div class="desktop-toolkit-stack">
@@ -262,9 +258,8 @@
           </ul>
         </div>
         <div class="desktop-toolkit-actions">
-          <button type="button" data-open-projects>Projects <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
-          <button type="button" data-open-tech>View all technologies <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
           <button type="button" class="desktop-resume-button" data-open-resume>View resume</button>
+          <button type="button" data-open-contact>Contact me</button>
         </div>
       </div>
 
@@ -275,18 +270,14 @@
       </section>
     </section>
 
-    <aside class="desktop-ai-card">
-      <span class="desktop-ai-mark" aria-hidden="true">A</span>
-      <span class="desktop-section-label">TRY AKIO AI</span>
-      <h2>Want to know more about me?</h2>
-      <p>Ask about my skills, what I can build, or why I may fit your team. The AI answers using verified information from this portfolio.</p>
-      <button type="button" class="desktop-ai-primary" data-open-ai>Open Akio AI <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10m-4-4 4 4-4 4"/></svg></button>
-      <div class="desktop-ai-prompts">
-        <button type="button" data-ai-ask="What can Akio build as a full-stack developer?">What can Akio build?</button>
-        <button type="button" data-ai-ask="Why should a company consider hiring Akio?">Why hire Akio?</button>
-        <button type="button" data-ai-ask="What is Akio's expected salary for part-time, full-time Philippine, and international roles?">Akio's expected salary</button>
-      </div>
-      <button type="button" class="desktop-contact-link" data-open-contact>Or send me a message</button>
+    <aside class="desktop-career-card">
+      <span class="desktop-section-label">FEATURED WORK</span>
+      <div class="desktop-project-preview"><img src="images/project1.png" alt="AI-assisted recruitment dashboard"></div>
+      <span class="private-project-badge">Private company</span>
+      <h2>AI-assisted applicant matching</h2>
+      <p>A full-stack recruitment application that helps HR review applicants and find stronger campaign matches.</p>
+      <button type="button" class="desktop-project-primary" data-open-projects>Open Projects <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10m-4-4 4 4-4 4"/></svg></button>
+      <small>Tetris and Music are documented inside Projects.</small>
     </aside>
   </main>
 
@@ -413,6 +404,20 @@
       </section>
 
       <p class="project-confidentiality"><strong>Confidentiality note</strong> Company details are private. All names and data shown in these screenshots are mock data.</p>
+
+      <section class="side-projects" aria-labelledby="sideProjectsHeading">
+        <div class="side-projects-heading"><span class="project-detail-label">SIDE PROJECTS &amp; EXPERIMENTS</span><h3 id="sideProjectsHeading">More things I built</h3><p>Smaller interactive projects are grouped here so all of my work is easy to find.</p></div>
+        <div class="side-project-grid">
+          <article class="side-project-card">
+            <div class="side-project-icon tetris-mini" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <div><span>JavaScript · Canvas</span><h4>Browser Tetris</h4><p>A playable Tetris implementation with keyboard and touch controls, scoring, levels, hold, and next-piece previews.</p><button type="button" data-open-window="tetris">Open Tetris</button></div>
+          </article>
+          <article class="side-project-card">
+            <div class="side-project-icon music-mini" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+            <div><span>Audius API · JavaScript</span><h4>Akio Music</h4><p>A music discovery interface with trending tracks, search, playback controls, progress, shuffle, and repeat.</p><button type="button" data-open-window="music">Open Music</button></div>
+          </article>
+        </div>
+      </section>
     </div>
   </div>
 
