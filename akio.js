@@ -675,21 +675,107 @@
     profilePanel.style.transform = 'translateX(-50%)';
   });
 
+  const resizeMinimums = {
+    profile: [700, 430],
+    social: [620, 420],
+    resume: [560, 420],
+    tetris: [540, 500],
+    music: [600, 430],
+    projects: [560, 400],
+    tech: [500, 340],
+    contact: [410, 390],
+    akio: [480, 390]
+  };
+
+  function makeResizable(panel, id, bottomGap = 100) {
+    if (!panel) return;
+    ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw'].forEach(direction => {
+      const handle = document.createElement('span');
+      handle.className = 'resize-handle';
+      handle.dataset.resize = direction;
+      handle.setAttribute('aria-hidden', 'true');
+      panel.appendChild(handle);
+      handle.addEventListener('pointerdown', event => {
+        if (event.button !== 0 || window.matchMedia('(max-width: 720px)').matches || panel.classList.contains('maximized')) return;
+        event.preventDefault();
+        event.stopPropagation();
+        if (panel.classList.contains('window')) focusWindow(panel);
+        const rect = panel.getBoundingClientRect();
+        const [wantedMinWidth, wantedMinHeight] = resizeMinimums[id] || [360, 280];
+        const topBoundary = 30;
+        const rightBoundary = window.innerWidth;
+        const bottomBoundary = Math.max(topBoundary + 180, window.innerHeight - bottomGap);
+        const minWidth = Math.min(wantedMinWidth, rightBoundary - 12);
+        const minHeight = Math.min(wantedMinHeight, bottomBoundary - topBoundary);
+        const startX = event.clientX;
+        const startY = event.clientY;
+        const startLeft = rect.left;
+        const startTop = rect.top;
+        const startRight = rect.right;
+        const startBottom = rect.bottom;
+        panel.style.left = `${startLeft}px`;
+        panel.style.top = `${startTop}px`;
+        panel.style.width = `${rect.width}px`;
+        panel.style.height = `${rect.height}px`;
+        panel.style.maxHeight = 'none';
+        panel.style.transform = 'none';
+        panel.classList.add('is-resizing');
+        handle.setPointerCapture(event.pointerId);
+
+        const move = moveEvent => {
+          const dx = moveEvent.clientX - startX;
+          const dy = moveEvent.clientY - startY;
+          let nextLeft = startLeft;
+          let nextTop = startTop;
+          let nextWidth = rect.width;
+          let nextHeight = rect.height;
+          if (direction.includes('e')) nextWidth = Math.min(rightBoundary - startLeft, Math.max(minWidth, rect.width + dx));
+          if (direction.includes('s')) nextHeight = Math.min(bottomBoundary - startTop, Math.max(minHeight, rect.height + dy));
+          if (direction.includes('w')) {
+            nextLeft = Math.min(startRight - minWidth, Math.max(0, startLeft + dx));
+            nextWidth = startRight - nextLeft;
+          }
+          if (direction.includes('n')) {
+            nextTop = Math.min(startBottom - minHeight, Math.max(topBoundary, startTop + dy));
+            nextHeight = startBottom - nextTop;
+          }
+          panel.style.left = `${nextLeft}px`;
+          panel.style.top = `${nextTop}px`;
+          panel.style.width = `${nextWidth}px`;
+          panel.style.height = `${nextHeight}px`;
+          panel.dispatchEvent(new CustomEvent('akio:window-resize', { detail: { width: nextWidth, height: nextHeight } }));
+        };
+        const stop = () => {
+          panel.classList.remove('is-resizing');
+          handle.removeEventListener('pointermove', move);
+          handle.removeEventListener('pointerup', stop);
+          handle.removeEventListener('pointercancel', stop);
+        };
+        handle.addEventListener('pointermove', move);
+        handle.addEventListener('pointerup', stop);
+        handle.addEventListener('pointercancel', stop);
+      });
+    });
+  }
+
+  makeResizable(profilePanel, 'profile', 88);
+
   document.querySelectorAll('.window').forEach(win => {
     const id = win.id.replace('-window', '');
     const header = win.querySelector('.win-header');
     win.addEventListener('pointerdown', () => focusWindow(win));
     win.querySelector('.close').addEventListener('click', event => { event.stopPropagation(); closeWindow(id); });
     win.querySelectorAll('.min, .max').forEach(control => {
-      const isSafariControl = id === 'social' && control.dataset.action;
-      if (isSafariControl) {
+      const action = control.dataset.action || (control.classList.contains('min') ? 'minimize' : 'maximize');
+      const available = action === 'minimize' || !win.hasAttribute('data-no-maximize');
+      if (available) {
         control.disabled = false;
         control.tabIndex = 0;
         control.removeAttribute('aria-hidden');
         control.addEventListener('click', event => {
           event.stopPropagation();
-          if (control.dataset.action === 'minimize') minimizeWindow(win);
-          if (control.dataset.action === 'maximize') toggleMaximize(win);
+          if (action === 'minimize') minimizeWindow(win);
+          if (action === 'maximize') toggleMaximize(win);
         });
         return;
       }
@@ -698,12 +784,10 @@
       control.setAttribute('aria-hidden', 'true');
       control.removeAttribute('title');
     });
-    if (id === 'social') {
-      header.addEventListener('dblclick', event => {
-        if (event.target.closest('.dots') || window.matchMedia('(max-width: 720px)').matches) return;
-        toggleMaximize(win);
-      });
-    }
+    header.addEventListener('dblclick', event => {
+      if (event.target.closest('.dots') || window.matchMedia('(max-width: 720px)').matches) return;
+      toggleMaximize(win);
+    });
     header.addEventListener('pointerdown', event => {
       if (event.pointerType !== 'mouse' || window.matchMedia('(max-width: 720px)').matches || event.button !== 0 || event.target.closest('.dots, .new-chat-button') || win.classList.contains('maximized')) return;
       focusWindow(win);
@@ -729,6 +813,7 @@
       header.addEventListener('pointerup', stop);
       header.addEventListener('pointercancel', stop);
     });
+    makeResizable(win, id);
   });
 
   document.querySelectorAll('.menu-button[data-menu]').forEach(button => button.addEventListener('click', event => {

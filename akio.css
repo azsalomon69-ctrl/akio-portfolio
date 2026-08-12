@@ -454,6 +454,42 @@ button, a, input, textarea { touch-action: manipulation; }
   opacity: .92;
   transition: opacity 150ms ease, box-shadow 150ms ease;
 }
+.window.is-resizing,
+.desktop-profile.is-resizing {
+  user-select: none;
+  transition: none;
+}
+.window.is-resizing iframe,
+.desktop-profile.is-resizing iframe { pointer-events: none; }
+.resize-handle {
+  position: absolute;
+  z-index: 80;
+  display: block;
+  touch-action: none;
+}
+.resize-handle[data-resize="n"] { top: 0; left: 12px; right: 12px; height: 7px; cursor: ns-resize; }
+.resize-handle[data-resize="s"] { right: 12px; bottom: 0; left: 12px; height: 9px; cursor: ns-resize; }
+.resize-handle[data-resize="e"] { top: 12px; right: 0; bottom: 12px; width: 9px; cursor: ew-resize; }
+.resize-handle[data-resize="w"] { top: 12px; bottom: 12px; left: 0; width: 7px; cursor: ew-resize; }
+.resize-handle[data-resize="ne"],
+.resize-handle[data-resize="nw"],
+.resize-handle[data-resize="se"],
+.resize-handle[data-resize="sw"] { width: 15px; height: 15px; }
+.resize-handle[data-resize="ne"] { top: 0; right: 0; cursor: nesw-resize; }
+.resize-handle[data-resize="nw"] { top: 0; left: 0; cursor: nwse-resize; }
+.resize-handle[data-resize="se"] { right: 0; bottom: 0; cursor: nwse-resize; }
+.resize-handle[data-resize="sw"] { bottom: 0; left: 0; cursor: nesw-resize; }
+.resize-handle[data-resize="se"]::after {
+  content: '';
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 5px;
+  height: 5px;
+  border-right: 1px solid rgba(50, 50, 55, .28);
+  border-bottom: 1px solid rgba(50, 50, 55, .28);
+  border-radius: 0 0 2px;
+}
 .window.open {
   display: flex;
   animation: windowOpen 180ms cubic-bezier(.2, .8, .2, 1);
@@ -472,9 +508,11 @@ button, a, input, textarea { touch-action: manipulation; }
   right: 10px;
   bottom: 101px;
   width: auto;
+  height: auto !important;
   max-height: none;
   transform: none !important;
 }
+.window.maximized > .resize-handle { display: none; }
 @keyframes windowOpen {
   from { opacity: 0; scale: .97; }
   to { opacity: 1; scale: 1; }
@@ -578,6 +616,10 @@ button, a, input, textarea { touch-action: manipulation; }
   .about-profile { flex-direction: column; align-items: center; text-align: center; }
   .about-details .social-links { display: flex; justify-content: center; gap: 14px; }
   .about-details .social-links a { margin: 0; }
+}
+
+@media (max-width: 720px) {
+  .resize-handle { display: none !important; }
 }
 
 /* â”€â”€â”€ ABOUT WINDOW (specific) â”€â”€â”€ */
