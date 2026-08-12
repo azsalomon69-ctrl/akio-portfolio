@@ -117,7 +117,11 @@
         image.loading = 'lazy';
         art.appendChild(image);
       } else {
-        art.textContent = '♪';
+        const image = document.createElement('img');
+        image.src = 'images/Music.png';
+        image.alt = '';
+        image.loading = 'lazy';
+        art.appendChild(image);
       }
 
       const identity = document.createElement('span');

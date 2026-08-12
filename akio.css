@@ -428,7 +428,8 @@ button, a, input, textarea { touch-action: manipulation; }
   #dock { gap: 1px; padding-inline: 7px; height: 65px; }
   .dock-item { width: 49px; }
   .dock-item .icon,
-  .dock-item .icon svg { width: 43px; height: 43px; }
+  .dock-item .icon svg,
+  .dock-item .icon > img { width: 43px; height: 43px; }
   .dock-item .label { font-size: 10px; }
 }
 
@@ -1286,7 +1287,7 @@ button, a, input, textarea { touch-action: manipulation; }
   #dock::-webkit-scrollbar { display: none; }
   .dock-item { width: 52px; min-width: 52px; height: 54px; padding: 2px 3px 4px; justify-content: center; scroll-snap-align: center; --dock-scale: 1 !important; --dock-lift: 0px !important; transition: filter 120ms ease, transform 120ms ease; }
   .dock-item:active { filter: brightness(.88); transform: scale(.92); }
-  .dock-item .icon, .dock-item .icon svg { width: 46px; height: 46px; max-width: 100%; max-height: 100%; }
+  .dock-item .icon, .dock-item .icon svg, .dock-item .icon > img { width: 46px; height: 46px; max-width: 100%; max-height: 100%; }
   .dock-item .akio-icon::before { font-size: 28px; }
   .dock-item .label { display: none; }
   .dock-item.active::after { bottom: -2px; width: 4px; height: 4px; background: rgba(255,255,255,.95); box-shadow: 0 1px 3px rgba(0,0,0,.5); }
@@ -1433,6 +1434,16 @@ button, a, input, textarea { touch-action: manipulation; }
 
 /* Loopline project and Safari presentation */
 .social-project-card { align-items: start; }
+.dock-item .icon > img { width: 52px; height: 52px; display: block; border-radius: 13px; object-fit: cover; }
+.app-logo-tile { overflow: hidden; background: #0b0b12; }
+.app-logo-tile img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.music-brand-mark { padding: 0; overflow: hidden; background: #0b0610; }
+.music-brand-mark img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.music-player-art i { width: 100%; height: 100%; display: block; font-size: 0; }
+.music-player-art i img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.ai-brand-mark,.ai-toolbar-mark,.ai-empty-mark,.ai-message-avatar { padding: 0; overflow: hidden; background: #070817; }
+.ai-brand-mark img,.ai-toolbar-mark img,.ai-empty-mark img,.ai-message-avatar img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.ai-toolbar-mark::before,.ai-empty-mark::before { display: none; }
 .social-project-preview { min-height: 135px; overflow: hidden; border-radius: 13px; background: #f4f5f8; border: 1px solid #e2e3e9; box-shadow: 0 8px 24px rgba(39, 35, 83, .08); }
 .social-project-preview img { width: 100%; height: 100%; min-height: 135px; display: block; object-fit: cover; object-position: top left; transition: transform .3s ease; }
 .social-project-card:hover .social-project-preview img { transform: scale(1.025); }

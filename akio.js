@@ -195,7 +195,7 @@
   }
 
   function showGreeting() {
-    chatMessages.innerHTML = `<div class="ai-empty-state"><span class="ai-empty-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4m0 10v4M3 12h4m10 0h4M5.6 5.6l2.8 2.8m7.2 7.2 2.8 2.8m0-12.8-2.8 2.8m-7.2 7.2-2.8 2.8"/><circle cx="12" cy="12" r="3.2"/></svg></span><span><strong>How can I help?</strong><p>Akio AI is working through available models. Ask about Akio or anything else—some replies may take a moment.</p></span></div>`;
+    chatMessages.innerHTML = `<div class="ai-empty-state"><span class="ai-empty-mark"><img src="images/AkioAI.png" alt=""></span><span><strong>How can I help?</strong><p>Akio AI is working through available models. Ask about Akio or anything else—some replies may take a moment.</p></span></div>`;
     aiModelStatus.textContent = 'AI is working · replies may take a moment';
   }
 
@@ -347,7 +347,7 @@
     if (role === 'assistant') {
       const avatar = document.createElement('span');
       avatar.className = 'ai-message-avatar';
-      avatar.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20 11.2 4h1.6L19 20"/><path d="M8.1 15h7.8"/><circle cx="18.2" cy="5.8" r="1.5"/></svg>';
+      avatar.innerHTML = '<img src="images/AkioAI.png" alt="">';
       row.appendChild(avatar);
     }
     const content = document.createElement('div');
