@@ -23,7 +23,7 @@
     music: document.getElementById('music-window'),
     contact: document.getElementById('contact-window')
   };
-  const appNames = { akio: 'Akio AI', about: 'About Me', tech: 'Technologies', projects: 'Projects', social: 'Loopline — Safari', resume: 'Resume', tetris: 'Tetris', music: 'Music', contact: 'Contact' };
+  const appNames = { akio: 'Akio AI', about: 'About Me', tech: 'Technologies', projects: 'Projects', social: 'Loopline | Safari', resume: 'Resume', tetris: 'Tetris', music: 'Music', contact: 'Contact' };
 
   const desktopLauncherQuery = window.matchMedia('(min-width: 721px)');
   const dockReturnAnchor = dock.querySelector('.dock-item[data-window="about"]');
@@ -195,7 +195,7 @@
   }
 
   function showGreeting() {
-    chatMessages.innerHTML = `<div class="ai-empty-state"><span class="ai-empty-mark"><img src="images/AkioAI.png" alt=""></span><span><strong>How can I help?</strong><p>Akio AI is working through available models. Ask about Akio or anything else—some replies may take a moment.</p></span></div>`;
+    chatMessages.innerHTML = `<div class="ai-empty-state"><span class="ai-empty-mark"><img src="images/AkioAI.png" alt=""></span><span><strong>How can I help?</strong><p>Akio AI is working through available models. Ask about Akio or anything else. Some replies may take a moment.</p></span></div>`;
     aiModelStatus.textContent = 'AI is working · replies may take a moment';
   }
 
@@ -560,7 +560,16 @@
   document.querySelectorAll('[data-open-tech]').forEach(button => button.addEventListener('click', () => openWindow('tech')));
   document.querySelectorAll('[data-open-projects]').forEach(button => button.addEventListener('click', () => openWindow('projects')));
   document.querySelectorAll('[data-open-ai]').forEach(button => button.addEventListener('click', () => openWindow('akio')));
-  document.querySelectorAll('[data-open-window]').forEach(button => button.addEventListener('click', () => openWindow(button.dataset.openWindow)));
+  document.querySelectorAll('[data-open-window]').forEach(launcher => {
+    launcher.addEventListener('click', () => openWindow(launcher.dataset.openWindow));
+    if (launcher.getAttribute('role') === 'button') {
+      launcher.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        openWindow(launcher.dataset.openWindow);
+      });
+    }
+  });
   document.querySelector('.safari-reload')?.addEventListener('click', () => document.getElementById('socialFrame').contentWindow.location.reload());
   document.querySelectorAll('[data-ai-ask]').forEach(button => button.addEventListener('click', () => {
     openWindow('akio');
@@ -599,7 +608,7 @@
     contactForm.classList.remove('is-sending');
     contactButton.disabled = false;
     contactButton.innerHTML = 'Send Message <svg class="button-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5m-5 0h5v5"/></svg>';
-    contactStatus.textContent = 'Message sent. Thank you — Akio will receive it by email.';
+    contactStatus.textContent = 'Message sent. Thank you. Akio will receive it by email.';
     contactForm.reset();
   });
 
@@ -758,7 +767,34 @@
     });
   }
 
+  const compactWidths = {
+    profile: 940,
+    social: 760,
+    resume: 700,
+    tetris: 640,
+    music: 760,
+    projects: 720,
+    tech: 650,
+    contact: 500,
+    akio: 620
+  };
+
+  function observePanelLayout(panel, id) {
+    if (!panel || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(entries => {
+      const entry = entries[0];
+      if (!entry) return;
+      const { width, height } = entry.contentRect;
+      const compactAt = compactWidths[id] || 620;
+      panel.classList.toggle('layout-compact', width <= compactAt);
+      panel.classList.toggle('layout-narrow', width <= Math.min(compactAt, 560));
+      panel.classList.toggle('layout-short', height <= 500);
+    });
+    observer.observe(panel);
+  }
+
   makeResizable(profilePanel, 'profile', 88);
+  observePanelLayout(profilePanel, 'profile');
 
   document.querySelectorAll('.window').forEach(win => {
     const id = win.id.replace('-window', '');
@@ -814,6 +850,7 @@
       header.addEventListener('pointercancel', stop);
     });
     makeResizable(win, id);
+    observePanelLayout(win, id);
   });
 
   document.querySelectorAll('.menu-button[data-menu]').forEach(button => button.addEventListener('click', event => {
