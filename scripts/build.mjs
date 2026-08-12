@@ -18,7 +18,7 @@ if (apiBaseUrl) {
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 
-for (const file of ['akio.html', 'akio.css', 'akio.js', 'music.js', 'tetris.js', 'social.html', 'social.css', 'social-v2.css', 'social.js']) {
+for (const file of ['akio.html', 'akio.css', 'akio.js', 'music.js', 'tetris.js', 'social.html', 'social-v3.css', 'social.js']) {
   await cp(path.join(root, file), path.join(output, file));
 }
 await cp(path.join(root, 'images'), path.join(output, 'images'), { recursive: true });
