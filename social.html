@@ -1,23 +1,82 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Loopline Community</title><link rel="stylesheet" href="social.css"></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#6856e8">
+  <title>Loopline Community</title>
+  <link rel="stylesheet" href="social.css">
+  <link rel="stylesheet" href="social-v2.css">
+</head>
+<body>
 <div id="authView" class="auth-view">
-  <section class="auth-brand"><span class="loop-logo">L</span><h1>Find your people.<br>Share your world.</h1><p>Loopline is a community for conversations, creativity, and genuine connection.</p></section>
-  <section class="auth-panel"><div class="auth-tabs"><button class="active" data-auth-tab="login">Log in</button><button data-auth-tab="register">Create account</button></div>
-    <form id="loginForm" class="auth-form"><h2>Welcome back</h2><label>Username or email<input name="login" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button class="primary" type="submit">Log in</button></form>
-    <form id="registerForm" class="auth-form" hidden><h2>Join Loopline</h2><label>Display name<input name="displayName" maxlength="50" autocomplete="name" required></label><label>Username<input name="username" maxlength="24" pattern="[A-Za-z0-9_]{3,24}" autocomplete="username" required></label><label>Email<input name="email" type="email" autocomplete="email" required></label><label>Password<input name="password" type="password" minlength="8" autocomplete="new-password" required></label><button class="primary" type="submit">Create account</button></form><p id="authStatus" class="form-status" role="status"></p>
+  <section class="auth-brand">
+    <span class="loop-logo loop-logo-large"><img src="images/loopline.png" alt="Loopline"></span>
+    <p class="eyebrow">YOUR PEOPLE. YOUR LOOP.</p>
+    <h1>Find your people.<br>Share your world.</h1>
+    <p>Loopline is a welcoming community for conversations, creativity, and genuine connection.</p>
+    <div class="auth-proof"><span>Real conversations</span><span>Creative communities</span><span>Private messages</span></div>
+  </section>
+  <section class="auth-panel">
+    <div class="auth-tabs"><button class="active" data-auth-tab="login">Log in</button><button data-auth-tab="register">Create account</button></div>
+    <form id="loginForm" class="auth-form"><h2>Welcome back</h2><p class="form-intro">Continue the conversations you care about.</p><label>Username or email<input name="login" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button class="primary" type="submit">Log in</button></form>
+    <form id="registerForm" class="auth-form" hidden><h2>Join Loopline</h2><p class="form-intro">Create your profile in less than a minute.</p><label>Display name<input name="displayName" maxlength="50" autocomplete="name" required></label><label>Username<input name="username" maxlength="24" pattern="[A-Za-z0-9_]{3,24}" autocomplete="username" required></label><label>Email<input name="email" type="email" autocomplete="email" required></label><label>Password<input name="password" type="password" minlength="8" autocomplete="new-password" required></label><button class="primary" type="submit">Create account</button></form>
+    <p id="authStatus" class="form-status" role="status"></p>
   </section>
 </div>
+
 <div id="appView" class="app" hidden>
-  <aside class="sidebar"><a class="app-brand" href="#feed"><span class="loop-logo">L</span><strong>Loopline</strong></a><nav><button class="active" data-view="feed"><span>⌂</span>Home</button><button data-view="search"><span>⌕</span>Search</button><button data-view="messages"><span>✉</span>Messages</button><button data-view="notifications"><span>♢</span>Notifications<i id="notificationBadge"></i></button><button data-view="profile"><span>◎</span>Profile</button><button id="adminNav" data-view="admin" hidden><span>⌘</span>Admin</button></nav><button class="compose-side primary" data-compose>New post</button><div class="sidebar-user"><div id="sideAvatar" class="avatar"></div><div><strong id="sideName"></strong><span id="sideUsername"></span></div><button id="logoutButton" title="Log out">↗</button></div></aside>
-  <main class="main-shell"><header class="mobile-header"><a class="app-brand"><span class="loop-logo">L</span><strong>Loopline</strong></a><button data-compose>＋</button></header>
-    <section id="feedView" class="view"><header class="view-title"><div><span>COMMUNITY FEED</span><h1>Home</h1></div><button class="primary" data-compose>Create post</button></header><div id="composer" class="composer"><div id="composerAvatar" class="avatar"></div><form id="postForm"><textarea name="content" maxlength="1000" placeholder="Share something with the community…"></textarea><div id="postPreview" class="image-preview" hidden></div><footer><label class="upload-button">▧ Photo<input id="postImage" type="file" accept="image/png,image/jpeg,image/webp" hidden></label><span id="postStatus" class="form-status"></span><button class="primary" type="submit">Post</button></footer></form></div><div id="feedList" class="feed-list"></div></section>
-    <section id="searchView" class="view" hidden><header class="view-title"><div><span>DISCOVER</span><h1>Find people</h1></div></header><form id="searchForm" class="search-box"><span>⌕</span><input name="q" placeholder="Search by username or name" autocomplete="off"></form><div id="searchResults" class="people-list empty-state">Search for someone to connect with.</div></section>
-    <section id="messagesView" class="view messages-view" hidden><div class="conversation-list"><header><h1>Messages</h1><button id="newConversation">＋</button></header><div id="conversationList"></div></div><div id="messagePanel" class="message-panel"><div class="empty-state">Choose a conversation or find someone in Search.</div></div></section>
+  <aside class="sidebar">
+    <a class="app-brand" href="#feed"><span class="loop-logo"><img src="images/loopline.png" alt=""></span><strong>Loopline</strong></a>
+    <nav>
+      <button class="active" data-view="feed"><span aria-hidden="true">&#8962;</span>Home</button>
+      <button data-view="search"><span aria-hidden="true">&#9906;</span>Discover</button>
+      <button data-view="messages"><span aria-hidden="true">&#9993;</span>Messages</button>
+      <button data-view="notifications"><span aria-hidden="true">&#9826;</span>Activity<i id="notificationBadge"></i></button>
+      <button data-view="profile"><span aria-hidden="true">&#9678;</span>Profile</button>
+      <button id="adminNav" data-view="admin" hidden><span aria-hidden="true">&#8984;</span>Admin</button>
+    </nav>
+    <button class="compose-side primary" data-compose>New post</button>
+    <div class="sidebar-user"><div id="sideAvatar" class="avatar"></div><div><strong id="sideName"></strong><span id="sideUsername"></span></div><button id="logoutButton" title="Log out" aria-label="Log out">&#8599;</button></div>
+  </aside>
+
+  <main class="main-shell">
+    <header class="mobile-header"><a class="app-brand"><span class="loop-logo"><img src="images/loopline.png" alt=""></span><strong>Loopline</strong></a><button data-compose aria-label="Create post">&#65291;</button></header>
+    <section id="feedView" class="view">
+      <header class="view-title feed-heading"><div><span>YOUR COMMUNITY</span><h1>Home</h1></div><button class="primary" data-compose>Create post</button></header>
+      <div id="communityStrip" class="community-strip" aria-label="People to discover"></div>
+      <div id="composer" class="composer"><div id="composerAvatar" class="avatar"></div><form id="postForm"><textarea name="content" maxlength="1000" placeholder="What's happening in your loop?"></textarea><div id="postPreview" class="image-preview" hidden><button id="removePostImage" type="button" aria-label="Remove selected image">&times;</button></div><footer><label class="upload-button">&#9638; Add photo<input id="postImage" type="file" accept="image/png,image/jpeg,image/webp" hidden></label><span id="postStatus" class="form-status"></span><button class="primary" type="submit">Post</button></footer></form></div>
+      <div class="feed-label"><strong>Latest posts</strong><span>Fresh from your community</span></div>
+      <div id="feedList" class="feed-list"></div>
+    </section>
+    <section id="searchView" class="view" hidden><header class="view-title"><div><span>DISCOVER</span><h1>Find people</h1></div></header><form id="searchForm" class="search-box"><span>&#9906;</span><input name="q" placeholder="Search by username or name" autocomplete="off"></form><div id="searchResults" class="people-list empty-state">Search for someone to connect with.</div></section>
+    <section id="messagesView" class="view messages-view" hidden><div class="conversation-list"><header><h1>Messages</h1><button id="newConversation" aria-label="New conversation">&#65291;</button></header><div id="conversationList"></div></div><div id="messagePanel" class="message-panel"><div class="empty-state">Choose a conversation or find someone in Discover.</div></div></section>
     <section id="notificationsView" class="view" hidden><header class="view-title"><div><span>ACTIVITY</span><h1>Notifications</h1></div><button id="markRead">Mark all read</button></header><div id="notificationList" class="notification-list"></div></section>
     <section id="profileView" class="view" hidden><div id="profileContent"></div></section>
     <section id="adminView" class="view" hidden><header class="view-title"><div><span>ADMINISTRATION</span><h1>Community overview</h1></div></header><div id="adminContent"></div></section>
   </main>
-  <nav class="mobile-nav"><button class="active" data-view="feed">⌂<span>Home</span></button><button data-view="search">⌕<span>Search</span></button><button data-view="messages">✉<span>Messages</span></button><button data-view="notifications">♢<span>Activity</span></button><button data-view="profile">◎<span>Profile</span></button></nav>
+
+  <aside class="right-rail">
+    <section class="rail-card"><header><div><span>DISCOVER</span><h2>People to meet</h2></div><button data-view="search">See all</button></header><div id="suggestionsList" class="suggestions-list"></div></section>
+    <section class="rail-card pulse-card"><span class="pulse-dot"></span><div><strong>Community pulse</strong><p id="communityPulse">Loading the latest activity...</p></div></section>
+    <section class="rail-card about-card"><strong>Keep the loop kind.</strong><p>Share thoughtfully, respect other people, and make room for different voices.</p><small>&copy; 2026 Loopline</small></section>
+  </aside>
+
+  <nav class="mobile-nav"><button class="active" data-view="feed">&#8962;<span>Home</span></button><button data-view="search">&#9906;<span>Discover</span></button><button data-view="messages">&#9993;<span>Messages</span></button><button data-view="notifications">&#9826;<span>Activity</span></button><button data-view="profile">&#9678;<span>Profile</span></button></nav>
 </div>
-<dialog id="profileDialog"><form id="profileForm" class="dialog-card"><header><div><span>PROFILE</span><h2>Edit profile</h2></div><button type="button" data-close-dialog>×</button></header><label>Display name<input name="displayName" maxlength="50" required></label><label>Bio<textarea name="bio" maxlength="180" rows="3"></textarea></label><label>Profile picture<input id="avatarImage" type="file" accept="image/png,image/jpeg,image/webp"></label><div id="avatarPreview" class="image-preview" hidden></div><p class="form-status"></p><button class="primary" type="submit">Save changes</button></form></dialog>
+
+<dialog id="profileDialog">
+  <form id="profileForm" class="dialog-card profile-editor">
+    <header><div><span>PROFILE</span><h2>Edit profile</h2><p>Make your Loopline space feel like you.</p></div><button type="button" data-close-dialog aria-label="Close">&times;</button></header>
+    <div class="profile-photo-editor"><div id="avatarPreview" class="avatar profile-edit-avatar"></div><div><strong>Profile picture</strong><p>Choose a clear square photo. Large images are resized automatically.</p><div class="photo-actions"><label class="upload-button primary">Choose photo<input id="avatarImage" type="file" accept="image/png,image/jpeg,image/webp" hidden></label><button id="removeAvatar" type="button">Remove</button></div></div></div>
+    <label>Display name<input name="displayName" maxlength="50" required></label>
+    <label>Bio<textarea name="bio" maxlength="180" rows="3" placeholder="Tell people a little about you"></textarea><small class="field-hint">Up to 180 characters</small></label>
+    <fieldset class="cover-picker"><legend>Profile background color</legend><p>Pick a color for your profile header. No cover photo needed.</p><input type="hidden" name="coverColor" value="#6856e8"><div class="color-options" role="radiogroup" aria-label="Profile background color"><button type="button" data-cover-color="#6856e8" style="--swatch:#6856e8" aria-label="Violet"></button><button type="button" data-cover-color="#e84d8a" style="--swatch:#e84d8a" aria-label="Rose"></button><button type="button" data-cover-color="#ef8b2c" style="--swatch:#ef8b2c" aria-label="Orange"></button><button type="button" data-cover-color="#159b83" style="--swatch:#159b83" aria-label="Teal"></button><button type="button" data-cover-color="#2774e6" style="--swatch:#2774e6" aria-label="Blue"></button><button type="button" data-cover-color="#263044" style="--swatch:#263044" aria-label="Midnight"></button></div></fieldset>
+    <p class="form-status" role="status"></p><button class="primary save-profile" type="submit">Save profile</button>
+  </form>
+</dialog>
 <dialog id="confirmDialog"><div class="dialog-card confirm-card"><h2>Delete this content?</h2><p>This action cannot be undone.</p><div><button type="button" data-confirm-cancel>Cancel</button><button class="danger" type="button" data-confirm-ok>Delete</button></div></div></dialog>
-<div id="toast" role="status"></div><script src="config.js"></script><script src="social.js"></script></body></html>
+<div id="toast" role="status"></div>
+<script src="config.js"></script><script src="social.js"></script>
+</body>
+</html>
