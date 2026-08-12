@@ -41,31 +41,6 @@
   <!-- DOCK -->
   <div id="dock">
 
-    <!-- Akio AI -->
-    <div class="dock-item" data-window="akio" data-app-name="Akio AI">
-      <div class="icon akio-icon">
-        <svg viewBox="0 0 56 56" aria-hidden="true">
-          <defs>
-            <linearGradient id="akio-bg" x1="7" y1="3" x2="49" y2="54"><stop stop-color="#454A55"/><stop offset=".52" stop-color="#202228"/><stop offset="1" stop-color="#0E0F12"/></linearGradient>
-            <radialGradient id="akio-glow" cx="0" cy="0" r="1" gradientTransform="translate(18 11) rotate(48) scale(44)"><stop stop-color="#A98BFF" stop-opacity=".58"/><stop offset="1" stop-color="#7D5CFF" stop-opacity="0"/></radialGradient>
-          </defs>
-          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#akio-bg)"/>
-          <rect x="1" y="1" width="54" height="54" rx="13" fill="url(#akio-glow)"/>
-          <g fill="none" stroke="#FFF" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M28 13.2c5 0 8.1 3.3 8.1 7.5v5.2L28 30.6l-8.1-4.7v-5.2c0-4.2 3.1-7.5 8.1-7.5Z"/>
-            <path d="M40.8 20.6c2.5 4.3 1.2 8.7-2.4 10.8l-4.5 2.6-8.1-4.7v-9.4l4.5-2.6c3.7-2.1 8-.9 10.5 3.3Z"/>
-            <path d="M40.8 35.4c-2.5 4.3-6.9 5.5-10.5 3.4l-4.5-2.6v-9.4l8.1-4.7 4.5 2.6c3.6 2.1 4.9 6.4 2.4 10.7Z"/>
-            <path d="M28 42.8c-5 0-8.1-3.3-8.1-7.5v-5.2l8.1-4.7 8.1 4.7v5.2c0 4.2-3.1 7.5-8.1 7.5Z"/>
-            <path d="M15.2 35.4c-2.5-4.3-1.2-8.7 2.4-10.8l4.5-2.6 8.1 4.7v9.4l-4.5 2.6c-3.7 2.1-8 .9-10.5-3.3Z"/>
-            <path d="M15.2 20.6c2.5-4.3 6.9-5.5 10.5-3.4l4.5 2.6v9.4l-8.1 4.7-4.5-2.6c-3.6-2.1-4.9-6.4-2.4-10.7Z"/>
-          </g>
-          <circle cx="28" cy="28" r="3.1" fill="#A78BFA"/>
-          <path d="M7 17C11 8 20 4 30 4" stroke="#FFF" stroke-width="1.6" stroke-linecap="round" opacity=".12"/>
-        </svg>
-      </div>
-      <span class="label">Akio AI</span>
-    </div>
-
     <!-- Projects -->
     <div class="dock-item" data-window="projects" data-app-name="Projects">
       <div class="icon projects-icon">
@@ -409,8 +384,14 @@
         <div class="side-projects-heading"><span class="project-detail-label">SIDE PROJECTS &amp; EXPERIMENTS</span><h3 id="sideProjectsHeading">More things I built</h3><p>Smaller interactive projects are grouped here so all of my work is easy to find.</p></div>
         <div class="side-project-grid">
           <article class="side-project-card social-project-card">
-            <div class="social-project-preview" aria-hidden="true"><span class="social-preview-sidebar"></span><span class="social-preview-feed"><i></i><i></i><i></i></span></div>
+            <div class="social-project-preview"><img src="images/loopline-preview.png" alt="Loopline social network home feed with navigation, composer, trending topics, and people discovery"></div>
             <div><span>Node.js · SQLite · Full-stack</span><h4>Loopline Community</h4><p>A working social platform with secure accounts, profiles, image posts, likes, comments, user search, private messages, notifications, and an authorized admin dashboard.</p><button type="button" data-open-window="social">Open in Safari</button></div>
+          </article>
+          <article class="side-project-card">
+            <div class="side-project-icon akio-mini" aria-hidden="true">
+              <svg viewBox="0 0 56 56"><path d="M28 12c5.2 0 8.5 3.5 8.5 7.9v5.4L28 30.2l-8.5-4.9v-5.4c0-4.4 3.3-7.9 8.5-7.9Z"/><path d="M41.4 20c2.6 4.5 1.3 9.1-2.5 11.3l-4.7 2.7-8.5-4.9v-9.8l4.7-2.7c3.9-2.2 8.4-.9 11 3.4Z"/><path d="M28 44c-5.2 0-8.5-3.5-8.5-7.9v-5.4l8.5-4.9 8.5 4.9v5.4c0 4.4-3.3 7.9-8.5 7.9Z"/><circle cx="28" cy="28" r="3.2"/></svg>
+            </div>
+            <div><span>AI APIs · Node.js · JavaScript</span><h4>Akio AI</h4><p>A portfolio assistant that answers questions about my background, skills, projects, availability, and services through a conversational interface.</p><button type="button" data-open-window="akio">Open Akio AI</button></div>
           </article>
           <article class="side-project-card">
             <div class="side-project-icon tetris-mini" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -430,8 +411,8 @@
     <div class="win-header safari-titlebar">
       <div class="dots">
         <button class="close close-window" data-window="social" aria-label="Close Loopline" title="Close"></button>
-        <button class="min" aria-hidden="true" disabled></button>
-        <button class="max" aria-hidden="true" disabled></button>
+        <button class="min" data-action="minimize" aria-label="Minimize Safari" title="Minimize"></button>
+        <button class="max" data-action="maximize" aria-label="Maximize Safari" title="Maximize"></button>
       </div>
       <span class="title">Loopline — Safari</span>
     </div>

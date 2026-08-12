@@ -681,11 +681,29 @@
     win.addEventListener('pointerdown', () => focusWindow(win));
     win.querySelector('.close').addEventListener('click', event => { event.stopPropagation(); closeWindow(id); });
     win.querySelectorAll('.min, .max').forEach(control => {
+      const isSafariControl = id === 'social' && control.dataset.action;
+      if (isSafariControl) {
+        control.disabled = false;
+        control.tabIndex = 0;
+        control.removeAttribute('aria-hidden');
+        control.addEventListener('click', event => {
+          event.stopPropagation();
+          if (control.dataset.action === 'minimize') minimizeWindow(win);
+          if (control.dataset.action === 'maximize') toggleMaximize(win);
+        });
+        return;
+      }
       control.disabled = true;
       control.tabIndex = -1;
       control.setAttribute('aria-hidden', 'true');
       control.removeAttribute('title');
     });
+    if (id === 'social') {
+      header.addEventListener('dblclick', event => {
+        if (event.target.closest('.dots') || window.matchMedia('(max-width: 720px)').matches) return;
+        toggleMaximize(win);
+      });
+    }
     header.addEventListener('pointerdown', event => {
       if (event.pointerType !== 'mouse' || window.matchMedia('(max-width: 720px)').matches || event.button !== 0 || event.target.closest('.dots, .new-chat-button') || win.classList.contains('maximized')) return;
       focusWindow(win);

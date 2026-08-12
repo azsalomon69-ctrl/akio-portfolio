@@ -1399,6 +1399,9 @@ button, a, input, textarea { touch-action: manipulation; }
 .music-mini i { width: 5px; height: 22px; border-radius: 5px; background: #ff5e9f; }
 .music-mini i:nth-child(2), .music-mini i:nth-child(4) { height: 38px; }
 .music-mini i:nth-child(3) { height: 50px; background: #b99aff; }
+.akio-mini { background: radial-gradient(circle at 30% 18%, #5d537e, transparent 42%), linear-gradient(145deg, #292b34, #0f1014); }
+.akio-mini svg { width: 52px; height: 52px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.akio-mini circle { fill: #a78bfa; stroke: none; }
 
 @media (min-width: 721px) and (max-width: 1050px) {
   .desktop-career-card { padding: 28px 22px 25px; }
@@ -1424,15 +1427,12 @@ button, a, input, textarea { touch-action: manipulation; }
 
 /* Loopline project and Safari presentation */
 .social-project-card { grid-column: 1 / -1; grid-template-columns: minmax(210px, .8fr) 1.2fr; align-items: center; }
-.social-project-preview { min-height: 135px; display: grid; grid-template-columns: 58px 1fr; overflow: hidden; border-radius: 13px; background: #f4f5f8; border: 1px solid #e2e3e9; }
-.social-preview-sidebar { background: linear-gradient(160deg, #5f50ee, #3427b6); }
-.social-preview-feed { padding: 15px; display: grid; gap: 8px; }
-.social-preview-feed i { display: block; border-radius: 7px; background: #fff; box-shadow: 0 3px 10px rgba(39, 35, 83, .08); }
-.social-preview-feed i:first-child { height: 25px; background: linear-gradient(90deg, #dedaff 22%, #fff 22%); }
-.social-preview-feed i:nth-child(2) { height: 48px; }
-.social-preview-feed i:nth-child(3) { height: 34px; }
+.social-project-preview { min-height: 135px; overflow: hidden; border-radius: 13px; background: #f4f5f8; border: 1px solid #e2e3e9; box-shadow: 0 8px 24px rgba(39, 35, 83, .08); }
+.social-project-preview img { width: 100%; height: 100%; min-height: 135px; display: block; object-fit: cover; object-position: top left; transition: transform .3s ease; }
+.social-project-card:hover .social-project-preview img { transform: scale(1.025); }
 
 .safari-window { top: 42px; width: min(1240px, calc(100vw - 54px)); height: min(790px, calc(100vh - 125px)); max-height: none; border-radius: 13px; background: #eef0f3; }
+.safari-window.maximized { top: 31px !important; right: 0; bottom: 80px; left: 0 !important; width: auto; height: auto; border-radius: 0; }
 .safari-titlebar { min-height: 34px; padding-block: 7px; background: rgba(226, 227, 231, .95); }
 .safari-toolbar { min-height: 48px; padding: 7px 10px; display: grid; grid-template-columns: 31px 31px 31px minmax(180px, 1fr) 31px 31px; gap: 7px; align-items: center; border-bottom: 1px solid rgba(0, 0, 0, .14); background: rgba(239, 240, 243, .96); }
 .safari-toolbar button, .safari-toolbar > a { height: 30px; display: grid; place-items: center; border: 0; border-radius: 7px; color: #55565d; background: rgba(255, 255, 255, .58); font-size: 18px; text-decoration: none; }
@@ -1447,6 +1447,7 @@ button, a, input, textarea { touch-action: manipulation; }
 @media (max-width: 720px) {
   .social-project-card { grid-template-columns: 1fr; }
   .social-project-preview { min-height: 120px; }
+  .safari-window.maximized { top: calc(46px + env(safe-area-inset-top)) !important; right: 6px; bottom: calc(88px + env(safe-area-inset-bottom)); left: 6px !important; border-radius: 20px; }
   .safari-toolbar { grid-template-columns: 28px minmax(120px, 1fr) 28px 28px; }
   .safari-back, .safari-forward { display: none !important; }
   .safari-sidebar-button { display: grid !important; }
