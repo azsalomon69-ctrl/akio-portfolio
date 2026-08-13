@@ -7,7 +7,7 @@ import { DatabaseSync } from 'node:sqlite';
 const dataDir = mkdtempSync(path.join(tmpdir(), 'loopline-ai-test-'));
 process.env.SOCIAL_DATA_DIR = dataDir;
 process.env.SOCIAL_AI_ENABLED = 'true';
-process.env.SOCIAL_AI_PROACTIVE = 'false';
+process.env.SOCIAL_AI_PROACTIVE = 'true';
 process.env.NODE_ENV = 'test';
 for (let index = 1; index <= 5; index += 1) process.env[`NVIDIA_API_KEY_${index}`] = '';
 
@@ -44,6 +44,9 @@ try {
   const token = registration.token;
   const ai = db.prepare('SELECT u.id,a.seed_post_id seedPostId FROM users u JOIN ai_profiles a ON a.user_id=u.id ORDER BY u.id LIMIT 1').get();
 
+  const realPost = await call('/posts', { method: 'POST', token, payload: { content: 'A real community member post.' } });
+  assert.ok(db.prepare('SELECT 1 FROM ai_profiles WHERE priority_post_id=?').get(realPost.post.id));
+
   const firstComment = await call(`/posts/${ai.seedPostId}/comments`, { method: 'POST', token, payload: { content: 'This is a real stored comment.' } });
   assert.equal(db.prepare("SELECT count(*) count FROM ai_queue WHERE event_type='comment'").get().count, 1);
 
@@ -63,5 +66,5 @@ try {
   socialModule.closeSocialDatabaseForTests();
   console.log('Loopline AI seed, replies, and interaction queues verified.');
 } finally {
-  rmSync(dataDir, { recursive: true, force: true });
+  try { rmSync(dataDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 }); } catch {}
 }

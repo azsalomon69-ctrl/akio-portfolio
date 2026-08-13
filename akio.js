@@ -2,6 +2,8 @@
     'use strict';
 
     const appWindows = {
+        resume: document.getElementById('resume-window'),
+        contactSuccess: document.getElementById('contact-success-window'),
         akio: document.getElementById('akio-window'),
         tetris: document.getElementById('tetris-window'),
         music: document.getElementById('music-window')
@@ -54,6 +56,7 @@
 
     const hashApps = {
         '#akio-ai': 'akio',
+        '#resume': 'resume',
         '#browser-tetris': 'tetris',
         '#akio-music': 'music'
     };
@@ -97,6 +100,22 @@
         contactSubmitButton.textContent = 'Send Message';
         contactFormStatus.textContent = 'Message sent. Thank you — Akio will receive it shortly.';
         contactForm.reset();
+        openApp('contactSuccess');
+    });
+
+    const resumePanel = document.querySelector('.resume-modal-panel');
+    const resumeFullscreen = document.getElementById('resumeFullscreen');
+    resumeFullscreen?.addEventListener('click', async () => {
+        try {
+            if (document.fullscreenElement) await document.exitFullscreen();
+            else await resumePanel.requestFullscreen();
+        } catch {
+            window.open('images/Akio-Zaki-Salomon-Resume.pdf', '_blank', 'noopener,noreferrer');
+        }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+        if (resumeFullscreen) resumeFullscreen.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen';
     });
 
     // Akio AI chatbot

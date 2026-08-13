@@ -161,7 +161,8 @@ body.modal-open {
 }
 
 .project-modal-actions button,
-.project-modal-close {
+.project-modal-close,
+.resume-download {
     min-height: 34px;
     padding: 0 11px;
     border: 1px solid var(--border-dark);
@@ -174,6 +175,11 @@ body.modal-open {
     cursor: pointer;
 }
 
+.resume-download {
+    display: inline-flex;
+    align-items: center;
+}
+
 .project-modal-close {
     width: 34px;
     padding: 0;
@@ -182,9 +188,69 @@ body.modal-open {
 }
 
 .project-modal-actions button:hover,
-.project-modal-close:hover {
+.project-modal-close:hover,
+.resume-download:hover {
     background: var(--surface-hover);
     color: var(--text);
+}
+
+.resume-modal-panel {
+    height: min(900px, calc(100vh - 48px));
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+.resume-modal-panel:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+}
+
+.resume-frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #dadada;
+}
+
+.contact-success-panel {
+    width: min(430px, 100%);
+    padding: 38px;
+    text-align: center;
+}
+
+.contact-success-panel .section-label {
+    margin: 14px 0 8px;
+}
+
+.contact-success-panel h2 {
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.contact-success-panel > p:not(.section-label) {
+    margin-bottom: 22px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.contact-success-panel .button {
+    min-width: 120px;
+    cursor: pointer;
+}
+
+.contact-success-icon {
+    width: 54px;
+    height: 54px;
+    margin: auto;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #20201e;
+    color: #fff;
+    font-size: 25px;
 }
 
 /* Akio AI */
@@ -1141,6 +1207,33 @@ body.modal-open {
         border-radius: 0;
     }
 
+    .contact-success-panel {
+        width: calc(100% - 32px);
+        height: auto;
+        max-height: none;
+        padding: 30px 22px;
+        border: 1px solid var(--border-dark);
+        border-radius: 8px;
+    }
+
+    .resume-modal-panel .project-modal-header {
+        align-items: flex-start;
+    }
+
+    .resume-modal-panel .project-modal-title span {
+        display: none;
+    }
+
+    .resume-modal-panel .project-modal-actions {
+        gap: 5px;
+    }
+
+    .resume-modal-panel .project-modal-actions button,
+    .resume-download {
+        padding-inline: 8px;
+        font-size: 10px;
+    }
+
     .ai-app-layout {
         grid-template-columns: 1fr;
     }
@@ -1512,6 +1605,80 @@ a {
     padding: 0 14px;
 }
 
+.hero-actions > button {
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.contact-hover-wrap {
+    position: relative;
+    display: inline-flex;
+}
+
+.contact-hover-card {
+    position: absolute;
+    z-index: 20;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    width: 235px;
+    padding: 8px;
+    display: grid;
+    gap: 4px;
+    border: 1px solid var(--border-dark);
+    border-radius: 7px;
+    background: #fff;
+    box-shadow: 0 14px 34px rgba(28, 28, 25, .14);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 7px);
+    transition: opacity 150ms ease, transform 150ms ease, visibility 150ms ease;
+    pointer-events: none;
+}
+
+.contact-hover-card::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-right: 1px solid var(--border-dark);
+    border-bottom: 1px solid var(--border-dark);
+    background: #fff;
+    transform: translate(-50%, -5px) rotate(45deg);
+}
+
+.contact-hover-wrap:hover .contact-hover-card,
+.contact-hover-wrap:focus-within .contact-hover-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+    pointer-events: auto;
+}
+
+.contact-hover-card a {
+    padding: 8px 9px;
+    display: grid;
+    gap: 2px;
+    border-radius: 4px;
+}
+
+.contact-hover-card a:hover {
+    background: var(--surface-hover);
+}
+
+.contact-hover-card small {
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.contact-hover-card strong {
+    font-size: 12px;
+}
+
 .button {
     min-height: 42px;
 
@@ -1798,6 +1965,27 @@ a {
     font-weight: 600;
 
     transition: background 140ms ease;
+}
+
+.technology > span {
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+}
+
+.technology strong,
+.technology small {
+    display: block;
+}
+
+.technology strong {
+    font-size: 12px;
+}
+
+.technology small {
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 500;
 }
 
 .technology:last-child {

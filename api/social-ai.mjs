@@ -200,6 +200,7 @@ export function createSocialAi({ db, hashPassword, notify }) {
       background TEXT NOT NULL,
       provider_slot INTEGER NOT NULL CHECK(provider_slot BETWEEN 1 AND 5),
       seed_post_id INTEGER REFERENCES posts(id) ON DELETE SET NULL,
+      priority_post_id INTEGER REFERENCES posts(id) ON DELETE SET NULL,
       next_activity_at TEXT,
       last_activity_at TEXT,
       enabled INTEGER NOT NULL DEFAULT 1
@@ -229,6 +230,9 @@ export function createSocialAi({ db, hashPassword, notify }) {
     CREATE INDEX IF NOT EXISTS idx_ai_queue_due ON ai_queue(status,available_at);
     CREATE INDEX IF NOT EXISTS idx_ai_actions_created ON ai_actions(created_at);
   `);
+  if (!db.prepare("PRAGMA table_info(ai_profiles)").all().some(column => column.name === 'priority_post_id')) {
+    db.exec('ALTER TABLE ai_profiles ADD COLUMN priority_post_id INTEGER REFERENCES posts(id) ON DELETE SET NULL');
+  }
 
   function isAiUser(userId) {
     return !!db.prepare('SELECT 1 FROM ai_profiles WHERE user_id=? AND enabled=1').get(userId);
@@ -287,10 +291,11 @@ export function createSocialAi({ db, hashPassword, notify }) {
     if (eventType === 'message' && conversationId) {
       db.prepare("UPDATE ai_queue SET status='done' WHERE ai_user_id=? AND event_type='message' AND conversation_id=? AND status='pending'").run(aiUserId, conversationId);
     }
+    const wait = eventType === 'message' ? [2, 6] : [12, 55];
     db.prepare(`INSERT INTO ai_queue(ai_user_id,event_type,source_id,post_id,conversation_id,actor_id,available_at)
       VALUES(?,?,?,?,?,?,?) ON CONFLICT(ai_user_id,event_type,source_id) DO NOTHING`)
-      .run(aiUserId, eventType, sourceId, postId, conversationId, actorId, delayDate(12, 55));
-    nudge();
+      .run(aiUserId, eventType, sourceId, postId, conversationId, actorId, delayDate(wait[0], wait[1]));
+    nudge(eventType === 'message' ? 7000 : 60000);
   }
 
   function enqueueForComment({ commentId, postId, actorId, parentCommentId = null }) {
@@ -306,6 +311,17 @@ export function createSocialAi({ db, hashPassword, notify }) {
 
   function enqueueForMessage({ messageId, conversationId, actorId, recipientId }) {
     if (isAiUser(recipientId)) enqueue({ aiUserId: recipientId, eventType: 'message', sourceId: messageId, conversationId, actorId });
+  }
+
+  function enqueueForPost({ postId, actorId }) {
+    if (!enabled || !proactiveEnabled || isAiUser(actorId)) return;
+    const candidates = db.prepare(`SELECT ap.user_id userId FROM ai_profiles ap JOIN users u ON u.id=ap.user_id
+      WHERE ap.enabled=1 AND u.suspended=0 ORDER BY random() LIMIT 3`).all();
+    const count = Math.random() < 0.22 ? 2 : 1;
+    candidates.slice(0, count).forEach(candidate => {
+      db.prepare('UPDATE ai_profiles SET priority_post_id=?,next_activity_at=CURRENT_TIMESTAMP WHERE user_id=?').run(postId, candidate.userId);
+    });
+    nudge(2500);
   }
 
   function systemPrompt(profile) {
@@ -382,21 +398,23 @@ Write exactly like this person, not like a generic assistant. Be natural, concis
     const profile = db.prepare(`SELECT ap.*,u.username,u.display_name displayName,u.bio,u.suspended
       FROM ai_profiles ap JOIN users u ON u.id=ap.user_id
       WHERE ap.enabled=1 AND u.suspended=0 AND (ap.next_activity_at IS NULL OR ap.next_activity_at<=CURRENT_TIMESTAMP)
-      ORDER BY COALESCE(ap.next_activity_at,'') LIMIT 1`).get();
+      ORDER BY (ap.priority_post_id IS NOT NULL) DESC,COALESCE(ap.next_activity_at,'') LIMIT 1`).get();
     if (!profile) return false;
+    const priorityPost = profile.priority_post_id && db.prepare(`SELECT p.id,p.content,u.username,u.display_name displayName
+      FROM posts p JOIN users u ON u.id=p.user_id WHERE p.id=? AND p.user_id!=? AND u.suspended=0`).get(profile.priority_post_id, profile.user_id);
     const candidates = db.prepare(`SELECT p.id,p.content,u.username,u.display_name displayName
       FROM posts p JOIN users u ON u.id=p.user_id
       WHERE p.user_id!=? AND u.suspended=0
         AND NOT EXISTS(SELECT 1 FROM ai_actions a WHERE a.ai_user_id=? AND a.action_type='proactive_comment' AND a.target_id=p.id AND a.created_at>=datetime('now','-2 days'))
       ORDER BY p.created_at DESC LIMIT 20`).all(profile.user_id, profile.user_id);
-    if (!candidates.length) {
+    if (!priorityPost && !candidates.length) {
       db.prepare('UPDATE ai_profiles SET next_activity_at=? WHERE user_id=?').run(delayDate(1800, 5400), profile.user_id);
       return false;
     }
-    const post = candidates[Math.floor(Math.random() * candidates.length)];
+    const post = priorityPost || candidates[Math.floor(Math.random() * candidates.length)];
     const comments = db.prepare(`SELECT c.id,c.content,u.username FROM comments c JOIN users u ON u.id=c.user_id
       WHERE c.post_id=? ORDER BY c.id DESC LIMIT 10`).all(post.id).reverse();
-    const prompt = `Decide whether this Loopline post is relevant enough for you to join naturally. Most posts should be skipped unless you have something specific and useful to add.
+    const prompt = `${priorityPost ? 'This is a newly published post from a real Loopline member. Add a natural, relevant comment unless the content is unsafe or there is genuinely nothing appropriate to say.' : 'Decide whether this Loopline post is relevant enough for you to join naturally. Most posts should be skipped unless you have something specific and useful to add.'}
 
 Post by @${post.username}: ${post.content}
 ${comments.length ? `Conversation:\n${comments.map(c => `#${c.id} @${c.username}: ${c.content}`).join('\n')}` : 'There are no comments yet.'}
@@ -417,12 +435,13 @@ Return only valid JSON in this form: {"action":"skip|comment|reply","content":"t
         if (parentOwner && parentOwner.userId !== postOwner?.userId) notify(parentOwner.userId, profile.user_id, 'comment', post.id, `${profile.displayName} replied to your comment.`);
       }
       recordAction(profile.user_id, 'proactive_comment', post.id, result.model);
+      db.prepare('UPDATE ai_profiles SET priority_post_id=NULL WHERE user_id=?').run(profile.user_id);
       // Allow one natural AI-to-AI response, but internal replies are not recursively queued.
       if (postOwner && isAiUser(postOwner.userId) && postOwner.userId !== profile.user_id) {
         enqueue({ aiUserId: postOwner.userId, eventType: 'comment', sourceId: Number(out.lastInsertRowid), postId: post.id, actorId: profile.user_id });
       }
     } else {
-      db.prepare('UPDATE ai_profiles SET next_activity_at=? WHERE user_id=?').run(delayDate(1200, 3600), profile.user_id);
+      db.prepare('UPDATE ai_profiles SET priority_post_id=NULL,next_activity_at=? WHERE user_id=?').run(delayDate(1200, 3600), profile.user_id);
       db.prepare('INSERT INTO ai_actions(ai_user_id,action_type,target_id,model) VALUES(?,?,?,?)').run(profile.user_id, 'proactive_skip', post.id, result.model);
     }
     return true;
@@ -443,9 +462,14 @@ Return only valid JSON in this form: {"action":"skip|comment|reply","content":"t
     }
   }
 
-  function nudge() {
-    if (!enabled || nudgeTimer) return;
-    nudgeTimer = setTimeout(() => { nudgeTimer = null; tick().catch(error => console.warn('Loopline AI tick failed', error.message)); }, 15000);
+  let nudgeAt = 0;
+  function nudge(delayMs = 15000) {
+    if (!enabled) return;
+    const desiredAt = Date.now() + delayMs;
+    if (nudgeTimer && nudgeAt <= desiredAt) return;
+    if (nudgeTimer) clearTimeout(nudgeTimer);
+    nudgeAt = desiredAt;
+    nudgeTimer = setTimeout(() => { nudgeTimer = null; nudgeAt = 0; tick().catch(error => console.warn('Loopline AI tick failed', error.message)); }, delayMs);
     nudgeTimer.unref?.();
   }
 
@@ -456,5 +480,5 @@ Return only valid JSON in this form: {"action":"skip|comment|reply","content":"t
     nudge();
   }
 
-  return { seed, start, nudge, isAiUser, enqueueForComment, enqueueForMessage };
+  return { seed, start, nudge, isAiUser, enqueueForComment, enqueueForMessage, enqueueForPost };
 }

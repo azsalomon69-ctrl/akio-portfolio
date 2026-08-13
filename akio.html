@@ -16,17 +16,6 @@
 
 <body>
 
-    <header class="site-header">
-        <div class="container header-inner">
-
-            <a href="#home" class="brand">
-                Akio Zaki Salomon
-            </a>
-
-        </div>
-    </header>
-
-
     <main>
 
         <!-- FIRST SCREEN -->
@@ -58,20 +47,15 @@
 
                         <div class="hero-actions">
 
-                            <a
-                                href="images/Akio-Zaki-Salomon-Resume.pdf"
-                                download
-                                class="button button-dark"
-                            >
-                                Download Resume
-                            </a>
+                            <button type="button" class="button button-dark" data-open-app="resume">Resume</button>
 
-                            <a
-                                href="#contact"
-                                class="button button-light"
-                            >
-                                Contact Me
-                            </a>
+                            <span class="contact-hover-wrap">
+                                <a href="#contact" class="button button-light">Contact Me</a>
+                                <span class="contact-hover-card">
+                                    <a href="tel:+639919199421"><small>Phone</small><strong>+63 991 919 9421</strong></a>
+                                    <a href="mailto:azsalomon69@gmail.com"><small>Email</small><strong>azsalomon69@gmail.com</strong></a>
+                                </span>
+                            </span>
 
                             <a href="https://github.com/azsalomon69-ctrl" class="social-button social-button-github" target="_blank" rel="noopener noreferrer" aria-label="Open Akio's GitHub profile">
                                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.23c0 4.52 2.87 8.35 6.84 9.71.5.1.68-.22.68-.49v-1.92c-2.78.62-3.37-1.21-3.37-1.21-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .08 1.53 1.06 1.53 1.06.9 1.57 2.34 1.12 2.91.86.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0 1 12 6.92a9.3 9.3 0 0 1 2.5.34c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9v2.83c0 .27.18.59.69.49A10.25 10.25 0 0 0 22 12.23C22 6.58 17.52 2 12 2Z"/></svg>
@@ -142,7 +126,7 @@
                                 src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
                                 alt="HTML logo"
                             >
-                            <span>HTML</span>
+                            <span><strong>HTML</strong><small>Structure</small></span>
                         </li>
 
                         <li class="technology">
@@ -150,7 +134,7 @@
                                 src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg"
                                 alt="CSS logo"
                             >
-                            <span>CSS</span>
+                            <span><strong>CSS</strong><small>Styling</small></span>
                         </li>
 
                         <li class="technology">
@@ -158,7 +142,7 @@
                                 src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
                                 alt="JavaScript logo"
                             >
-                            <span>JavaScript</span>
+                            <span><strong>JavaScript</strong><small>Interactivity</small></span>
                         </li>
 
                         <li class="technology">
@@ -166,7 +150,7 @@
                                 src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
                                 alt="React logo"
                             >
-                            <span>React</span>
+                            <span><strong>React</strong><small>Interfaces</small></span>
                         </li>
 
                         <li class="technology">
@@ -174,7 +158,7 @@
                                 src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg"
                                 alt="Next.js logo"
                             >
-                            <span>Next.js</span>
+                            <span><strong>Next.js</strong><small>Full-stack</small></span>
                         </li>
 
                         <li class="technology">
@@ -182,7 +166,7 @@
                                 src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg"
                                 alt="Node.js logo"
                             >
-                            <span>Node.js</span>
+                            <span><strong>Node.js</strong><small>Backend</small></span>
                         </li>
 
                         <li class="technology">
@@ -190,7 +174,7 @@
                                 src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
                                 alt="C Sharp logo"
                             >
-                            <span>C#</span>
+                            <span><strong>C#</strong><small>Applications</small></span>
                         </li>
 
                         <li class="technology">
@@ -198,7 +182,7 @@
                                 src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg"
                                 alt="SQL logo"
                             >
-                            <span>SQL</span>
+                            <span><strong>SQL</strong><small>Databases</small></span>
                         </li>
 
                     </ul>
@@ -516,6 +500,34 @@
     </footer>
 
     <!-- INTERACTIVE PROJECTS -->
+    <section id="resume-window" class="project-modal" role="dialog" aria-modal="true" aria-labelledby="resumeTitle" hidden>
+        <div class="project-modal-backdrop" data-close-app></div>
+        <div class="project-modal-panel resume-modal-panel">
+            <header class="project-modal-header">
+                <div class="project-modal-title">
+                    <div><strong id="resumeTitle">Akio Zaki Salomon — Résumé</strong><span>Full-Stack Web Developer</span></div>
+                </div>
+                <div class="project-modal-actions">
+                    <button id="resumeFullscreen" type="button">Full screen</button>
+                    <a class="resume-download" href="images/Akio-Zaki-Salomon-Resume.pdf" download>Download</a>
+                    <button class="project-modal-close" type="button" data-close-app aria-label="Close résumé">×</button>
+                </div>
+            </header>
+            <iframe class="resume-frame" src="images/Akio-Zaki-Salomon-Resume.pdf#view=FitH" title="Akio Zaki Salomon résumé"></iframe>
+        </div>
+    </section>
+
+    <section id="contact-success-window" class="project-modal" role="dialog" aria-modal="true" aria-labelledby="contactSuccessTitle" hidden>
+        <div class="project-modal-backdrop" data-close-app></div>
+        <div class="project-modal-panel contact-success-panel">
+            <div class="contact-success-icon" aria-hidden="true">✓</div>
+            <p class="section-label">Message delivered</p>
+            <h2 id="contactSuccessTitle">Your message was sent.</h2>
+            <p>Thank you for reaching out. Akio will receive your message and can reply using the email address you provided.</p>
+            <button type="button" class="button button-dark" data-close-app>Done</button>
+        </div>
+    </section>
+
     <section id="akio-window" class="project-modal" role="dialog" aria-modal="true" aria-labelledby="akioAiTitle" hidden>
         <div class="project-modal-backdrop" data-close-app></div>
         <div class="project-modal-panel ai-app-panel">
