@@ -18,6 +18,12 @@ services:
         sync: false
       - key: SOCIAL_DATA_DIR
         value: ./data
+      - key: SOCIAL_AI_ENABLED
+        value: "true"
+      - key: SOCIAL_AI_PROACTIVE
+        value: "true"
+      - key: SOCIAL_AI_MAX_ACTIONS_PER_HOUR
+        value: "12"
       - key: NVIDIA_API_KEY_1
         sync: false
       - key: NVIDIA_MODEL_1
