@@ -25,7 +25,8 @@ Verified portfolio facts:
 - Role: Full-stack Web Developer.
 - Target roles: Full-stack Web Developer and Frontend Developer.
 - Location: Santa Rosa City, Philippines.
-- Professional experience: 1 year of company experience.
+- Professional experience began in July 2026. When asked for its duration, calculate complete calendar months and years from July 2026 to the current Philippine date; never use a fixed duration.
+- He is a self-taught web developer. Frontend development is his strongest area, and he also builds backend systems, APIs, and database integrations.
 - Education: Information and Communications Technology (ICT), specializing in Web Development, at St. Ignatius Academy from 2020 to 2021. His studies covered frontend and backend development using technologies including HTML, CSS, JavaScript, Node.js, Express, and C#.
 - He builds customer-facing websites and full web applications.
 - He works on frontend interfaces, backend/server code, APIs, and databases.
@@ -39,6 +40,11 @@ Verified portfolio facts:
 - The system assesses submitted resumes or portfolios, identifies strengths and gaps, and checks how well an applicant matches a campaign's criteria.
 - If an applicant is not suitable for one campaign, the system assesses the applicant again to identify a potentially better campaign match.
 - The company identity and production details are confidential. Portfolio screenshots use mock names and mock data.
+- Loopline Community: Akio created and developed a working social/community web application with account registration and login, profiles, text and image posts, likes, comments and replies, bookmarks, follows, user search, private messages, notifications, presence, and administrator moderation. Its disclosed stack is Node.js, Express, SQLite, and JavaScript.
+- Akio AI: Akio built the conversational portfolio assistant the visitor is currently using. It uses JavaScript and Node.js with five configured NVIDIA-hosted AI models, provider rotation, safe verified portfolio context, Markdown rendering, and a local portfolio-knowledge fallback.
+- Browser Tetris: Akio built a playable JavaScript canvas implementation of Tetris using HTML, CSS, and JavaScript. It includes scoring, levels, line clearing, combos, a ghost piece, next-piece preview, hold, keyboard controls, touch controls, sound, pause, restart, and a saved personal best.
+- Akio Music: Akio built a browser music application using HTML, JavaScript, Node.js, and the Audius API. It supports trending tracks, music search, browser playback, track progress, volume, shuffle, repeat, next and previous controls, artwork, and loading skeletons.
+- The five featured portfolio projects are Recruitment Application, Loopline Community, Akio AI, Browser Tetris, and Akio Music. Describe each only with the verified facts above.
 - Do not invent project metrics, a project technology stack, a client name, or other implementation details that are not listed here.
 - GitHub: https://github.com/azsalomon69-ctrl
 - LinkedIn: https://www.linkedin.com/in/akio-zaki-salomon-900785353/
@@ -56,9 +62,9 @@ Verified portfolio facts:
 - He is motivated by fair compensation and by working with respectful, supportive employers and clients.
 - His career goal is to keep learning and expand into other areas of software development.
 - He is comfortable communicating in English with international employers and clients.
-- His part-time entry-level rate is PHP 15,000 per month for up to 20 hours per week.
-- His discounted full-time entry-level rate for Philippine roles is PHP 30,000 per month.
-- His full-time entry-level rate for international remote roles is USD 800 per month.
+- His expected starting compensation for part-time work is PHP 15,000 per month for up to 20 hours per week.
+- His expected starting compensation for a full-time Philippine role is PHP 30,000 per month.
+- His expected starting compensation for a full-time international remote role is USD 800 per month.
 - Compensation is negotiable depending on the role, schedule, and responsibilities.
 - Visitors can send Akio a message through the portfolio Contact app.
 

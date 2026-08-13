@@ -355,7 +355,15 @@
         if (loading) article.classList.add('is-loading');
 
         const avatar = document.createElement('span');
-        avatar.textContent = role === 'user' ? 'YOU' : 'AI';
+        avatar.className = `chat-avatar ${role === 'user' ? 'user-avatar' : 'assistant-avatar'}`;
+        if (role === 'user') {
+            avatar.textContent = 'YOU';
+        } else {
+            const logo = document.createElement('img');
+            logo.src = 'images/AkioAI.png';
+            logo.alt = 'Akio AI';
+            avatar.appendChild(logo);
+        }
         const text = document.createElement('div');
         text.className = 'chat-content';
         renderMarkdown(text, content);
@@ -363,6 +371,25 @@
         chatMessages.appendChild(article);
         chatMessages.scrollTop = chatMessages.scrollHeight;
         return article;
+    }
+
+    async function revealResponse(article, answer) {
+        const target = article.querySelector('.chat-content');
+        const pieces = String(answer).match(/\S+\s*/g) || [String(answer)];
+        const wordsPerFrame = Math.max(1, Math.ceil(pieces.length / 150));
+        let visible = '';
+        article.classList.remove('is-loading');
+        article.classList.add('is-streaming');
+
+        for (let index = 0; index < pieces.length; index += wordsPerFrame) {
+            visible += pieces.slice(index, index + wordsPerFrame).join('');
+            renderMarkdown(target, visible);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            await new Promise(resolve => window.setTimeout(resolve, 20));
+        }
+
+        renderMarkdown(target, answer);
+        article.classList.remove('is-streaming');
     }
 
     function resetChat() {
@@ -381,10 +408,10 @@
             return 'Akio works with HTML, CSS, JavaScript, React, Vite, Next.js, Node.js, Express, C#, SQL, PostgreSQL, MySQL, SQLite, Git, and GitHub.';
         }
         if (/project|built|portfolio|tetris|music|loopline|recruit/.test(value)) {
-            return 'Akio’s featured work includes an AI-assisted recruitment application, Loopline Community, Akio AI, Browser Tetris, and Akio Music. The recruitment application covered frontend, backend, APIs, database integration, and security-related implementation.';
+            return '**Akio’s featured projects:**\n\n- **Recruitment Application** — an AI-assisted platform for campaign management, applicant assessment, scoring, and recommendations.\n- **Loopline Community** — a social application with profiles, posts, comments, follows, private messages, notifications, and moderation.\n- **Akio AI** — this portfolio chatbot, powered by five configured NVIDIA-hosted AI models.\n- **Browser Tetris** — a canvas game with scoring, levels, combos, hold, ghost pieces, and touch controls.\n- **Akio Music** — an Audius-powered application for discovering, searching, and playing music.';
         }
         if (/experience|company|professional|career|work/.test(value)) {
-            return 'Akio is a full-stack web developer with one year of professional company experience. He built an AI-assisted recruitment application and worked across its frontend, backend, APIs, database integration, and security-related implementation.';
+            return `Akio is a self-taught full-stack web developer with ${currentExperience} of professional experience since July 2026. Frontend development is his strongest area, and he also works on backend systems, APIs, and databases.`;
         }
         if (/contact|email|github|linkedin|reach/.test(value)) {
             return 'You can email Akio at azsalomon69@gmail.com, visit GitHub at github.com/azsalomon69-ctrl, or open the LinkedIn button at the top of this portfolio.';
@@ -396,7 +423,7 @@
             return 'Akio’s listed entry-level rates are PHP 15,000 monthly for part-time work up to 20 hours per week, PHP 30,000 monthly for Philippine full-time roles, and USD 800 monthly for international remote roles. Compensation is negotiable.';
         }
         if (/who|about|background|akio/.test(value)) {
-            return 'Akio Zaki Salomon is a full-stack web developer based in Santa Rosa City, Philippines. He builds customer-facing interfaces and the server, API, and database systems behind them.';
+            return `Akio Zaki Salomon is a ${currentAge}-year-old self-taught web developer based in Santa Rosa City, Philippines. Frontend development is his strongest area, and he also builds backend systems, APIs, and databases.`;
         }
         return 'I can tell you about Akio’s experience, technology stack, projects, availability, rates, and contact details. Try asking “What projects has Akio built?” or “What technologies does he use?”';
     }
@@ -412,8 +439,8 @@
         conversation.push({ role: 'user', content: message });
         promptInput.value = '';
         promptInput.style.height = '';
-        modelStatus.textContent = 'Akio AI is thinking…';
-        const loadingMessage = appendMessage('assistant', 'Thinking…', true);
+        modelStatus.textContent = 'Connecting to Akio AI…';
+        const loadingMessage = appendMessage('assistant', '', true);
 
         try {
             const response = await fetch(`${apiBaseUrl}/api/chat`, {
@@ -426,14 +453,14 @@
 
             const answer = String(payload.message || '').trim();
             if (!answer) throw new Error('Akio AI returned an empty response.');
-            renderMarkdown(loadingMessage.querySelector('.chat-content'), answer);
-            loadingMessage.classList.remove('is-loading');
+            modelStatus.textContent = 'Akio AI is responding…';
+            await revealResponse(loadingMessage, answer);
             conversation.push({ role: 'assistant', content: answer });
             modelStatus.textContent = payload.model ? `Answered by ${payload.model}` : 'Ready';
         } catch (error) {
             const answer = localPortfolioAnswer(message);
-            renderMarkdown(loadingMessage.querySelector('.chat-content'), answer);
-            loadingMessage.classList.remove('is-loading');
+            modelStatus.textContent = 'Akio AI is responding…';
+            await revealResponse(loadingMessage, answer);
             conversation.push({ role: 'assistant', content: answer });
             modelStatus.textContent = 'Portfolio knowledge mode';
         } finally {
