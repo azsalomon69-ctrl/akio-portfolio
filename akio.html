@@ -467,7 +467,9 @@
                 </div>
 
 
-                <form id="contactForm" class="contact-form">
+                <form id="contactForm" class="contact-form"
+                    action="https://script.google.com/macros/s/AKfycbwa-rtvIMpoS0p7UFmJLgVturuqDjr2aSGimCmmqLEKmzkK-MXBTIsUwGOz-emn4ivqFw/exec"
+                    method="POST" target="contactSubmitFrame" accept-charset="UTF-8">
                     <div class="contact-field-row">
                         <label>
                             <span>Name</span>
@@ -483,10 +485,12 @@
                         <textarea name="message" rows="5" maxlength="2000" placeholder="Tell me about your project or opportunity" required></textarea>
                     </label>
                     <div class="contact-form-footer">
-                        <p id="contactFormStatus" role="status">Your email app will open with the message prepared.</p>
+                        <p id="contactFormStatus" role="status">Your message will be sent directly to Akio.</p>
                         <button type="submit" class="button button-dark">Send Message</button>
                     </div>
                 </form>
+                <iframe id="contactSubmitFrame" name="contactSubmitFrame" class="contact-submit-frame"
+                    title="Contact form submission"></iframe>
 
             </div>
 

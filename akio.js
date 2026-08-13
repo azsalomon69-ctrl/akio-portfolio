@@ -59,25 +59,44 @@
     };
     if (hashApps[window.location.hash]) openApp(hashApps[window.location.hash]);
 
-    // Contact form: prepare a message in the visitor's email application.
+    // Contact form: submit to the deployed Google Apps Script without leaving the portfolio.
     const contactForm = document.getElementById('contactForm');
     const contactFormStatus = document.getElementById('contactFormStatus');
-    contactForm?.addEventListener('submit', event => {
-        event.preventDefault();
-        if (!contactForm.reportValidity()) return;
+    const contactSubmitFrame = document.getElementById('contactSubmitFrame');
+    const contactSubmitButton = contactForm?.querySelector('button[type="submit"]');
+    let contactSubmissionPending = false;
+    let contactSubmissionTimeout;
 
-        const data = new FormData(contactForm);
-        const name = String(data.get('name') || '').trim();
-        const email = String(data.get('email') || '').trim();
-        const message = String(data.get('message') || '').trim();
-        const subject = encodeURIComponent(`Portfolio enquiry from ${name}`);
-        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    contactForm?.addEventListener('submit', () => {
+        if (!contactForm.checkValidity()) return;
 
-        contactFormStatus.textContent = 'Opening your email app…';
-        window.location.href = `mailto:azsalomon69@gmail.com?subject=${subject}&body=${body}`;
-        window.setTimeout(() => {
-            contactFormStatus.textContent = 'Your message is ready in your email app.';
-        }, 800);
+        contactSubmissionPending = true;
+        contactForm.classList.add('is-sending');
+        contactSubmitButton.disabled = true;
+        contactSubmitButton.textContent = 'Sending...';
+
+        contactFormStatus.textContent = 'Sending your message...';
+        window.clearTimeout(contactSubmissionTimeout);
+        contactSubmissionTimeout = window.setTimeout(() => {
+            if (!contactSubmissionPending) return;
+            contactSubmissionPending = false;
+            contactForm.classList.remove('is-sending');
+            contactSubmitButton.disabled = false;
+            contactSubmitButton.textContent = 'Send Message';
+            contactFormStatus.textContent = 'This is taking longer than expected. Please try again.';
+        }, 15000);
+    });
+
+    contactSubmitFrame?.addEventListener('load', () => {
+        if (!contactSubmissionPending) return;
+
+        contactSubmissionPending = false;
+        window.clearTimeout(contactSubmissionTimeout);
+        contactForm.classList.remove('is-sending');
+        contactSubmitButton.disabled = false;
+        contactSubmitButton.textContent = 'Send Message';
+        contactFormStatus.textContent = 'Message sent. Thank you — Akio will receive it shortly.';
+        contactForm.reset();
     });
 
     // Akio AI chatbot

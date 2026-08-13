@@ -2150,6 +2150,20 @@ a {
     cursor: pointer;
 }
 
+.contact-form-footer .button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.contact-submit-frame {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
 
 /* ---------- FOOTER ---------- */
 
