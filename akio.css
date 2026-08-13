@@ -1569,11 +1569,17 @@ body.modal-open {
     }
 
     .ai-app-layout {
-        grid-template-columns: 1fr;
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto minmax(0, 1fr);
+        overflow: hidden;
     }
 
     .ai-intro-panel {
-        padding: 18px;
+        min-width: 0;
+        padding: 10px 12px;
+        overflow: hidden;
         border-right: 0;
         border-bottom: 1px solid var(--border);
     }
@@ -1584,26 +1590,92 @@ body.modal-open {
     }
 
     .ai-quick-prompts {
-        margin-top: 8px;
+        width: 100%;
+        min-width: 0;
+        margin-top: 6px;
         display: flex;
+        gap: 7px;
         overflow-x: auto;
+        overflow-y: hidden;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ai-quick-prompts::-webkit-scrollbar {
+        display: none;
     }
 
     .ai-quick-prompts button {
-        min-width: max-content;
+        min-width: 148px;
+        min-height: 54px;
+        padding: 9px 32px 9px 10px;
+        flex: 0 0 auto;
+        align-content: center;
+    }
+
+    .ai-quick-prompts button:first-child,
+    .ai-quick-prompts button:last-child {
+        min-height: 54px;
+    }
+
+    .ai-quick-prompts button > span {
+        right: 10px;
+        bottom: 14px;
     }
 
     .ai-chat-panel {
-        padding: 12px;
+        width: 100%;
+        min-width: 0;
+        height: 100%;
+        padding: 10px 12px max(10px, env(safe-area-inset-bottom));
+        overflow: hidden;
+        grid-template-rows: minmax(0, 1fr) auto auto;
+        gap: 7px;
+    }
+
+    .chat-messages,
+    .chat-composer,
+    .chat-composer textarea {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .chat-messages {
+        padding: 2px 0 12px;
+        overscroll-behavior: contain;
     }
 
     .chat-message {
-        max-width: 94%;
+        max-width: min(94%, 620px);
+    }
+
+    .chat-content {
+        overflow-wrap: anywhere;
+    }
+
+    .chat-composer {
+        padding: 6px;
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .chat-composer textarea,
+    .chat-composer button {
+        min-height: 44px;
+    }
+
+    .chat-composer textarea {
+        padding: 10px 8px;
+        font-size: 16px;
+    }
+
+    .chat-composer button {
+        padding-inline: 15px;
     }
 
     .tetris-game-shell {
         padding: 12px;
-        grid-template-columns: minmax(170px, 1.2fr) minmax(130px, .8fr);
+        grid-template-columns: minmax(0, 1.2fr) minmax(108px, .8fr);
         align-items: start;
         gap: 10px;
         max-height: calc(100dvh - 62px);

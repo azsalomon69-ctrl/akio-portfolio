@@ -57,7 +57,11 @@
         activeWindow = appWindow;
         document.body.classList.add('modal-open');
         appWindow.dispatchEvent(new CustomEvent('akio:window-open'));
-        const preferredFocus = appWindow.querySelector('textarea, canvas[tabindex], input, button');
+        // Avoid opening the on-screen keyboard as soon as a dialog appears on phones.
+        const compactPointer = window.matchMedia('(max-width: 760px), (pointer: coarse)').matches;
+        const preferredFocus = compactPointer
+            ? appWindow.querySelector('[data-close-app], button, canvas[tabindex]')
+            : appWindow.querySelector('textarea, canvas[tabindex], input, button');
         preferredFocus?.focus({ preventScroll: true });
     }
 
