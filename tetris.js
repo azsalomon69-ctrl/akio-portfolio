@@ -15,15 +15,20 @@
   const overlayText = overlay.querySelector('span');
   const startButton = document.getElementById('tetrisStart');
   const pauseButton = document.getElementById('tetrisPause');
+  const restartButton = document.getElementById('tetrisRestart');
   const soundButton = document.getElementById('tetrisSound');
   const status = document.getElementById('tetrisStatus');
   const scoreDisplay = document.getElementById('tetrisScore');
   const linesDisplay = document.getElementById('tetrisLines');
   const levelDisplay = document.getElementById('tetrisLevel');
+  const comboDisplay = document.getElementById('tetrisCombo');
+  const bestDisplay = document.getElementById('tetrisBest');
 
   const COLS = 10;
   const ROWS = 20;
   const CELL = canvas.width / COLS;
+  const LOCK_DELAY = 480;
+  const MAX_LOCK_RESETS = 15;
   const COLORS = {
     I: '#35C5F0', J: '#4F78FF', L: '#FF9D35', O: '#FFD43B',
     S: '#55D66B', T: '#AA6BFF', Z: '#FF5A67'
@@ -47,13 +52,34 @@
   let score = 0;
   let lines = 0;
   let level = 1;
+  let combo = -1;
+  let backToBack = false;
+  let highScore = loadHighScore();
   let running = false;
   let paused = false;
   let muted = false;
   let lastTime = 0;
   let dropCounter = 0;
+  let groundedAt = 0;
+  let lockResets = 0;
   let animationId = 0;
   let audioContext = null;
+
+  function loadHighScore() {
+    try {
+      return Math.max(0, Number(localStorage.getItem('akio-tetris-best')) || 0);
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  function saveHighScore() {
+    if (score <= highScore) return;
+    highScore = score;
+    try {
+      localStorage.setItem('akio-tetris-best', String(highScore));
+    } catch (_) {}
+  }
 
   function createBoard() {
     return Array.from({ length: ROWS }, () => Array(COLS).fill(null));
@@ -93,6 +119,8 @@
   function spawnPiece(type) {
     fillQueue();
     current = makePiece(type || queue.shift());
+    groundedAt = 0;
+    lockResets = 0;
     fillQueue();
     canHold = true;
     drawPreviews();
@@ -122,6 +150,8 @@
       else board[y][x] = current.type;
     }));
     playSound('lock');
+    groundedAt = 0;
+    lockResets = 0;
     if (aboveTop) {
       endGame();
       return;
@@ -140,20 +170,61 @@
         row += 1;
       }
     }
-    if (!cleared) return;
-    const points = [0, 100, 300, 500, 800][cleared] * level;
+    if (!cleared) {
+      combo = -1;
+      updateStats();
+      return;
+    }
+    combo += 1;
+    const basePoints = [0, 100, 300, 500, 800][cleared] * level;
+    const backToBackBonus = cleared === 4 && backToBack ? Math.floor(basePoints * .5) : 0;
+    const comboBonus = combo > 0 ? combo * 50 * level : 0;
+    const points = basePoints + backToBackBonus + comboBonus;
     score += points;
     lines += cleared;
     level = Math.floor(lines / 10) + 1;
+    backToBack = cleared === 4;
     updateStats();
     playSound(cleared === 4 ? 'tetris' : 'line');
-    status.textContent = cleared === 4 ? `Tetris! +${points}` : `${cleared} line${cleared > 1 ? 's' : ''} cleared · +${points}`;
+    const comboText = combo > 0 ? ` · ${combo + 1}× combo` : '';
+    const backToBackText = backToBackBonus ? ' · Back-to-back!' : '';
+    status.textContent = cleared === 4
+      ? `Tetris! +${points}${comboText}${backToBackText}`
+      : `${cleared} line${cleared > 1 ? 's' : ''} cleared · +${points}${comboText}`;
+    status.classList.add('is-highlighted');
+    gameWindow.classList.remove('line-clear');
+    void gameWindow.offsetWidth;
+    gameWindow.classList.add('line-clear');
+    window.setTimeout(() => {
+      status.classList.remove('is-highlighted');
+      gameWindow.classList.remove('line-clear');
+    }, 550);
   }
 
   function rotateMatrix(matrix, direction) {
     const rotated = matrix.map((row, rowIndex) => row.map((_, columnIndex) => matrix[matrix.length - 1 - columnIndex][rowIndex]));
     if (direction < 0) return rotateMatrix(rotateMatrix(rotated, 1), 1);
     return rotated;
+  }
+
+  function isGrounded() {
+    return Boolean(current) && collides(current, 0, 1, current.matrix);
+  }
+
+  function refreshLockDelay() {
+    if (!isGrounded()) {
+      groundedAt = 0;
+      lockResets = 0;
+      return;
+    }
+    if (!groundedAt) {
+      groundedAt = performance.now();
+      return;
+    }
+    if (lockResets < MAX_LOCK_RESETS) {
+      groundedAt = performance.now();
+      lockResets += 1;
+    }
   }
 
   function rotate(direction) {
@@ -163,6 +234,7 @@
       if (!collides(current, kick, 0, rotated)) {
         current.x += kick;
         current.matrix = rotated;
+        refreshLockDelay();
         playSound('rotate');
         draw();
         return;
@@ -173,6 +245,7 @@
   function move(horizontal) {
     if (!canControl() || collides(current, horizontal, 0, current.matrix)) return;
     current.x += horizontal;
+    refreshLockDelay();
     playSound('move');
     draw();
   }
@@ -181,13 +254,12 @@
     if (!canControl()) return;
     if (!collides(current, 0, 1, current.matrix)) {
       current.y += 1;
+      groundedAt = 0;
       if (manual) {
         score += 1;
         updateStats();
       }
-    } else {
-      mergePiece();
-    }
+    } else if (!groundedAt) groundedAt = performance.now();
     dropCounter = 0;
     draw();
   }
@@ -219,6 +291,8 @@
       current = makePiece(queue.shift());
       fillQueue();
     }
+    groundedAt = 0;
+    lockResets = 0;
     canHold = false;
     playSound('hold');
     drawPreviews();
@@ -298,9 +372,12 @@
   }
 
   function updateStats() {
+    saveHighScore();
     scoreDisplay.textContent = score.toLocaleString();
     linesDisplay.textContent = String(lines);
     levelDisplay.textContent = String(level);
+    comboDisplay.textContent = String(Math.max(0, combo + 1));
+    bestDisplay.textContent = highScore.toLocaleString();
   }
 
   function dropInterval() {
@@ -321,6 +398,15 @@
     if (canControl()) {
       dropCounter += delta;
       if (dropCounter >= dropInterval()) softDrop(false);
+      if (current && isGrounded()) {
+        if (!groundedAt) groundedAt = time;
+        if (time - groundedAt >= LOCK_DELAY) {
+          mergePiece();
+          dropCounter = 0;
+        }
+      } else {
+        groundedAt = 0;
+      }
     }
     animationId = window.requestAnimationFrame(loop);
   }
@@ -342,10 +428,15 @@
     score = 0;
     lines = 0;
     level = 1;
+    combo = -1;
+    backToBack = false;
     running = true;
     paused = false;
     dropCounter = 0;
+    groundedAt = 0;
+    lockResets = 0;
     pauseButton.textContent = 'Pause';
+    pauseButton.disabled = false;
     overlay.hidden = true;
     fillQueue();
     spawnPiece();
@@ -375,6 +466,9 @@
   function endGame() {
     running = false;
     paused = false;
+    saveHighScore();
+    updateStats();
+    pauseButton.disabled = true;
     showOverlay('Game Over', `Final score: ${score.toLocaleString()} · Lines: ${lines}`, 'Play Again');
     status.textContent = `Game over. Final score ${score.toLocaleString()}.`;
     playSound('gameover');
@@ -441,6 +535,7 @@
     else startGame();
   });
   pauseButton.addEventListener('click', togglePause);
+  restartButton.addEventListener('click', startGame);
   soundButton.addEventListener('click', () => {
     muted = !muted;
     soundButton.setAttribute('aria-pressed', String(!muted));
@@ -448,11 +543,39 @@
     if (!muted) playSound('start');
   });
 
+  let repeatDelay = 0;
+  let repeatInterval = 0;
+
+  function clearControlRepeat() {
+    window.clearTimeout(repeatDelay);
+    window.clearInterval(repeatInterval);
+    repeatDelay = 0;
+    repeatInterval = 0;
+  }
+
   document.querySelectorAll('[data-tetris-action]').forEach(button => {
     button.addEventListener('pointerdown', event => {
       event.preventDefault();
-      performAction(button.dataset.tetrisAction);
+      const action = button.dataset.tetrisAction;
+      performAction(action);
+      if (!['left', 'right', 'down'].includes(action)) return;
+      clearControlRepeat();
+      repeatDelay = window.setTimeout(() => {
+        repeatInterval = window.setInterval(() => performAction(action), action === 'down' ? 55 : 85);
+      }, 220);
     });
+    button.addEventListener('pointerup', clearControlRepeat);
+    button.addEventListener('pointercancel', clearControlRepeat);
+    button.addEventListener('pointerleave', clearControlRepeat);
+  });
+
+  gameWindow.addEventListener('akio:window-close', () => {
+    clearControlRepeat();
+    if (running && !paused) togglePause();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && running && !paused && gameWindow.classList.contains('open')) togglePause();
   });
 
   document.addEventListener('keydown', event => {
@@ -477,5 +600,6 @@
   draw();
   drawPreviews();
   updateStats();
+  pauseButton.disabled = true;
   if (!animationId) animationId = window.requestAnimationFrame(loop);
 })();

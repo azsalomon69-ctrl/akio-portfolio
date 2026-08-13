@@ -444,6 +444,14 @@
                         Download Resume
                     </a>
 
+                    <a
+                        href="#akio-ai"
+                        class="button button-light"
+                        data-open-app="akio"
+                    >
+                        Message Akio AI
+                    </a>
+
                 </div>
 
             </div>
@@ -468,6 +476,11 @@
         </div>
 
     </footer>
+
+    <button class="ai-message-button" type="button" data-open-app="akio" aria-label="Message Akio AI">
+        <span class="ai-message-icon"><img src="images/AkioAI.png" alt=""></span>
+        <span><strong>Ask Akio AI</strong><small>Message me</small></span>
+    </button>
 
     <!-- INTERACTIVE PROJECTS -->
     <section id="akio-window" class="project-modal" role="dialog" aria-modal="true" aria-labelledby="akioAiTitle" hidden>
@@ -526,36 +539,53 @@
             </header>
 
             <div class="tetris-game-shell">
-                <section class="tetris-board-wrap" aria-label="Tetris game board">
-                    <canvas id="tetrisCanvas" width="300" height="600" tabindex="0" aria-label="Tetris board"></canvas>
-                    <div id="tetrisOverlay" class="tetris-overlay">
-                        <strong>Browser Tetris</strong>
-                        <span>Use arrow keys or the controls below.</span>
-                        <button id="tetrisStart" type="button">New Game</button>
+                <div class="tetris-game-stage">
+                    <div class="tetris-game-label"><span>Game board</span><span>Ghost piece enabled</span></div>
+                    <section class="tetris-board-wrap" aria-label="Tetris game board">
+                        <canvas id="tetrisCanvas" width="300" height="600" tabindex="0" aria-label="Tetris board"></canvas>
+                        <div id="tetrisOverlay" class="tetris-overlay">
+                            <span class="tetris-overlay-kicker">Classic mode</span>
+                            <strong>Browser Tetris</strong>
+                            <span>Clear lines, build combos, and beat your best score.</span>
+                            <button id="tetrisStart" type="button">Start Game</button>
+                        </div>
+                    </section>
+
+                    <div class="tetris-mobile-hint">Tap the controls below or swipe your focus to the board.</div>
+                    <div class="tetris-touch-controls" aria-label="Touch game controls">
+                        <button type="button" data-tetris-action="left" aria-label="Move left">←<small>Left</small></button>
+                        <button type="button" data-tetris-action="rotate" aria-label="Rotate">↻<small>Rotate</small></button>
+                        <button type="button" data-tetris-action="right" aria-label="Move right">→<small>Right</small></button>
+                        <button type="button" data-tetris-action="down" aria-label="Soft drop">↓<small>Down</small></button>
+                        <button class="wide" type="button" data-tetris-action="drop">Drop <small>Hard drop</small></button>
+                        <button type="button" data-tetris-action="hold">Hold <small>Swap</small></button>
                     </div>
-                </section>
+                </div>
 
                 <aside class="tetris-sidebar">
                     <div class="tetris-stats">
                         <article><span>Score</span><strong id="tetrisScore">0</strong></article>
                         <article><span>Lines</span><strong id="tetrisLines">0</strong></article>
                         <article><span>Level</span><strong id="tetrisLevel">1</strong></article>
+                        <article><span>Combo</span><strong id="tetrisCombo">0</strong></article>
                     </div>
+                    <div class="tetris-best"><span>Personal best</span><strong id="tetrisBest">0</strong></div>
                     <div class="tetris-previews">
                         <div class="tetris-preview-card"><span>Next</span><canvas id="tetrisNext" width="112" height="112"></canvas></div>
                         <div class="tetris-preview-card"><span>Hold</span><canvas id="tetrisHold" width="112" height="82"></canvas></div>
                     </div>
                     <div class="tetris-actions">
                         <button id="tetrisPause" type="button">Pause</button>
+                        <button id="tetrisRestart" type="button">Restart</button>
                         <button id="tetrisSound" type="button" aria-pressed="true">Sound on</button>
                     </div>
-                    <div class="tetris-touch-controls" aria-label="Touch game controls">
-                        <button type="button" data-tetris-action="left" aria-label="Move left">←</button>
-                        <button type="button" data-tetris-action="rotate" aria-label="Rotate">↻</button>
-                        <button type="button" data-tetris-action="right" aria-label="Move right">→</button>
-                        <button type="button" data-tetris-action="down" aria-label="Soft drop">↓</button>
-                        <button type="button" data-tetris-action="drop">Drop</button>
-                        <button type="button" data-tetris-action="hold">Hold</button>
+                    <div class="tetris-keyboard-help">
+                        <p><kbd>←</kbd><kbd>→</kbd> Move</p>
+                        <p><kbd>↑</kbd> Rotate</p>
+                        <p><kbd>↓</kbd> Soft drop</p>
+                        <p><kbd>Space</kbd> Hard drop</p>
+                        <p><kbd>C</kbd> Hold</p>
+                        <p><kbd>P</kbd> Pause</p>
                     </div>
                     <p id="tetrisStatus" class="tetris-status" role="status">Press New Game to start.</p>
                 </aside>
