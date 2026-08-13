@@ -1115,6 +1115,18 @@ body.modal-open {
     display: none;
 }
 
+.music-status[data-kind="loading"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    border: 0;
+    white-space: nowrap;
+}
+
 .music-results {
     display: grid;
 }
@@ -1139,6 +1151,94 @@ body.modal-open {
 .music-track-row:hover,
 .music-track-row.playing {
     background: var(--surface-light);
+}
+
+.music-track-skeleton {
+    cursor: default;
+    pointer-events: none;
+}
+
+.music-track-skeleton:hover {
+    background: transparent;
+}
+
+.music-skeleton-number,
+.music-skeleton-art,
+.music-skeleton-identity i,
+.music-skeleton-genre,
+.music-skeleton-duration,
+.music-skeleton-action {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    border-radius: 4px;
+    background: #e8e8e4;
+}
+
+.music-skeleton-number::after,
+.music-skeleton-art::after,
+.music-skeleton-identity i::after,
+.music-skeleton-genre::after,
+.music-skeleton-duration::after,
+.music-skeleton-action::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.72) 48%, transparent 100%);
+    transform: translateX(-100%);
+    animation: music-skeleton-shimmer 1.25s ease-in-out infinite;
+}
+
+.music-skeleton-number {
+    width: 18px;
+    height: 8px;
+}
+
+.music-skeleton-art {
+    width: 42px;
+    height: 42px;
+}
+
+.music-skeleton-identity {
+    min-width: 0;
+    display: grid;
+    gap: 7px;
+}
+
+.music-skeleton-identity i:first-child {
+    width: min(175px, 72%);
+    height: 10px;
+}
+
+.music-skeleton-identity i:last-child {
+    width: min(115px, 48%);
+    height: 7px;
+}
+
+.music-skeleton-genre {
+    width: 64px;
+    height: 8px;
+}
+
+.music-skeleton-duration {
+    width: 30px;
+    height: 8px;
+}
+
+.music-skeleton-action {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+@keyframes music-skeleton-shimmer {
+    to { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .music-track-skeleton *::after {
+        animation: none;
+    }
 }
 
 .music-track-art,

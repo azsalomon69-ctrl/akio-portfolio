@@ -85,8 +85,35 @@
     status.hidden = !message;
   }
 
+  function renderTrackSkeletons(count = 7) {
+    results.replaceChildren();
+    results.setAttribute('aria-busy', 'true');
+    const fragment = document.createDocumentFragment();
+
+    for (let index = 0; index < count; index += 1) {
+      const row = document.createElement('div');
+      row.className = 'music-track-row music-track-skeleton';
+      row.setAttribute('aria-hidden', 'true');
+      row.innerHTML = `
+        <span class="music-skeleton-number"></span>
+        <span class="music-skeleton-art"></span>
+        <span class="music-skeleton-identity">
+          <i></i>
+          <i></i>
+        </span>
+        <span class="music-track-genre music-skeleton-genre"></span>
+        <span class="music-track-duration music-skeleton-duration"></span>
+        <span class="music-skeleton-action"></span>
+      `;
+      fragment.appendChild(row);
+    }
+
+    results.appendChild(fragment);
+  }
+
   function renderTracks() {
     results.replaceChildren();
+    results.setAttribute('aria-busy', 'false');
     if (!tracks.length) {
       const empty = document.createElement('div');
       empty.className = 'music-empty';
@@ -223,7 +250,8 @@
     trendingButton.classList.add('active');
     eyebrow.textContent = 'DISCOVER';
     resultsTitle.textContent = 'Trending this week';
-    setStatus('Loading trending tracks…');
+    renderTrackSkeletons();
+    setStatus('Loading trending tracks…', 'loading');
     try {
       const response = await fetchMusic('trending');
       tracks = playableTracks(response?.data);
@@ -231,6 +259,8 @@
       renderTracks();
       setStatus(tracks.length ? '' : 'No trending tracks are available right now.');
     } catch (_) {
+      results.replaceChildren();
+      results.setAttribute('aria-busy', 'false');
       setStatus('Audius could not load trending music. Please try again.', 'error');
     } finally {
       loading = false;
@@ -245,7 +275,8 @@
     trendingButton.classList.remove('active');
     eyebrow.textContent = 'SEARCH RESULTS';
     resultsTitle.textContent = cleanQuery;
-    setStatus(`Searching Audius for “${cleanQuery}”…`);
+    renderTrackSkeletons();
+    setStatus(`Searching Audius for “${cleanQuery}”…`, 'loading');
     try {
       const response = await fetchMusic('search', { query: cleanQuery });
       tracks = playableTracks(response?.data);
@@ -253,6 +284,8 @@
       renderTracks();
       setStatus(tracks.length ? '' : `No music matched “${cleanQuery}”.`);
     } catch (_) {
+      results.replaceChildren();
+      results.setAttribute('aria-busy', 'false');
       setStatus('Search is temporarily unavailable. Please try again.', 'error');
     } finally {
       loading = false;
