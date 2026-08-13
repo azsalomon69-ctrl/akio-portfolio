@@ -2,6 +2,7 @@
     'use strict';
 
     const appWindows = {
+        recruitment: document.getElementById('recruitment-window'),
         resume: document.getElementById('resume-window'),
         contactSuccess: document.getElementById('contact-success-window'),
         akio: document.getElementById('akio-window'),
@@ -55,6 +56,7 @@
     });
 
     const hashApps = {
+        '#recruitment-application': 'recruitment',
         '#akio-ai': 'akio',
         '#resume': 'resume',
         '#browser-tetris': 'tetris',

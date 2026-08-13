@@ -243,7 +243,7 @@
                                 <li><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" alt=""><span>MySQL</span></li>
                             </ul>
 
-                            <a href="images/project1.png" class="project-link" target="_blank" rel="noopener noreferrer">
+                            <a href="#recruitment-application" class="project-link" data-open-app="recruitment">
                                 View Project
                                 <span aria-hidden="true">↗</span>
                             </a>
@@ -500,6 +500,63 @@
     </footer>
 
     <!-- INTERACTIVE PROJECTS -->
+    <section id="recruitment-window" class="project-modal" role="dialog" aria-modal="true" aria-labelledby="recruitmentTitle" hidden>
+        <div class="project-modal-backdrop" data-close-app></div>
+        <div class="project-modal-panel recruitment-modal-panel">
+            <header class="project-modal-header">
+                <div class="project-modal-title">
+                    <div><strong id="recruitmentTitle">Recruitment Application</strong><span>Full-stack · AI-assisted platform</span></div>
+                </div>
+                <button class="project-modal-close" type="button" data-close-app aria-label="Close Recruitment Application">×</button>
+            </header>
+
+            <div class="recruitment-modal-body">
+                <div class="recruitment-overview">
+                    <div>
+                        <p class="section-label">Application overview</p>
+                        <h2>Faster applicant review for recruitment teams.</h2>
+                    </div>
+                    <p>
+                        This web application helps HR teams, administrators, and company leadership review applicants
+                        without checking every submission manually. Recruitment teams create client campaigns, define
+                        the criteria for each role, and review candidates through a centralized dashboard.
+                    </p>
+                    <p>
+                        The AI-assisted workflow assesses submitted résumés or portfolios, identifies strengths and
+                        gaps, measures suitability against campaign requirements, and can surface a potentially better
+                        campaign match when an applicant is not suitable for the original role.
+                    </p>
+                </div>
+
+                <div class="recruitment-details">
+                    <article>
+                        <span>My contribution</span>
+                        <p>Frontend interfaces, backend and API development, database integration, and security-related implementation.</p>
+                    </article>
+                    <article>
+                        <span>Technology</span>
+                        <p>HTML, JavaScript, C#, Express, MySQL, GitHub, and Google Sheets.</p>
+                    </article>
+                    <article>
+                        <span>Portfolio note</span>
+                        <p>The company identity and production information are confidential. The screenshots use mock names and mock data.</p>
+                    </article>
+                </div>
+
+                <div class="recruitment-screenshots" aria-label="Recruitment Application interface screenshots">
+                    <figure>
+                        <img src="images/project1.png" alt="Recruitment dashboard showing campaign and applicant metrics" draggable="false">
+                        <figcaption>Campaign dashboard and recruitment activity overview</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="images/project1-2.png" alt="Applicant review screen showing suitability scores and recommendations" draggable="false">
+                        <figcaption>Applicant comparison, scoring, and recommendations</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="resume-window" class="project-modal" role="dialog" aria-modal="true" aria-labelledby="resumeTitle" hidden>
         <div class="project-modal-backdrop" data-close-app></div>
         <div class="project-modal-panel resume-modal-panel">

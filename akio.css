@@ -253,6 +253,112 @@ body.modal-open {
     font-size: 25px;
 }
 
+/* Recruitment application case study */
+
+.recruitment-modal-panel {
+    height: min(850px, calc(100vh - 48px));
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+}
+
+.recruitment-modal-body {
+    padding: 26px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.recruitment-overview {
+    display: grid;
+    grid-template-columns: minmax(250px, .9fr) minmax(280px, 1.1fr) minmax(280px, 1.1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.recruitment-overview .section-label {
+    margin-bottom: 8px;
+}
+
+.recruitment-overview h2 {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.08;
+    letter-spacing: -.035em;
+}
+
+.recruitment-overview > p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.recruitment-details {
+    margin: 24px 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-light);
+}
+
+.recruitment-details article {
+    min-width: 0;
+    padding: 16px;
+    border-right: 1px solid var(--border);
+}
+
+.recruitment-details article:last-child {
+    border-right: 0;
+}
+
+.recruitment-details span {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.recruitment-details p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.recruitment-screenshots {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.recruitment-screenshots figure {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: #fff;
+}
+
+.recruitment-screenshots img {
+    width: 100%;
+    height: auto;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+.recruitment-screenshots figcaption {
+    padding: 10px 12px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 10px;
+}
+
 /* Akio AI */
 
 .ai-app-panel {
@@ -1232,6 +1338,29 @@ body.modal-open {
     .resume-download {
         padding-inline: 8px;
         font-size: 10px;
+    }
+
+    .recruitment-modal-body {
+        padding: 18px;
+    }
+
+    .recruitment-overview,
+    .recruitment-details,
+    .recruitment-screenshots {
+        grid-template-columns: 1fr;
+    }
+
+    .recruitment-overview {
+        gap: 14px;
+    }
+
+    .recruitment-details article {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .recruitment-details article:last-child {
+        border-bottom: 0;
     }
 
     .ai-app-layout {
