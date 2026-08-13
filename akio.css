@@ -1557,38 +1557,50 @@ a {
 }
 
 .hero-ai-launch {
+    position: relative;
     width: 100%;
-    min-height: 62px;
-    margin-bottom: 14px;
-    padding: 9px 11px;
+    min-height: 64px;
+    margin: 34px auto 16px;
+    padding: 9px 82px 9px 10px;
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: 38px minmax(0, 1fr) auto;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
     align-items: center;
     gap: 10px;
-    border: 1px solid var(--border-dark);
-    border-radius: 6px;
-    background: var(--dark);
+    overflow: visible;
+    border: 1px solid #30302d;
+    border-radius: 5px;
+    background: #1b1b19;
     color: var(--dark-text);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     font: inherit;
     text-align: left;
     cursor: pointer;
-    transition: transform 150ms ease, background 150ms ease;
+    transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
 .hero-ai-launch:hover {
-    transform: translateY(-1px);
-    background: var(--dark-hover);
+    transform: translateY(-3px);
+    background: #252522;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
 }
 
-.hero-ai-launch img {
-    width: 38px;
-    height: 38px;
+.hero-ai-logo {
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    display: block;
     border-radius: 6px;
+    background: #050505;
+}
+
+.hero-ai-logo img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
-.hero-ai-launch > span:nth-child(2) {
+.hero-ai-copy {
     display: grid;
 }
 
@@ -1602,6 +1614,57 @@ a {
 
 .hero-ai-launch strong {
     font-size: 14px;
+}
+
+.hero-ai-arrow {
+    color: #c8d5c2;
+    font-size: 16px;
+    transition: transform 180ms ease, color 180ms ease;
+}
+
+.hero-ai-launch:hover .hero-ai-arrow {
+    transform: translate(2px, -2px);
+    color: #66e6f1;
+}
+
+.hero-ai-launch > .hero-ai-pet {
+    position: absolute;
+    right: 8px;
+    bottom: 6px;
+    z-index: 2;
+    width: 88px;
+    height: 88px;
+    border-radius: 0;
+    object-fit: contain;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 0 rgba(255, 255, 255, 0.22)) drop-shadow(0 7px 7px rgba(0, 0, 0, 0.3));
+    transform-origin: 50% 88%;
+    animation: hero-pet-idle 2.8s ease-in-out infinite;
+}
+
+.hero-ai-launch:hover > .hero-ai-pet {
+    animation: hero-pet-greet 650ms ease both;
+}
+
+@keyframes hero-pet-idle {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-5px) rotate(1deg); }
+}
+
+@keyframes hero-pet-greet {
+    0% { transform: translateY(0) rotate(0); }
+    35% { transform: translateY(-11px) rotate(-5deg) scale(1.04); }
+    65% { transform: translateY(-7px) rotate(5deg) scale(1.04); }
+    100% { transform: translateY(-4px) rotate(0) scale(1.02); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-ai-launch,
+    .hero-ai-arrow,
+    .hero-ai-launch > .hero-ai-pet {
+        animation: none;
+        transition: none;
+    }
 }
 
 .detail-item {
