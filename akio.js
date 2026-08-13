@@ -70,6 +70,177 @@
     const conversation = [];
     let sending = false;
 
+    function appendInlineMarkdown(parent, value) {
+        const source = String(value || '');
+        const pattern = /(\*\*[^*]+\*\*|__[^_]+__|`[^`]+`|\[[^\]]+\]\((?:https?:\/\/|mailto:)[^)]+\)|<br\s*\/?>|\*[^*\n]+\*|_[^_\n]+_)/gi;
+        let cursor = 0;
+
+        for (const match of source.matchAll(pattern)) {
+            if (match.index > cursor) parent.append(document.createTextNode(source.slice(cursor, match.index)));
+            const token = match[0];
+
+            if (/^<br/i.test(token)) {
+                parent.append(document.createElement('br'));
+            } else if (token.startsWith('**') || token.startsWith('__')) {
+                const strong = document.createElement('strong');
+                strong.textContent = token.slice(2, -2);
+                parent.append(strong);
+            } else if (token.startsWith('`')) {
+                const code = document.createElement('code');
+                code.textContent = token.slice(1, -1);
+                parent.append(code);
+            } else if (token.startsWith('[')) {
+                const linkMatch = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+                const link = document.createElement('a');
+                link.textContent = linkMatch[1];
+                link.href = linkMatch[2];
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                parent.append(link);
+            } else {
+                const emphasis = document.createElement('em');
+                emphasis.textContent = token.slice(1, -1);
+                parent.append(emphasis);
+            }
+            cursor = match.index + token.length;
+        }
+
+        if (cursor < source.length) parent.append(document.createTextNode(source.slice(cursor)));
+    }
+
+    function pipeCells(line) {
+        return line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim());
+    }
+
+    function isTableDivider(line) {
+        const cells = pipeCells(line);
+        return cells.length > 1 && cells.every(cell => /^:?-{3,}:?$/.test(cell));
+    }
+
+    function renderMarkdown(target, markdown) {
+        const lines = String(markdown || '').replace(/\r\n?/g, '\n').split('\n');
+        const fragment = document.createDocumentFragment();
+        let index = 0;
+
+        const addTextBlock = (tag, text, className = '') => {
+            const element = document.createElement(tag);
+            if (className) element.className = className;
+            appendInlineMarkdown(element, text);
+            fragment.append(element);
+        };
+
+        while (index < lines.length) {
+            const line = lines[index];
+            const trimmed = line.trim();
+            if (!trimmed) {
+                index += 1;
+                continue;
+            }
+
+            const fence = trimmed.match(/^```([\w-]*)\s*$/);
+            if (fence) {
+                const codeLines = [];
+                index += 1;
+                while (index < lines.length && !/^```\s*$/.test(lines[index].trim())) {
+                    codeLines.push(lines[index]);
+                    index += 1;
+                }
+                if (index < lines.length) index += 1;
+                const pre = document.createElement('pre');
+                const code = document.createElement('code');
+                if (fence[1]) code.dataset.language = fence[1];
+                code.textContent = codeLines.join('\n');
+                pre.append(code);
+                fragment.append(pre);
+                continue;
+            }
+
+            if (trimmed.includes('|') && index + 1 < lines.length && isTableDivider(lines[index + 1])) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'chat-table-wrap';
+                const table = document.createElement('table');
+                const head = document.createElement('thead');
+                const headRow = document.createElement('tr');
+                pipeCells(line).forEach(cell => {
+                    const heading = document.createElement('th');
+                    appendInlineMarkdown(heading, cell);
+                    headRow.append(heading);
+                });
+                head.append(headRow);
+                table.append(head);
+
+                index += 2;
+                const body = document.createElement('tbody');
+                while (index < lines.length && lines[index].trim() && lines[index].includes('|')) {
+                    const row = document.createElement('tr');
+                    pipeCells(lines[index]).forEach(cell => {
+                        const data = document.createElement('td');
+                        appendInlineMarkdown(data, cell);
+                        row.append(data);
+                    });
+                    body.append(row);
+                    index += 1;
+                }
+                table.append(body);
+                wrapper.append(table);
+                fragment.append(wrapper);
+                continue;
+            }
+
+            const heading = trimmed.match(/^(#{1,4})\s+(.+)$/);
+            if (heading) {
+                addTextBlock(`h${heading[1].length}`, heading[2]);
+                index += 1;
+                continue;
+            }
+
+            if (/^(-{3,}|\*{3,}|_{3,})$/.test(trimmed)) {
+                fragment.append(document.createElement('hr'));
+                index += 1;
+                continue;
+            }
+
+            const listMatch = trimmed.match(/^(?:([-*+])|(\d+)\.)\s+(.+)$/);
+            if (listMatch) {
+                const ordered = Boolean(listMatch[2]);
+                const list = document.createElement(ordered ? 'ol' : 'ul');
+                while (index < lines.length) {
+                    const itemMatch = lines[index].trim().match(/^(?:([-*+])|(\d+)\.)\s+(.+)$/);
+                    if (!itemMatch || Boolean(itemMatch[2]) !== ordered) break;
+                    const item = document.createElement('li');
+                    appendInlineMarkdown(item, itemMatch[3]);
+                    list.append(item);
+                    index += 1;
+                }
+                fragment.append(list);
+                continue;
+            }
+
+            if (trimmed.startsWith('>')) {
+                const quoteLines = [];
+                while (index < lines.length && lines[index].trim().startsWith('>')) {
+                    quoteLines.push(lines[index].trim().replace(/^>\s?/, ''));
+                    index += 1;
+                }
+                addTextBlock('blockquote', quoteLines.join(' '));
+                continue;
+            }
+
+            const paragraphLines = [trimmed];
+            index += 1;
+            while (index < lines.length) {
+                const next = lines[index].trim();
+                if (!next || /^```/.test(next) || /^(#{1,4})\s+/.test(next) || /^(?:[-*+]|\d+\.)\s+/.test(next) || next.startsWith('>')) break;
+                if (next.includes('|') && index + 1 < lines.length && isTableDivider(lines[index + 1])) break;
+                paragraphLines.push(next);
+                index += 1;
+            }
+            addTextBlock('p', paragraphLines.join(' '));
+        }
+
+        target.replaceChildren(fragment);
+    }
+
     function appendMessage(role, content, loading = false) {
         const article = document.createElement('article');
         article.className = `chat-message ${role === 'user' ? 'user-message' : 'assistant-message'}`;
@@ -77,8 +248,9 @@
 
         const avatar = document.createElement('span');
         avatar.textContent = role === 'user' ? 'YOU' : 'AI';
-        const text = document.createElement('p');
-        text.textContent = content;
+        const text = document.createElement('div');
+        text.className = 'chat-content';
+        renderMarkdown(text, content);
         article.append(avatar, text);
         chatMessages.appendChild(article);
         chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -146,13 +318,13 @@
 
             const answer = String(payload.message || '').trim();
             if (!answer) throw new Error('Akio AI returned an empty response.');
-            loadingMessage.querySelector('p').textContent = answer;
+            renderMarkdown(loadingMessage.querySelector('.chat-content'), answer);
             loadingMessage.classList.remove('is-loading');
             conversation.push({ role: 'assistant', content: answer });
             modelStatus.textContent = payload.model ? `Answered by ${payload.model}` : 'Ready';
         } catch (error) {
             const answer = localPortfolioAnswer(message);
-            loadingMessage.querySelector('p').textContent = answer;
+            renderMarkdown(loadingMessage.querySelector('.chat-content'), answer);
             loadingMessage.classList.remove('is-loading');
             conversation.push({ role: 'assistant', content: answer });
             modelStatus.textContent = 'Portfolio knowledge mode';
