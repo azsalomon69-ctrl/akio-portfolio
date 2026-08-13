@@ -2195,7 +2195,10 @@ a {
 
     border-right: 1px solid var(--border);
 
-    transition: background 150ms ease;
+    position: relative;
+    cursor: pointer;
+    outline: 0;
+    transition: background 180ms ease, box-shadow 180ms ease, transform 180ms ease, flex-grow 260ms cubic-bezier(.2,.8,.2,1);
 }
 
 .project-card:first-child {
@@ -2208,8 +2211,17 @@ a {
     border-right: 0;
 }
 
-.project-card:hover {
-    background: rgba(234, 234, 230, 0.45);
+.project-card:hover,
+.project-card:focus-visible,
+.project-card:focus-within {
+    z-index: 2;
+    background: rgba(234, 234, 230, 0.72);
+    box-shadow: inset 0 -3px var(--text);
+    transform: translateY(-4px);
+}
+
+.project-card:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--text), inset 0 -3px var(--text);
 }
 
 .project-top {
@@ -2301,6 +2313,44 @@ a {
 
 .project-link:hover {
     border-color: var(--text);
+}
+
+.project-card:hover .project-link,
+.project-card:focus-visible .project-link,
+.project-card:focus-within .project-link {
+    gap: 10px;
+}
+
+.project-link span {
+    transition: transform 180ms ease;
+}
+
+.project-card:hover .project-link span,
+.project-card:focus-visible .project-link span,
+.project-card:focus-within .project-link span {
+    transform: translate(3px, -3px);
+}
+
+@media (min-width: 1101px) {
+    .projects-grid {
+        display: flex;
+    }
+
+    .project-card {
+        flex: 1 1 0;
+    }
+
+    .project-card:hover,
+    .project-card:focus-visible,
+    .project-card:focus-within {
+        flex-grow: 1.85;
+    }
+
+    .projects-grid:hover .project-card:not(:hover),
+    .projects-grid:has(.project-card:focus-visible) .project-card:not(:focus-visible) {
+        color: var(--text-secondary);
+        background: rgba(248, 248, 245, .45);
+    }
 }
 
 

@@ -44,6 +44,29 @@
         });
     });
 
+    // Make each project card act as one large, keyboard-accessible link.
+    document.querySelectorAll('.project-card').forEach(card => {
+        const projectLink = card.querySelector('.project-link');
+        const projectName = card.querySelector('h3')?.textContent.trim() || 'project';
+        if (!projectLink) return;
+
+        card.tabIndex = 0;
+        card.setAttribute('role', 'link');
+        card.setAttribute('aria-label', `${projectLink.textContent.trim()} — ${projectName}`);
+        projectLink.tabIndex = -1;
+
+        card.addEventListener('click', event => {
+            if (event.target.closest('a, button')) return;
+            projectLink.click();
+        });
+
+        card.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            projectLink.click();
+        });
+    });
+
     document.querySelectorAll('[data-close-app]').forEach(control => {
         control.addEventListener('click', () => closeApp(control.closest('.project-modal')));
     });
