@@ -59,6 +59,27 @@
     };
     if (hashApps[window.location.hash]) openApp(hashApps[window.location.hash]);
 
+    // Contact form: prepare a message in the visitor's email application.
+    const contactForm = document.getElementById('contactForm');
+    const contactFormStatus = document.getElementById('contactFormStatus');
+    contactForm?.addEventListener('submit', event => {
+        event.preventDefault();
+        if (!contactForm.reportValidity()) return;
+
+        const data = new FormData(contactForm);
+        const name = String(data.get('name') || '').trim();
+        const email = String(data.get('email') || '').trim();
+        const message = String(data.get('message') || '').trim();
+        const subject = encodeURIComponent(`Portfolio enquiry from ${name}`);
+        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+
+        contactFormStatus.textContent = 'Opening your email app…';
+        window.location.href = `mailto:azsalomon69@gmail.com?subject=${subject}&body=${body}`;
+        window.setTimeout(() => {
+            contactFormStatus.textContent = 'Your message is ready in your email app.';
+        }, 800);
+    });
+
     // Akio AI chatbot
     const chatMessages = document.getElementById('chatMessages');
     const composer = document.getElementById('aiComposer');
