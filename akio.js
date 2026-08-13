@@ -13,6 +13,30 @@
     let activeWindow = null;
     let previousFocus = null;
 
+    function ageOnDate(birthYear, birthMonth, birthDay, today = new Date()) {
+        let age = today.getFullYear() - birthYear;
+        const birthdayPassed = today.getMonth() > birthMonth
+            || (today.getMonth() === birthMonth && today.getDate() >= birthDay);
+        if (!birthdayPassed) age -= 1;
+        return age;
+    }
+
+    function experienceSince(startYear, startMonth, today = new Date()) {
+        const totalMonths = Math.max(0, (today.getFullYear() - startYear) * 12 + today.getMonth() - startMonth);
+        const years = Math.floor(totalMonths / 12);
+        const months = totalMonths % 12;
+        const parts = [];
+        if (years) parts.push(`${years} ${years === 1 ? 'year' : 'years'}`);
+        if (months) parts.push(`${months} ${months === 1 ? 'month' : 'months'}`);
+        return parts.length ? parts.join(' ') : 'Less than 1 month';
+    }
+
+    const currentAge = ageOnDate(2005, 4, 30);
+    const currentExperience = experienceSince(2026, 6);
+    document.querySelectorAll('#currentAge').forEach(element => { element.textContent = String(currentAge); });
+    document.querySelectorAll('#heroExperienceDuration, #aboutExperienceDuration, #experienceDuration')
+        .forEach(element => { element.textContent = currentExperience; });
+
     function closeApp(appWindow = activeWindow) {
         if (!appWindow) return;
         appWindow.classList.remove('open', 'frontmost');

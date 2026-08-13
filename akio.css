@@ -2345,6 +2345,8 @@ a {
 
     border-top: 1px solid var(--border-dark);
     border-bottom: 1px solid var(--border-dark);
+    overflow: visible;
+    perspective: 900px;
 }
 
 .project-card {
@@ -2362,7 +2364,8 @@ a {
     position: relative;
     cursor: pointer;
     outline: 0;
-    transition: background 180ms ease, box-shadow 180ms ease, transform 180ms ease, flex-grow 260ms cubic-bezier(.2,.8,.2,1);
+    transform-origin: center;
+    transition: transform 240ms cubic-bezier(.2,.85,.25,1.18), background 180ms ease, box-shadow 220ms ease, border-color 180ms ease;
 }
 
 .project-card:first-child {
@@ -2379,13 +2382,14 @@ a {
 .project-card:focus-visible,
 .project-card:focus-within {
     z-index: 2;
-    background: rgba(234, 234, 230, 0.72);
-    box-shadow: inset 0 -3px var(--text);
-    transform: translateY(-4px);
+    border-color: var(--border-dark);
+    background: #fff;
+    box-shadow: 0 22px 45px rgba(25, 25, 22, .2), 0 6px 14px rgba(25, 25, 22, .1);
+    transform: translateY(-10px) translateZ(40px) scale(1.045);
 }
 
 .project-card:focus-visible {
-    box-shadow: inset 0 0 0 2px var(--text), inset 0 -3px var(--text);
+    box-shadow: 0 22px 45px rgba(25, 25, 22, .2), inset 0 0 0 2px var(--text);
 }
 
 .project-top {
@@ -2504,16 +2508,107 @@ a {
         flex: 1 1 0;
     }
 
-    .project-card:hover,
-    .project-card:focus-visible,
-    .project-card:focus-within {
-        flex-grow: 1.85;
-    }
-
     .projects-grid:hover .project-card:not(:hover),
     .projects-grid:has(.project-card:focus-visible) .project-card:not(:focus-visible) {
         color: var(--text-secondary);
         background: rgba(248, 248, 245, .45);
+    }
+}
+
+
+/* ---------- ABOUT ---------- */
+
+.about-section {
+    padding: 52px 0;
+    border-top: 1px solid var(--border);
+}
+
+.about-layout {
+    display: grid;
+    grid-template-columns: minmax(220px, .58fr) minmax(0, 1.42fr);
+    align-items: center;
+    gap: 72px;
+}
+
+.about-photo {
+    width: min(100%, 330px);
+    aspect-ratio: 1;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--border-dark);
+    border-radius: 7px;
+    background: var(--surface-light);
+}
+
+.about-photo img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.about-copy h2 {
+    max-width: 620px;
+    margin-bottom: 18px;
+    font-size: clamp(30px, 3.6vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -.045em;
+}
+
+.about-copy > p:not(.section-label) {
+    max-width: 720px;
+    margin-bottom: 25px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.about-copy > p strong {
+    color: var(--text);
+}
+
+.about-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.about-facts > div {
+    min-width: 0;
+    padding: 14px 16px;
+    border-right: 1px solid var(--border);
+}
+
+.about-facts > div:first-child {
+    padding-left: 0;
+}
+
+.about-facts > div:last-child {
+    border-right: 0;
+}
+
+.about-facts span,
+.about-facts strong {
+    display: block;
+}
+
+.about-facts span {
+    margin-bottom: 5px;
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.about-facts strong {
+    font-size: 13px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-card {
+        transition: none;
     }
 }
 
@@ -2813,6 +2908,30 @@ a {
         gap: 24px;
     }
 
+    .about-layout {
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 34px;
+    }
+
+    .about-copy h2 {
+        font-size: 32px;
+    }
+
+    .about-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .about-facts > div,
+    .about-facts > div:first-child {
+        padding: 10px 0;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .about-facts > div:last-child {
+        border-bottom: 0;
+    }
+
     .contact-layout {
         grid-template-columns: 1fr;
         align-items: flex-start;
@@ -2881,6 +3000,23 @@ a {
 
     .hero-details {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .about-section {
+        padding: 40px 0;
+    }
+
+    .about-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .about-photo {
+        width: min(100%, 280px);
+    }
+
+    .about-copy > p:not(.section-label) {
+        font-size: 14px;
     }
 
     .technology-list {
