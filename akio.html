@@ -11,10 +11,43 @@
 
     <title>Akio Zaki Salomon | Full-Stack Web Developer</title>
 
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+
+    <script>
+        (() => {
+            const allowed = ['light', 'dark', 'system'];
+            let preference = 'system';
+            try {
+                const saved = localStorage.getItem('akio-theme');
+                if (allowed.includes(saved)) preference = saved;
+            } catch {}
+            const resolved = preference === 'system'
+                ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+                : preference;
+            document.documentElement.dataset.theme = resolved;
+            document.documentElement.dataset.themePreference = preference;
+        })();
+    </script>
+
     <link rel="stylesheet" href="akio.css">
 </head>
 
 <body>
+
+    <div class="theme-picker" id="themePicker">
+        <button class="theme-picker-toggle" id="themePickerToggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="themePickerMenu">
+            <span class="theme-picker-icon" aria-hidden="true">◐</span>
+            <span>Theme</span>
+        </button>
+        <div class="theme-picker-menu" id="themePickerMenu" role="radiogroup" aria-label="Color theme" hidden>
+            <button type="button" role="radio" aria-checked="false" data-theme-option="light"><span aria-hidden="true">☀</span><strong>Light</strong></button>
+            <button type="button" role="radio" aria-checked="false" data-theme-option="dark"><span aria-hidden="true">☾</span><strong>Dark</strong></button>
+            <button type="button" role="radio" aria-checked="true" data-theme-option="system"><span aria-hidden="true">◐</span><strong>System</strong></button>
+        </div>
+    </div>
 
     <main>
 
@@ -52,8 +85,16 @@
                             <span class="contact-hover-wrap">
                                 <a href="#contact" class="button button-light">Contact Me</a>
                                 <span class="contact-hover-card">
-                                    <a href="tel:+639919199421"><small>Phone</small><strong>+63 991 919 9421</strong></a>
-                                    <a href="mailto:azsalomon69@gmail.com"><small>Email</small><strong>azsalomon69@gmail.com</strong></a>
+                                    <button type="button" class="contact-copy-item" data-contact-copy="+63 991 919 9421" data-contact-label="Phone number">
+                                        <small>Phone</small>
+                                        <strong>+63 991 919 9421</strong>
+                                        <span class="contact-copy-action" aria-live="polite">Copy</span>
+                                    </button>
+                                    <button type="button" class="contact-copy-item" data-contact-copy="azsalomon69@gmail.com" data-contact-label="Email address">
+                                        <small>Email</small>
+                                        <strong>azsalomon69@gmail.com</strong>
+                                        <span class="contact-copy-action" aria-live="polite">Copy</span>
+                                    </button>
                                 </span>
                             </span>
 
@@ -87,14 +128,6 @@
 
 
                     <div class="hero-details">
-
-                        <button class="hero-ai-launch" type="button" data-open-app="akio">
-                            <span class="hero-ai-logo"><img src="images/AkioAI.png" alt=""></span>
-                            <span class="hero-ai-copy"><small>Portfolio assistant</small><strong>Ask Akio AI</strong></span>
-                            <span class="hero-ai-arrow" aria-hidden="true">↗</span>
-                            <img class="hero-ai-pet hero-ai-pet-idle" src="images/akio-pet.png" alt="Akio AI's gray pixel robot mascot">
-                            <img class="hero-ai-pet hero-ai-pet-wave" src="images/akio-pet-wave.png" alt="" aria-hidden="true">
-                        </button>
 
                         <div class="detail-item">
                             <span class="detail-label">Experience</span>
@@ -158,6 +191,10 @@
                                 </span>
                             </div>
 
+                            <figure class="project-preview">
+                                <img src="images/project1.png" alt="Recruitment application dashboard with campaign and applicant metrics" loading="lazy">
+                            </figure>
+
                             <h3>
                                 Recruitment Application
                             </h3>
@@ -193,6 +230,10 @@
                                 </span>
                             </div>
 
+                            <figure class="project-preview">
+                                <img src="images/loopline-preview.png" alt="Loopline Community home feed interface" loading="lazy">
+                            </figure>
+
                             <h3>
                                 Loopline Community
                             </h3>
@@ -227,6 +268,10 @@
                                 </span>
                             </div>
 
+                            <figure class="project-preview">
+                                <img src="images/project-akio-ai.png" alt="Akio AI portfolio assistant chat interface" loading="lazy">
+                            </figure>
+
                             <h3>
                                 Akio AI
                             </h3>
@@ -260,6 +305,10 @@
                                 </span>
                             </div>
 
+                            <figure class="project-preview project-preview-dark">
+                                <img src="images/project-tetris.png" alt="Playable Browser Tetris game interface" loading="lazy">
+                            </figure>
+
                             <h3>
                                 Browser Tetris
                             </h3>
@@ -292,6 +341,10 @@
                                     Web App
                                 </span>
                             </div>
+
+                            <figure class="project-preview">
+                                <img src="images/project-music.png" alt="Akio Music discovery and playback interface" loading="lazy">
+                            </figure>
 
                             <h3>
                                 Akio Music
@@ -330,17 +383,19 @@
         <section class="about-section" id="about">
             <div class="container about-layout">
                 <figure class="about-photo">
-                    <img src="images/profile.png" alt="Portrait of Akio Zaki Salomon">
+                    <img class="about-photo-light" src="images/profile.png" alt="Portrait of Akio Zaki Salomon" loading="lazy">
+                    <img class="about-photo-dark" src="images/profile2.png" alt="" aria-hidden="true" loading="lazy">
                 </figure>
 
                 <div class="about-copy">
                     <p class="section-label">About Me</p>
-                    <h2>Developer with a frontend-first perspective.</h2>
-                    <p>
-                        I'm Akio Zaki Salomon, <strong><span id="currentAge">21</span> years old</strong>.
-                        I'm a self-taught web developer, and frontend development is my strongest area.
-                        I also build backend systems, APIs, and database integrations to turn interfaces
-                        into complete working web applications.
+                    <p class="about-intro">
+                        I'm <strong class="about-name">Akio Zaki Salomon</strong>,
+                        <mark><span id="currentAge">21</span> years old</mark>.
+                        I'm a <strong>self-taught web developer</strong>, with
+                        <mark>frontend development</mark> as my strongest area.
+                        I also build <strong>backend systems, APIs, and database integrations</strong>
+                        to turn interfaces into complete working web applications.
                     </p>
                     <div class="about-facts">
                         <div><span>Started professionally</span><strong>July 2026</strong></div>
@@ -458,6 +513,49 @@
 
     </footer>
 
+    <!-- FLOATING PORTFOLIO GUIDE: separate from the Akio AI project showcase -->
+    <aside class="portfolio-guide" id="portfolioGuide">
+        <section class="portfolio-guide-panel" id="portfolioGuidePanel" role="dialog" aria-labelledby="portfolioGuideTitle" hidden>
+            <header class="portfolio-guide-header">
+                <span class="portfolio-guide-mini-pet"><img src="images/akio-pet.png" alt=""></span>
+                <span><small>Portfolio guide</small><strong id="portfolioGuideTitle">Ask about Akio</strong></span>
+                <button id="portfolioGuideClose" type="button" aria-label="Close portfolio guide">×</button>
+            </header>
+
+            <div class="portfolio-guide-messages" id="portfolioGuideMessages" aria-live="polite">
+                <article class="portfolio-guide-message is-assistant">
+                    <img src="images/akio-pet.png" alt="Akio's portfolio guide">
+                    <div><p>Hey! I can help you quickly learn about Akio’s projects, skills, experience, and availability.</p></div>
+                </article>
+            </div>
+
+            <div class="portfolio-guide-prompts" aria-label="Suggested questions">
+                <button type="button" data-guide-question="What projects has Akio built?">Projects</button>
+                <button type="button" data-guide-question="What tools and technologies does Akio use?">Skills</button>
+                <button type="button" data-guide-question="Is Akio available for work?">Availability</button>
+                <button type="button" data-guide-question="How can I contact Akio?">Contact</button>
+            </div>
+
+            <form class="portfolio-guide-composer" id="portfolioGuideComposer">
+                <textarea id="portfolioGuidePrompt" rows="1" maxlength="800" placeholder="Ask about Akio…" aria-label="Ask the portfolio guide" required></textarea>
+                <button id="portfolioGuideSend" type="submit" aria-label="Send question">Send</button>
+            </form>
+            <p class="portfolio-guide-status" id="portfolioGuideStatus">Portfolio questions only</p>
+        </section>
+
+        <button class="portfolio-guide-launcher" id="portfolioGuideLauncher" type="button" aria-expanded="false" aria-controls="portfolioGuidePanel">
+            <span class="portfolio-guide-bubble">
+                <strong>Hey!</strong>
+                <span>Ask me anything about Akio</span>
+                <span class="portfolio-guide-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            </span>
+            <span class="portfolio-guide-pet" aria-hidden="true">
+                <img class="portfolio-guide-pet-idle" src="images/akio-pet.png" alt="">
+                <img class="portfolio-guide-pet-wave" src="images/akio-pet-wave.png" alt="">
+            </span>
+        </button>
+    </aside>
+
     <!-- INTERACTIVE PROJECTS -->
     <section id="recruitment-window" class="project-modal" role="dialog" aria-modal="true" aria-labelledby="recruitmentTitle" hidden>
         <div class="project-modal-backdrop" data-close-app></div>
@@ -550,7 +648,7 @@
             <header class="project-modal-header">
                 <div class="project-modal-title">
                     <img src="images/AkioAI.png" alt="">
-                    <div><strong id="akioAiTitle">Akio AI</strong><span>Portfolio chatbot</span></div>
+                    <div><strong id="akioAiTitle">Akio AI</strong><span>General-purpose assistant</span></div>
                 </div>
                 <div class="project-modal-actions">
                     <button id="newChatButton" type="button">New chat</button>
@@ -560,14 +658,14 @@
 
             <div class="ai-app-layout">
                 <aside class="ai-intro-panel">
-                    <p class="section-label">Ask Akio AI</p>
-                    <h2>Learn about my work through conversation.</h2>
-                    <p>Ask about my experience, skills, projects, availability, or any general topic.</p>
+                    <p class="section-label">Akio AI</p>
+                    <h2>How can I help you today?</h2>
+                    <p>A general-purpose assistant for questions, ideas, writing, explanations, and code.</p>
                     <div class="ai-quick-prompts" id="chatSuggestions">
-                        <button type="button" data-question="Who is Akio?"><small>About</small><strong>Who is Akio?</strong><span>→</span></button>
-                        <button type="button" data-question="What projects has Akio built?"><small>Portfolio</small><strong>What are his projects?</strong><span>→</span></button>
-                        <button type="button" data-question="What tools and technologies does Akio use?"><small>Skills</small><strong>What tools does he use?</strong><span>→</span></button>
-                        <button type="button" data-question="What compensation is Akio seeking for part-time, full-time, and international work?"><small>Compensation</small><strong>What are his expected rates?</strong><span>→</span></button>
+                        <button type="button" data-question="Explain a complex topic in simple terms."><small>Learn</small><strong>Explain something</strong><span>→</span></button>
+                        <button type="button" data-question="Help me brainstorm ideas for a new web application."><small>Ideas</small><strong>Brainstorm with me</strong><span>→</span></button>
+                        <button type="button" data-question="Help me write a clear professional message."><small>Write</small><strong>Draft a message</strong><span>→</span></button>
+                        <button type="button" data-question="Help me understand and improve a piece of code."><small>Code</small><strong>Work through code</strong><span>→</span></button>
                     </div>
                 </aside>
 
@@ -575,14 +673,14 @@
                     <div id="chatMessages" class="chat-messages" aria-live="polite">
                         <article class="chat-message assistant-message">
                             <span class="chat-avatar assistant-avatar"><img src="images/AkioAI.png" alt="Akio AI"></span>
-                            <div class="chat-content"><p>Hi, I’m Akio AI. Ask me anything about Akio’s background, work, skills, or projects.</p></div>
+                            <div class="chat-content"><p>How can I help you today?</p></div>
                         </article>
                     </div>
                     <form id="aiComposer" class="chat-composer">
-                        <textarea id="aiPrompt" rows="1" maxlength="4000" placeholder="Ask Akio AI…" aria-label="Message Akio AI" required></textarea>
+                        <textarea id="aiPrompt" rows="1" maxlength="3000" placeholder="Message Akio AI…" aria-label="Message Akio AI" required></textarea>
                         <button id="aiSendButton" type="submit" aria-label="Send message">Send</button>
                     </form>
-                    <p id="aiModelStatus" class="chat-status">Ready</p>
+                    <p id="aiModelStatus" class="chat-status">Akio AI can make mistakes. Check important information.</p>
                 </div>
             </div>
         </div>

@@ -1,6 +1,134 @@
 (function () {
     'use strict';
 
+    const themeRoot = document.documentElement;
+    const themePicker = document.getElementById('themePicker');
+    const themePickerToggle = document.getElementById('themePickerToggle');
+    const themePickerIcon = themePickerToggle?.querySelector('.theme-picker-icon');
+    const themePickerMenu = document.getElementById('themePickerMenu');
+    const themeOptions = Array.from(document.querySelectorAll('[data-theme-option]'));
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let themePreference = themeRoot.dataset.themePreference || 'system';
+    let themeTransitionTimer = 0;
+
+    function applyResolvedTheme(resolved, animate) {
+        const themeChanged = themeRoot.dataset.theme !== resolved;
+        const shouldAnimate = animate && themeChanged && !reducedMotion.matches;
+        const updateTheme = () => {
+            themeRoot.dataset.theme = resolved;
+        };
+
+        if (!shouldAnimate) {
+            updateTheme();
+            return;
+        }
+
+        if (typeof document.startViewTransition === 'function') {
+            document.startViewTransition(updateTheme);
+            return;
+        }
+
+        window.clearTimeout(themeTransitionTimer);
+        themeRoot.classList.add('theme-transitioning');
+        void themeRoot.offsetWidth;
+        updateTheme();
+        themeTransitionTimer = window.setTimeout(() => {
+            themeRoot.classList.remove('theme-transitioning');
+        }, 420);
+    }
+
+    function renderTheme(preference, save = true, animate = false) {
+        themePreference = ['light', 'dark', 'system'].includes(preference) ? preference : 'system';
+        const resolved = themePreference === 'system'
+            ? (systemTheme.matches ? 'dark' : 'light')
+            : themePreference;
+        applyResolvedTheme(resolved, animate);
+        themeRoot.dataset.themePreference = themePreference;
+        const themeLabel = themePreference[0].toUpperCase() + themePreference.slice(1);
+        if (themePickerIcon) themePickerIcon.textContent = themePreference === 'light' ? '☀' : themePreference === 'dark' ? '☾' : '◐';
+        themePickerToggle?.setAttribute('aria-label', `Theme: ${themeLabel}`);
+        themePickerToggle?.setAttribute('title', `Theme: ${themeLabel}`);
+        themeOptions.forEach(option => {
+            option.setAttribute('aria-checked', String(option.dataset.themeOption === themePreference));
+        });
+        if (save) {
+            try { localStorage.setItem('akio-theme', themePreference); } catch {}
+        }
+    }
+
+    function closeThemePicker() {
+        themePickerMenu.hidden = true;
+        themePickerToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    themePickerToggle?.addEventListener('click', () => {
+        const willOpen = themePickerMenu.hidden;
+        themePickerMenu.hidden = !willOpen;
+        themePickerToggle.setAttribute('aria-expanded', String(willOpen));
+        if (willOpen) themeOptions.find(option => option.dataset.themeOption === themePreference)?.focus();
+    });
+
+    themeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            closeThemePicker();
+            renderTheme(option.dataset.themeOption, true, true);
+            themePickerToggle.focus();
+        });
+    });
+
+    document.addEventListener('click', event => {
+        if (!themePicker?.contains(event.target)) closeThemePicker();
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !themePickerMenu.hidden) {
+            closeThemePicker();
+            themePickerToggle.focus();
+        }
+    });
+
+    systemTheme.addEventListener('change', () => {
+        if (themePreference === 'system') renderTheme('system', false, true);
+    });
+
+    renderTheme(themePreference, false);
+
+    async function copyContactDetail(button) {
+        const value = button.dataset.contactCopy;
+        const action = button.querySelector('.contact-copy-action');
+        let copied = false;
+
+        try {
+            await navigator.clipboard.writeText(value);
+            copied = true;
+        } catch {
+            const temporaryField = document.createElement('textarea');
+            temporaryField.value = value;
+            temporaryField.setAttribute('readonly', '');
+            temporaryField.style.position = 'fixed';
+            temporaryField.style.opacity = '0';
+            document.body.appendChild(temporaryField);
+            temporaryField.select();
+            copied = document.execCommand('copy');
+            temporaryField.remove();
+        }
+
+        window.clearTimeout(button.copyFeedbackTimer);
+        button.classList.toggle('is-copied', copied);
+        action.textContent = copied ? 'Copied' : 'Try again';
+        button.setAttribute('aria-label', `${button.dataset.contactLabel}: ${copied ? 'copied' : 'copy failed'}`);
+        button.copyFeedbackTimer = window.setTimeout(() => {
+            button.classList.remove('is-copied');
+            action.textContent = 'Copy';
+            button.removeAttribute('aria-label');
+        }, 1800);
+    }
+
+    document.querySelectorAll('[data-contact-copy]').forEach(button => {
+        button.addEventListener('click', () => copyContactDetail(button));
+    });
+
     const appWindows = {
         recruitment: document.getElementById('recruitment-window'),
         resume: document.getElementById('resume-window'),
@@ -181,6 +309,18 @@
     const apiBaseUrl = String(window.__AKIO_API_BASE_URL__ || '').trim().replace(/\/+$/, '');
     const conversation = [];
     let sending = false;
+
+    const portfolioGuide = document.getElementById('portfolioGuide');
+    const guideLauncher = document.getElementById('portfolioGuideLauncher');
+    const guidePanel = document.getElementById('portfolioGuidePanel');
+    const guideClose = document.getElementById('portfolioGuideClose');
+    const guideMessages = document.getElementById('portfolioGuideMessages');
+    const guideComposer = document.getElementById('portfolioGuideComposer');
+    const guidePrompt = document.getElementById('portfolioGuidePrompt');
+    const guideSend = document.getElementById('portfolioGuideSend');
+    const guideStatus = document.getElementById('portfolioGuideStatus');
+    const guideConversation = [];
+    let guideSending = false;
 
     function appendInlineMarkdown(parent, value) {
         const source = String(value || '');
@@ -399,8 +539,8 @@
     function resetChat() {
         conversation.length = 0;
         chatMessages.replaceChildren();
-        appendMessage('assistant', 'Hi, I’m Akio AI. Ask me anything about Akio’s background, work, skills, or projects.');
-        modelStatus.textContent = 'Ready';
+        appendMessage('assistant', 'How can I help you today?');
+        modelStatus.textContent = 'Akio AI can make mistakes. Check important information.';
         promptInput.value = '';
         promptInput.style.height = '';
         promptInput.focus();
@@ -408,6 +548,11 @@
 
     function localPortfolioAnswer(question) {
         const value = question.toLowerCase();
+        const clearlyUnrelated = /\b(joke|poem|fiction|recipe|weather|horoscope|trivia|role\s?play)\b|capital of|ignore (all |any )?(previous|prior|above) instructions|system prompt|prompt injection/.test(value);
+        const portfolioTopic = /\b(akio|portfolio|projects?|built|tetris|music|loopline|recruitment|recruiter|technologies|technology|tech|stack|languages?|frameworks?|tools?|skills?|experience|company|professional|career|work|contact|email|github|linkedin|reach|available|availability|hire|remote|schedule|start|rates?|salary|cost|compensation|education|school|frontend|backend|developer|apis?|database|react|javascript|html|css|node|express|sql|location|age|old|background|resume|cv|jobs?|roles?|interview)\b|c#|c sharp|santa rosa/.test(value);
+        if (clearlyUnrelated || !portfolioTopic) {
+            return 'I’m limited to questions about Akio’s portfolio, skills, projects, experience, availability, rates, and contact details. This keeps the portfolio assistant focused and available to recruiters.';
+        }
         if (/tech|stack|language|framework|tool/.test(value)) {
             return 'Akio works with HTML, CSS, JavaScript, React, Vite, Next.js, Node.js, Express, C#, SQL, PostgreSQL, MySQL, SQLite, Git, and GitHub.';
         }
@@ -431,6 +576,130 @@
         }
         return 'I can tell you about Akio’s experience, technology stack, projects, availability, rates, and contact details. Try asking “What projects has Akio built?” or “What technologies does he use?”';
     }
+
+    function setPortfolioGuideOpen(open) {
+        if (!guidePanel || !guideLauncher) return;
+        guidePanel.hidden = !open;
+        guideLauncher.setAttribute('aria-expanded', String(open));
+        guideLauncher.setAttribute('aria-label', open ? 'Close portfolio guide' : 'Open portfolio guide');
+        portfolioGuide?.classList.toggle('is-open', open);
+        if (open) window.setTimeout(() => guidePrompt?.focus(), 80);
+    }
+
+    function appendGuideMessage(role, content, loading = false) {
+        const article = document.createElement('article');
+        article.className = `portfolio-guide-message ${role === 'user' ? 'is-user' : 'is-assistant'}`;
+        if (loading) article.classList.add('is-loading');
+
+        if (role !== 'user') {
+            const pet = document.createElement('img');
+            pet.src = 'images/akio-pet.png';
+            pet.alt = '';
+            article.append(pet);
+        }
+
+        const contentElement = document.createElement('div');
+        renderMarkdown(contentElement, content);
+        article.append(contentElement);
+        guideMessages.append(article);
+        guideMessages.scrollTop = guideMessages.scrollHeight;
+        return article;
+    }
+
+    async function revealGuideResponse(article, answer) {
+        const target = article.querySelector('div');
+        const pieces = String(answer).match(/\S+\s*/g) || [String(answer)];
+        const wordsPerFrame = Math.max(1, Math.ceil(pieces.length / 110));
+        let visible = '';
+        article.classList.remove('is-loading');
+
+        for (let index = 0; index < pieces.length; index += wordsPerFrame) {
+            visible += pieces.slice(index, index + wordsPerFrame).join('');
+            renderMarkdown(target, visible);
+            guideMessages.scrollTop = guideMessages.scrollHeight;
+            await new Promise(resolve => window.setTimeout(resolve, 18));
+        }
+
+        renderMarkdown(target, answer);
+    }
+
+    async function sendGuideMessage(value) {
+        const message = String(value || '').trim();
+        if (!message || guideSending) return;
+
+        setPortfolioGuideOpen(true);
+        guideSending = true;
+        guideSend.disabled = true;
+        guidePrompt.disabled = true;
+        portfolioGuide.classList.add('is-speaking');
+        appendGuideMessage('user', message);
+        guideConversation.push({ role: 'user', content: message });
+        guidePrompt.value = '';
+        guidePrompt.style.height = '';
+        guideStatus.textContent = 'Your portfolio guide is thinking…';
+        const loadingMessage = appendGuideMessage('assistant', '…', true);
+
+        try {
+            const response = await fetch(`${apiBaseUrl}/api/general-chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({ messages: guideConversation.slice(-8) })
+            });
+            const payload = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(payload.error || `Guide request failed (${response.status})`);
+            const answer = String(payload.message || '').trim();
+            if (!answer) throw new Error('The portfolio guide returned an empty response.');
+            await revealGuideResponse(loadingMessage, answer);
+            guideConversation.push({ role: 'assistant', content: answer });
+            guideStatus.textContent = 'Portfolio questions only';
+        } catch {
+            const answer = localPortfolioAnswer(message);
+            await revealGuideResponse(loadingMessage, answer);
+            guideConversation.push({ role: 'assistant', content: answer });
+            guideStatus.textContent = 'Portfolio knowledge mode';
+        } finally {
+            guideSending = false;
+            guideSend.disabled = false;
+            guidePrompt.disabled = false;
+            portfolioGuide.classList.remove('is-speaking');
+            guidePrompt.focus();
+            guideMessages.scrollTop = guideMessages.scrollHeight;
+        }
+    }
+
+    guideLauncher?.addEventListener('click', () => setPortfolioGuideOpen(guidePanel.hidden));
+    guideClose?.addEventListener('click', () => {
+        setPortfolioGuideOpen(false);
+        guideLauncher.focus();
+    });
+
+    guideComposer?.addEventListener('submit', event => {
+        event.preventDefault();
+        sendGuideMessage(guidePrompt.value);
+    });
+
+    guidePrompt?.addEventListener('keydown', event => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            guideComposer.requestSubmit();
+        }
+    });
+
+    guidePrompt?.addEventListener('input', () => {
+        guidePrompt.style.height = 'auto';
+        guidePrompt.style.height = `${Math.min(guidePrompt.scrollHeight, 100)}px`;
+    });
+
+    document.querySelectorAll('[data-guide-question]').forEach(button => {
+        button.addEventListener('click', () => sendGuideMessage(button.dataset.guideQuestion));
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && guidePanel && !guidePanel.hidden && !activeWindow) {
+            setPortfolioGuideOpen(false);
+            guideLauncher.focus();
+        }
+    });
 
     async function sendMessage(value) {
         const message = String(value || '').trim();
@@ -460,13 +729,11 @@
             modelStatus.textContent = 'Akio AI is responding…';
             await revealResponse(loadingMessage, answer);
             conversation.push({ role: 'assistant', content: answer });
-            modelStatus.textContent = payload.model ? `Answered by ${payload.model}` : 'Ready';
-        } catch (error) {
-            const answer = localPortfolioAnswer(message);
-            modelStatus.textContent = 'Akio AI is responding…';
+            modelStatus.textContent = 'Ready';
+        } catch {
+            const answer = 'Akio AI is temporarily unavailable. Please try again shortly.';
+            modelStatus.textContent = 'Connection unavailable';
             await revealResponse(loadingMessage, answer);
-            conversation.push({ role: 'assistant', content: answer });
-            modelStatus.textContent = 'Portfolio knowledge mode';
         } finally {
             sending = false;
             sendButton.disabled = false;

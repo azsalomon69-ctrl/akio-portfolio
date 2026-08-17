@@ -154,11 +154,12 @@ function hasConfiguredKey() {
   });
 }
 
-Promise.all([import('./api/chat.mjs'), import('./api/music.mjs'), import('./api/social.mjs')]).then(([chatModule, musicModule, socialModule]) => {
+Promise.all([import('./api/chat.mjs'), import('./api/general-chat.mjs'), import('./api/music.mjs'), import('./api/social.mjs')]).then(([chatModule, generalChatModule, musicModule, socialModule]) => {
   const server = http.createServer(async (request, response) => {
     try {
       const pathname = new URL(request.url, `http://${request.headers.host || 'localhost'}`).pathname;
       if (pathname === '/api/chat') return await runApi(request, response, chatModule.default);
+      if (pathname === '/api/general-chat') return await runApi(request, response, generalChatModule.default);
       if (pathname === '/api/music') return await runApi(request, response, musicModule.default);
       if (pathname.startsWith('/api/social')) return await runApi(request, response, socialModule.default);
       if (pathname === '/health') return sendJson(response, 200, { status: 'ok' });
