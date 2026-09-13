@@ -826,3 +826,26 @@ body {
 @media (min-width: 901px) {
   .sm-menu-toggle, .mobile-menu { display: none; }
 }
+
+/* ─── Skills — compact on mobile ─────────────────────────── */
+@media (max-width: 640px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .skill {
+    padding: 14px 6px 12px;
+    gap: 8px;
+    border-radius: 10px;
+  }
+  .skill-icon {
+    width: 30px;
+    height: 30px;
+  }
+  .skill-name {
+    font-size: 0.78rem;
+    line-height: 1.15;
+  }
+  /* Disable tooltips on touch — no hover state anyway */
+  .skill-tip { display: none; }
+}
