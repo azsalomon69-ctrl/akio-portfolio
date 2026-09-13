@@ -177,7 +177,47 @@ body {
   .hero-profile-inner { transition: none; will-change: auto; }
 }
 
-.hero-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+/* ─── Hero text — cross-fade container ───────────────────── */
+.hero-text {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 400px;
+}
+
+.hero-view,
+.about-view {
+  position: absolute;
+  inset: 0;
+  will-change: opacity, transform;
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-view {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.hero-view.hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}
+
+.about-view {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+.about-view.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ─── Hero view content ──────────────────────────────────── */
 .hero-name {
   font-size: clamp(1.6rem, 3vw, 2.6rem); font-weight: 700;
   letter-spacing: -0.03em; line-height: 1.05; white-space: nowrap;
@@ -194,19 +234,54 @@ body {
   font-size: clamp(0.95rem, 1.2vw, 1.05rem); line-height: 1.65;
 }
 
-/* ── Hero CTAs — tightened so all three fit on one line ── */
 .hero-ctas { margin-top: 32px; display: flex; gap: 10px; flex-wrap: wrap; }
 .hero-ctas .btn { padding: 12px 20px; font-size: 14.5px; }
 
+/* ─── About view content ─────────────────────────────────── */
+.about-eyebrow {
+  display: block;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 14px;
+}
+
+.about-title {
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  margin-bottom: 24px;
+}
+
+.about-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  color: var(--muted);
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  line-height: 1.7;
+  max-width: 640px;
+}
+
+/* ─── Hero responsive ────────────────────────────────────── */
 @media (max-width: 900px) {
   .hero-inner { flex-direction: column; align-items: center; text-align: center; gap: 40px; }
   .hero-profile { width: clamp(140px, 40vw, 200px); height: clamp(140px, 40vw, 200px); }
-  .hero-text { align-items: center; text-align: center; width: 100%; }
-  .hero-tagline, .hero-blurb { margin-left: auto; margin-right: auto; }
+  .hero-text { width: 100%; min-height: 480px; text-align: center; }
+  .hero-tagline, .hero-blurb, .about-body { margin-left: auto; margin-right: auto; }
   .hero-ctas { justify-content: center; }
+  .about-eyebrow { text-align: center; }
 }
 @media (max-width: 520px) {
-  .hero-name { white-space: normal; font-size: clamp(1.6rem, 8vw, 2.4rem); }
+  .hero-name, .about-title { white-space: normal; font-size: clamp(1.6rem, 8vw, 2.4rem); }
 }
 
 /* ─── Buttons ────────────────────────────────────────────── */
@@ -221,7 +296,6 @@ body {
 .btn-primary      { background: #ffffff; color: #09090b; }
 .btn-primary:hover{ background: #e4e4e7; }
 
-/* Outline — chrome ring fades in over the white outline via ::before */
 .btn-outline {
   position: relative;
   color: var(--text);
@@ -250,6 +324,118 @@ body {
 }
 .btn-outline:hover { color: #ffffff; border-color: transparent; }
 .btn-outline:hover::before { opacity: 1; }
+
+/* ─── About toggle button ────────────────────────────────── */
+.about-toggle {
+  position: fixed;
+  right: 420px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 210;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  padding: 13px 18px 13px 22px;
+  width: 150px;
+
+  background: rgba(15,15,18,0.92);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-toggle:hover {
+  background: rgba(30,30,36,0.95);
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(calc(-50% - 2px));
+}
+.about-toggle:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.about-toggle-label {
+  position: relative;
+  display: block;
+  flex: 1;
+  height: 14px;
+  overflow: hidden;
+}
+.about-toggle-label-a,
+.about-toggle-label-b {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 14px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.about-toggle-label-a {
+  opacity: 1;
+  transform: translateY(0);
+}
+.about-toggle-label-b {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.about-toggle.active .about-toggle-label-a {
+  opacity: 0;
+  transform: translateY(-14px);
+}
+.about-toggle.active .about-toggle-label-b {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-toggle-arrow {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.about-toggle.active .about-toggle-arrow {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 1400px) {
+  .about-toggle { right: 40px; }
+}
+
+@media (max-width: 900px) {
+  .about-toggle {
+    right: auto;
+    left: 50%;
+    top: auto;
+    bottom: 24px;
+    transform: translateX(-50%);
+    width: 140px;
+    padding: 12px 16px 12px 20px;
+    font-size: 13.5px;
+  }
+  .about-toggle:hover {
+    transform: translateX(-50%) translateY(-2px);
+  }
+  .about-toggle:active {
+    transform: translateX(-50%) scale(0.96);
+  }
+  .about-toggle-arrow { width: 15px; height: 15px; }
+}
 
 /* ─── Sections ───────────────────────────────────────────── */
 .section { max-width: var(--max); margin: 0 auto; padding: 120px 32px; scroll-margin-top: 20px; }
@@ -371,7 +557,6 @@ body {
   contain: layout;
 }
 
-/* Odd entries (1st, 3rd, 5th…): media LEFT, body RIGHT */
 .exp-media {
   background: #000000; border: 1px solid var(--border); border-radius: 16px;
   aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
@@ -418,7 +603,6 @@ body {
 }
 .exp-desc a:hover { text-decoration-color: #ffffff; }
 
-/* Even entries (2nd, 4th, 6th…): body LEFT, media RIGHT */
 .exp-item:nth-child(even) .exp-media {
   grid-column: 3; grid-row: 1;
   justify-self: start;
@@ -432,14 +616,11 @@ body {
   grid-column: 2; grid-row: 1;
 }
 
-/* Mobile — collapse to stacked layout, same for all entries */
 @media (max-width: 860px) {
   .exp-item {
     grid-template-columns: 28px minmax(0, 1fr);
     align-items: start;
   }
-
-  /* Reset odd defaults */
   .exp-media {
     grid-column: 1 / -1; grid-row: 1;
     margin-bottom: 20px; justify-self: start; max-width: 100%;
@@ -453,8 +634,6 @@ body {
     padding-left: 20px; padding-right: 0;
     max-width: 100%; justify-self: stretch;
   }
-
-  /* Reset even overrides so they match odd */
   .exp-item:nth-child(even) .exp-media {
     grid-column: 1 / -1; grid-row: 1;
     justify-self: start;
@@ -524,7 +703,6 @@ body {
   color: var(--muted); line-height: 1.7; margin-bottom: 40px;
 }
 
-/* Chrome shine sweep */
 .shine-text {
   background-color: #a8a8b0;
   background-image: linear-gradient(
@@ -558,7 +736,6 @@ body {
   }
 }
 
-/* Email button — chrome ring fades in via ::before */
 .contact-email {
   position: relative; display: inline-flex; align-items: center; justify-content: center;
   gap: 12px; min-width: 380px; max-width: 100%; padding: 22px 40px;
@@ -630,7 +807,6 @@ body {
 .contact-social-icon:hover  { color: #ffffff; }
 .contact-social-icon svg    { width: 100%; height: 100%; display: block; }
 
-/* Resume button */
 .resume-btn {
   position: relative;
   display: inline-flex; align-items: center; justify-content: center;
@@ -849,25 +1025,17 @@ body {
     font-size: 0.78rem;
     line-height: 1.15;
   }
-  /* Disable tooltips on touch — no hover state anyway */
   .skill-tip { display: none; }
 }
 
-/* ─── Page transition fade ──────────────────────────────── */
-.page-fade {
-  position: fixed;
-  inset: 0;
-  background: #09090b;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 2147483647;
-  transition: opacity 0.25s ease;
-  will-change: opacity;
-}
-.page-fade.active {
-  opacity: 1;
-  pointer-events: auto;
-}
+/* ─── Reduced motion ─────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .page-fade { transition: none; }
+  .hero-view,
+  .about-view,
+  .about-toggle,
+  .about-toggle-label-a,
+  .about-toggle-label-b,
+  .about-toggle-arrow {
+    transition: none;
+  }
 }

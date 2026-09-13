@@ -1,0 +1,32 @@
+{
+  "name": "myportfolio",
+  "version": "1.0.0",
+  "description": "Akio Zaki Salomon — Full-Stack Web Developer portfolio",
+  "main": "morph.js",
+  "scripts": {
+    "minify": "cleancss -o style.min.css style.css && cleancss -o morph.min.css morph.css && terser script.js -c -m -o script.min.js && terser morph.js -c -m --module -o morph.min.js",
+    "minify:watch": "nodemon --watch style.css --watch script.js --watch morph.css --watch morph.js --exec \"npm run minify\"",
+    "dev": "npx serve . -l 3000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azsalomon69-ctrl/akio-portfolio.git"
+  },
+  "keywords": [
+    "portfolio",
+    "three.js",
+    "webgl"
+  ],
+  "author": "Akio Zaki Salomon",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/azsalomon69-ctrl/akio-portfolio/issues"
+  },
+  "homepage": "https://github.com/azsalomon69-ctrl/akio-portfolio#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "serve": "^14.2.6"
+  }
+}

@@ -553,8 +553,9 @@ if (phoneCopy) {
       if (!raf) raf = requestAnimationFrame(loop);
     }
   });
+})();
 
-  /* ─────────────────────────────────────────────────────────────
+/* ─────────────────────────────────────────────────────────────
    10. PAGE TRANSITION — fade out to morph.html
    ───────────────────────────────────────────────────────────── */
 (function initPageTransition() {
@@ -566,9 +567,7 @@ if (phoneCopy) {
 
   links.forEach((link) => {
     link.addEventListener('click', (e) => {
-      // Let cmd/ctrl/middle-click pass through normally
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-
       e.preventDefault();
 
       if (reduced) {
@@ -583,4 +582,31 @@ if (phoneCopy) {
     });
   });
 })();
+
+/* ─────────────────────────────────────────────────────────────
+   11. ABOUT TOGGLE — cross-fades hero text ↔ about content
+   ───────────────────────────────────────────────────────────── */
+(function initAboutToggle() {
+  const toggle    = document.getElementById('about-toggle');
+  const heroView  = document.getElementById('hero-view');
+  const aboutView = document.getElementById('about-view');
+  if (!toggle || !heroView || !aboutView) return;
+
+  let isAbout = false;
+
+  function setAbout(next) {
+    isAbout = next;
+    heroView.classList.toggle('hidden', isAbout);
+    aboutView.classList.toggle('active', isAbout);
+    toggle.classList.toggle('active', isAbout);
+    toggle.setAttribute('aria-expanded', String(isAbout));
+    aboutView.setAttribute('aria-hidden', String(!isAbout));
+  }
+
+  toggle.addEventListener('click', () => setAbout(!isAbout));
+
+  // Escape returns to hero view
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isAbout) setAbout(false);
+  });
 })();
