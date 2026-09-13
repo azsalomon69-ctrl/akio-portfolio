@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#09090b" />
+  <meta name="description" content="Akio Zaki Salomon — Full-Stack Web Developer." />
+  <title>Akio Zaki Salomon</title>
+
+  <!-- ─── FAVICONS ─────────────────────────────────────── -->
+  <link rel="icon" type="image/png" sizes="512x512" href="logo-tab.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="logo-tab.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo-tab.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="logo-tab.png" />
+  <link rel="shortcut icon" type="image/png" href="logo-tab.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo-tab.png" />
+
+  <!-- Preload above-fold images -->
+  <link rel="preload" as="image" href="profile.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="logo.png" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ─── TOP BAR (desktop) ─────────────────────────────────── -->
+  <header class="topbar">
+    <div class="pill pill-findme">
+      <span class="pill-label" data-i18n="findMeOn">Find me on</span>
+      <div class="pill-socials">
+        <a href="https://github.com/azsalomon69-ctrl" target="_blank" rel="noopener" aria-label="GitHub" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+        </a>
+        <a href="https://ph.linkedin.com/in/akio-zaki-salomon-900785353" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </a>
+        <a href="mailto:azsalomon69@gmail.com" aria-label="Email" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <div class="pill pill-location">
+        <svg class="pin-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+        </svg>
+        <span class="loc-city" data-i18n="loc.city">Philippines, Laguna</span>
+        <span class="loc-dot">·</span>
+        <span class="loc-tz" id="loc-tz">GMT+8</span>
+      </div>
+
+      <button id="lang-toggle" class="pill pill-lang" type="button" aria-label="Switch language">
+        <svg class="globe-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M3 12h18M12 3c2.5 2.7 4 6 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6-4-9s1.5-6.3 4-9z"/>
+        </svg>
+        <span id="lang-label" data-i18n="lang.label">EN</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ─── MOBILE MENU BUTTON ─────────────────────────────── -->
+  <button id="mobile-menu-btn" type="button" class="sm-menu-toggle"
+          aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span class="sm-menu-icon" aria-hidden="true">
+      <span class="sm-menu-line"></span>
+      <span class="sm-menu-line sm-menu-line-second"></span>
+    </span>
+  </button>
+
+  <!-- ─── MOBILE MENU PANEL ──────────────────────────────── -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-inner">
+
+      <nav class="mobile-nav">
+        <a href="#hero" data-i18n="nav.home">Home</a>
+        <a href="#projects" data-i18n="nav.projects">Projects</a>
+        <a href="#experience" data-i18n="nav.experience">Experience</a>
+        <a href="#skills" data-i18n="nav.skills">Skills</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+      </nav>
+
+      <div class="mobile-menu-footer">
+        <div class="mobile-menu-section">
+          <span class="mobile-menu-label">LOCATION</span>
+          <div class="mobile-menu-row">
+            <svg class="pin-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+            </svg>
+            <span data-i18n="loc.city">Philippines, Laguna</span>
+            <span class="loc-dot">·</span>
+            <span id="mobile-loc-tz">GMT+8</span>
+          </div>
+        </div>
+
+        <div class="mobile-menu-section">
+          <span class="mobile-menu-label">MY SOCIALS</span>
+          <div class="mobile-menu-socials">
+            <a href="https://github.com/azsalomon69-ctrl" target="_blank" rel="noopener" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            </a>
+            <a href="https://ph.linkedin.com/in/akio-zaki-salomon-900785353" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="mailto:azsalomon69@gmail.com" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </a>
+            <a href="tel:+639919199421" aria-label="Phone">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── CURVED WHEEL NAV (desktop) ────────────────────────── -->
+  <nav class="wheel-nav" aria-label="Main">
+    <ul class="wheel-list">
+      <li class="wheel-item" data-target="hero"><a href="#hero" data-i18n="nav.home">Home</a></li>
+      <li class="wheel-item" data-target="projects"><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+      <li class="wheel-item" data-target="experience"><a href="#experience" data-i18n="nav.experience">Experience</a></li>
+      <li class="wheel-item" data-target="skills"><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+      <li class="wheel-item" data-target="contact"><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── HERO ──────────────────────────────────────────────── -->
+  <section id="hero" class="hero">
+    <canvas id="aurora" class="aurora-canvas"></canvas>
+
+    <div class="hero-inner reveal">
+
+      <div class="hero-profile" aria-label="Akio Zaki Salomon — hover to see logo">
+        <div class="hero-profile-inner">
+          <div class="hero-profile-face hero-profile-front">
+            <img src="profile.png" alt="Akio Zaki Salomon" draggable="false"
+                 width="600" height="600" decoding="async" fetchpriority="high" />
+          </div>
+          <div class="hero-profile-face hero-profile-back">
+            <img src="logo.png" alt="Akio Zaki Salomon logo" draggable="false"
+                 width="600" height="600" decoding="async" />
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-text">
+        <h1 class="hero-name" data-i18n="hero.name">Akio Zaki Salomon</h1>
+        <p class="hero-tagline" data-i18n="hero.tagline">Full-Stack Web Developer.</p>
+        <p class="hero-blurb" data-i18n="hero.blurb">
+          I work with HTML, CSS, JavaScript, Node.js, Express, NestJS, NoSQL, and PostgreSQL.
+          I build both the frontend and backend of web applications.
+        </p>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn btn-primary" data-i18n="hero.viewWork">View my work</a>
+          <a href="#contact" class="btn btn-outline" data-i18n="hero.getInTouch">Get in touch</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── PROJECTS ──────────────────────────────────────────── -->
+  <section id="projects" class="section">
+
+    <div class="project-viewer reveal">
+
+      <article class="project-slide" data-index="0">
+        <div class="project-media">
+          <img src="ace-clock.png" alt="ACE Clock In/Out" draggable="false"
+               width="1200" height="1200" loading="lazy" decoding="async" />
+        </div>
+
+        <div class="project-info">
+          <span class="project-counter">01 / 01</span>
+
+          <h3 class="project-title">ACE Clock In/Out</h3>
+
+          <div class="project-desc">
+            <p>
+              A web-based time tracking and workforce management system built
+              for ACE Outsource Solutions. Employees clock in and out of shifts,
+              track breaks, and log which project they're working on;
+              administrators see it all in real time.
+            </p>
+            <p>
+              Handles the full workflow: onboarding, schedules, projects,
+              corrections, reports, and an audit trail of every admin action.
+              Runs entirely in the browser — no install required — with a
+              mobile-first experience for employees.
+            </p>
+            <p>
+              Time-entry integrity is enforced at the database level, not the
+              client. All writes go through the API with server-side role
+              checks and Row Level Security, so concurrent requests can't
+              produce wrong numbers.
+            </p>
+          </div>
+
+          <div class="project-section">
+            <span class="project-section-label">TECH USED</span>
+            <div class="project-chips">
+              <span class="chip">HTML</span>
+              <span class="chip">CSS</span>
+              <span class="chip">JavaScript</span>
+              <span class="chip">Node.js</span>
+              <span class="chip">Express</span>
+              <span class="chip">Supabase</span>
+              <span class="chip">PostgreSQL</span>
+            </div>
+          </div>
+
+          <div class="project-section">
+            <span class="project-section-label">RELATED LINKS</span>
+            <div class="project-links">
+              <a href="https://ace-clock.vercel.app/" target="_blank" rel="noopener noreferrer">
+                Launch app
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17L17 7M9 7h8v8"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="project-controls" aria-hidden="true">
+        <div class="project-dots"></div>
+        <div class="project-arrows">
+          <button type="button" class="project-arrow" data-dir="-1" aria-label="Previous project">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+          </button>
+          <button type="button" class="project-arrow" data-dir="1" aria-label="Next project">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 6l6 6-6 6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── EXPERIENCE ────────────────────────────────────────── -->
+  <section id="experience" class="section">
+    <h2 class="section-title reveal" data-i18n="experience.title">Experience</h2>
+
+    <div class="experience-list">
+
+      <article class="exp-item reveal">
+        <div class="exp-media">
+          <img src="ace-logo.png" alt="ACE Outsource Solutions" draggable="false"
+               width="800" height="450" loading="lazy" decoding="async" />
+        </div>
+
+        <div class="exp-line" aria-hidden="true">
+          <span class="exp-dot"></span>
+        </div>
+
+        <div class="exp-body">
+          <span class="exp-period" data-i18n="experience.period1">2026 — TODAY</span>
+          <h3 class="exp-company">ACE Outsource Solutions</h3>
+          <p class="exp-role" data-i18n="experience.role">Full-Stack Web Developer / IT Support</p>
+          <p class="exp-desc" data-i18n="experience.j1">
+            Build and maintain company web applications and high-traffic websites,
+            handle IT support tasks, and leverage AI to streamline day-to-day work.
+          </p>
+        </div>
+      </article>
+
+      <article class="exp-item reveal">
+        <div class="exp-media">
+          <img src="randomcraft.png" alt="RandomCraft" draggable="false"
+               width="800" height="450" loading="lazy" decoding="async" />
+        </div>
+
+        <div class="exp-line" aria-hidden="true">
+          <span class="exp-dot"></span>
+        </div>
+
+        <div class="exp-body">
+          <span class="exp-period" data-i18n="experience.period2">2014</span>
+          <h3 class="exp-company">RandomCraft — play.randomcraft.org</h3>
+          <p class="exp-role" data-i18n="experience.role2">Java Plugin Developer · Team of 4</p>
+          <p class="exp-desc" data-i18n="experience.j2">
+            Built and maintained the GTA game mode for RandomCraft, a public Minecraft server
+            serving ~3,000 daily players. Wrote custom gun mechanics, timed loot spawning, and
+            SQLite-backed player data in Java using the Bukkit API. Players posted gameplay
+            content on YouTube covering the mode.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ─── SKILLS ────────────────────────────────────────────── -->
+  <section id="skills" class="section">
+    <h2 class="section-title reveal" data-i18n="skills.title">Skills</h2>
+    <div class="skills-grid">
+
+      <div class="skill reveal" style="--brand:#E34F26">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/html5/E34F26" alt="HTML" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">HTML</span>
+        <div class="skill-tip"><strong>HTML</strong><span data-i18n="skills.html">Structure and markup for web pages</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#1572B6">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/css/1572B6" alt="CSS" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">CSS</span>
+        <div class="skill-tip"><strong>CSS</strong><span data-i18n="skills.css">Styling and layout for the web</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#F7DF1E">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="JavaScript" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">JavaScript</span>
+        <div class="skill-tip"><strong>JavaScript</strong><span data-i18n="skills.js">Dynamic behavior and interactivity</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#5FA04E">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/nodedotjs/5FA04E" alt="Node.js" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">Node.js</span>
+        <div class="skill-tip"><strong>Node.js</strong><span data-i18n="skills.node">JavaScript runtime for the server</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#ffffff">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/express/ffffff" alt="Express" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">Express</span>
+        <div class="skill-tip"><strong>Express</strong><span data-i18n="skills.express">Minimalist Node.js web framework</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#E0234E">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/nestjs/E0234E" alt="NestJS" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">NestJS</span>
+        <div class="skill-tip"><strong>NestJS</strong><span data-i18n="skills.nest">Progressive Node.js framework for scalable server apps</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#ffffff">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/nextdotjs/ffffff" alt="Next.js" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">Next.js</span>
+        <div class="skill-tip"><strong>Next.js</strong><span data-i18n="skills.next">React framework for production web apps</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#47A248">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/mongodb/47A248" alt="NoSQL" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">NoSQL</span>
+        <div class="skill-tip"><strong>NoSQL</strong><span data-i18n="skills.nosql">Non-relational databases like MongoDB</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#4169E1">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/postgresql/4169E1" alt="PostgreSQL" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">PostgreSQL</span>
+        <div class="skill-tip"><strong>PostgreSQL</strong><span data-i18n="skills.pg">Open-source relational database system</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#F38020">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/cloudflare/F38020" alt="Cloudflare" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">Cloudflare</span>
+        <div class="skill-tip"><strong>Cloudflare</strong><span data-i18n="skills.cloudflare">CDN, DNS, and edge deployment</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#ffffff">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/render/ffffff" alt="Render" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">Render</span>
+        <div class="skill-tip"><strong>Render</strong><span data-i18n="skills.render">Cloud platform for backend apps</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#ffffff">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/vercel/ffffff" alt="Vercel" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">Vercel</span>
+        <div class="skill-tip"><strong>Vercel</strong><span data-i18n="skills.vercel">Frontend deployment and edge hosting</span></div>
+      </div>
+
+      <div class="skill reveal" style="--brand:#3ECF8E">
+        <div class="skill-icon"><img src="https://cdn.simpleicons.org/supabase/3ECF8E" alt="Supabase" width="40" height="40" loading="lazy" decoding="async" /></div>
+        <span class="skill-name">Supabase</span>
+        <div class="skill-tip"><strong>Supabase</strong><span data-i18n="skills.supabase">Open-source Firebase alternative (DB, auth, storage)</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ───────────────────────────────────────────── -->
+  <section id="contact" class="section contact">
+    <p class="contact-eyebrow reveal" data-i18n="contact.eyebrow">Get in touch</p>
+    <h3 class="contact-headline shine-text reveal" data-i18n="contact.headline">Let's build something together</h3>
+    <p class="contact-sub reveal" data-i18n="contact.sub">
+      Do you have a project in mind?<br>My inbox is always open.
+    </p>
+
+    <button class="contact-email reveal" id="copy-email" type="button" data-copy="azsalomon69@gmail.com" aria-label="Copy email">
+      <svg class="contact-email-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="M22 6l-10 7L2 6"/>
+      </svg>
+      <span class="contact-email-text">azsalomon69@gmail.com</span>
+      <span class="contact-email-feedback" aria-hidden="true">Copied!</span>
+    </button>
+
+    <div class="contact-socials reveal">
+      <a href="https://github.com/azsalomon69-ctrl" target="_blank" rel="noopener" aria-label="GitHub" class="contact-social-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+        </svg>
+      </a>
+
+      <a href="https://ph.linkedin.com/in/akio-zaki-salomon-900785353" target="_blank" rel="noopener" aria-label="LinkedIn" class="contact-social-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
+
+      <div class="phone-wrap">
+        <button type="button" class="contact-social-icon phone-btn" id="phone-btn" aria-label="Show phone number" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+          </svg>
+        </button>
+        <div class="phone-popup" id="phone-popup" hidden>
+          <span class="phone-number">+639919199421</span>
+          <button type="button" class="phone-copy" id="phone-copy" aria-label="Copy phone number" data-copy="+639919199421">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <a href="resume.html" target="_blank" rel="noopener" class="resume-btn reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+      </svg>
+      <span>View Resume</span>
+    </a>
+  </section>
+
+  <footer class="footer">
+    <span>© <span id="year"></span> Akio Zaki Salomon</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

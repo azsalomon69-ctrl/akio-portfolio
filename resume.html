@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Akio Zaki Salomon — Resume</title>
+<link rel="icon" type="image/png" href="logo-tab.png" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+  body {
+    background:
+      radial-gradient(ellipse at 50% 0%, #2f2f37 0%, #1a1a20 45%, #0e0e12 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #111;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding: 32px 20px 60px;
+    min-height: 100vh;
+  }
+
+  .toolbar {
+    position: fixed; top: 20px; right: 20px; z-index: 100;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .tool-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    font-family: inherit; font-size: 13.5px; font-weight: 500;
+    color: #e8e8ec;
+    background: rgba(22,22,28,0.92);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 999px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .tool-btn:hover { background: rgba(34,34,42,0.95); border-color: rgba(255,255,255,0.32); }
+  .tool-btn svg { width: 15px; height: 15px; }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 14mm 15mm 12mm;
+    background: #fdfdfc;
+    color: #111;
+    position: relative;
+    box-shadow:
+      0 1px 2px rgba(0,0,0,0.35),
+      0 4px 12px rgba(0,0,0,0.28),
+      0 24px 60px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.9);
+    border-radius: 1px;
+  }
+  .page::before {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background-image:
+      repeating-linear-gradient(0deg,
+        rgba(0,0,0,0.008) 0px,
+        rgba(0,0,0,0.008) 1px,
+        transparent 1px,
+        transparent 3px);
+    border-radius: inherit;
+  }
+  .page > * { position: relative; z-index: 1; }
+
+  .name {
+    font-size: 22pt;
+    font-weight: 700;
+    letter-spacing: -0.022em;
+    line-height: 1.02;
+    color: #0a0a0a;
+  }
+  .title {
+    margin-top: 3pt;
+    font-size: 10.5pt;
+    font-weight: 500;
+    letter-spacing: 0.015em;
+    color: #4a4a52;
+  }
+  .contact {
+    margin-top: 7pt;
+    font-size: 8.5pt;
+    color: #333;
+    line-height: 1.5;
+  }
+  .contact a { color: #111; text-decoration: none; border-bottom: 0.5px solid #bbb; }
+  .contact a:hover { border-bottom-color: #111; }
+  .contact .sep { color: #999; margin: 0 5pt; }
+
+  .section { margin-top: 10pt; page-break-inside: avoid; }
+
+  .sec-title {
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    padding-bottom: 3pt;
+    border-bottom: 1pt solid #222;
+    margin-bottom: 6pt;
+  }
+
+  .summary {
+    font-size: 9.5pt;
+    line-height: 1.45;
+    color: #222;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .skills { display: flex; flex-direction: column; gap: 3pt; }
+  .skills-row {
+    display: grid;
+    grid-template-columns: 84pt 1fr;
+    gap: 5pt;
+    font-size: 9.5pt;
+    line-height: 1.4;
+  }
+  .skills-label {
+    font-weight: 600;
+    color: #1a1a1a;
+    font-size: 9pt;
+  }
+  .skills-value { color: #333; }
+
+  .entry { margin-bottom: 6pt; page-break-inside: avoid; }
+  .entry:last-child { margin-bottom: 0; }
+
+  .entry-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8pt;
+    margin-bottom: 1pt;
+  }
+  .entry-role {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #0a0a0a;
+    line-height: 1.2;
+  }
+  .entry-date {
+    font-size: 9pt;
+    font-weight: 500;
+    color: #666;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .entry-org {
+    font-size: 9.5pt;
+    font-weight: 500;
+    font-style: italic;
+    color: #444;
+    line-height: 1.25;
+    margin-bottom: 3pt;
+  }
+  .entry-org .tech {
+    font-style: normal;
+    color: #666;
+    font-weight: 400;
+  }
+
+  .entry ul { list-style: none; padding: 0; margin: 0; }
+  .entry ul li {
+    position: relative;
+    padding-left: 11pt;
+    font-size: 9.5pt;
+    line-height: 1.45;
+    color: #222;
+    margin-bottom: 1.5pt;
+  }
+  .entry ul li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 5.5pt;
+    width: 3pt; height: 3pt;
+    background: #333;
+    border-radius: 50%;
+  }
+  .entry ul li:last-child { margin-bottom: 0; }
+
+  .foot-strip {
+    margin-top: 9pt;
+    padding-top: 6pt;
+    border-top: 0.5pt solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    font-size: 8.5pt;
+    color: #666;
+    letter-spacing: 0.02em;
+  }
+  .foot-strip span strong { color: #333; font-weight: 600; }
+
+  @media screen and (min-width: 900px) {
+    .page {
+      transform: scale(0.72);
+      transform-origin: top center;
+      margin-bottom: calc(297mm * -0.28);
+    }
+  }
+  @media screen and (min-width: 1400px) {
+    .page {
+      transform: scale(0.85);
+      margin-bottom: calc(297mm * -0.15);
+    }
+  }
+
+  @media print {
+    @page {
+      size: A4;
+      margin: 10mm 12mm 10mm;
+    }
+    html, body {
+      background: #fff !important;
+      padding: 0 !important;
+      height: auto !important;
+      min-height: 0 !important;
+    }
+    .toolbar { display: none !important; }
+    .page {
+      width: auto;
+      min-height: 0 !important;
+      margin: 0 !important;
+      padding: 0;
+      box-shadow: none !important;
+      border-radius: 0;
+      background: #fff;
+      transform: none !important;
+    }
+    .page::before { display: none; }
+    a { color: #000 !important; text-decoration: none; }
+    .section, .entry { page-break-inside: avoid; }
+    .sec-title { page-break-after: avoid; }
+    .entry ul li { page-break-inside: avoid; }
+    p, li { orphans: 2; widows: 2; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  @media screen and (max-width: 860px) {
+    body { padding: 20px 10px 60px; }
+    .page {
+      width: 100%;
+      min-height: 0;
+      padding: 22px 20px 26px;
+      font-size: 0.94em;
+    }
+    .skills-row { grid-template-columns: 1fr; gap: 2pt; }
+    .skills-label { color: #666; font-size: 8.5pt; letter-spacing: 0.06em; text-transform: uppercase; }
+    .entry-head { flex-wrap: wrap; }
+    .toolbar { top: 12px; right: 12px; }
+    .tool-btn { padding: 9px 14px; font-size: 12.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="tool-btn" id="print-btn" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+      <rect x="6" y="14" width="12" height="8"/>
+    </svg>
+    Download PDF
+  </button>
+</div>
+
+<main class="page">
+
+  <header>
+    <h1 class="name">Akio Zaki Salomon</h1>
+    <p class="title">Full-Stack Web Developer</p>
+    <p class="contact">
+      Philippines, Laguna
+      <span class="sep">·</span>
+      <a href="mailto:azsalomon69@gmail.com">azsalomon69@gmail.com</a>
+      <span class="sep">·</span>
+      <a href="tel:+639919199421">+63 991 919 9421</a>
+      <br>
+      <a href="https://github.com/azsalomon69-ctrl" target="_blank" rel="noopener">github.com/azsalomon69-ctrl</a>
+      <span class="sep">·</span>
+      <a href="https://ph.linkedin.com/in/akio-zaki-salomon-900785353" target="_blank" rel="noopener">linkedin.com/in/akio-zaki-salomon</a>
+    </p>
+  </header>
+
+  <section class="section">
+    <h2 class="sec-title">Summary</h2>
+    <p class="summary">
+      Early-career full-stack web developer focused on building end-to-end applications with
+      Node.js, Express, NestJS, and PostgreSQL/Supabase. Started writing code in 2014 building
+      Java plugins for a private multiplayer server serving thousands of daily players, before
+      formal ICT training. Currently shipping internal tools at ACE Outsource Solutions,
+      including a time-tracking system with database-level integrity. Uses AI-assisted
+      workflows to ship faster without sacrificing code quality.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="sec-title">Technical Skills</h2>
+    <div class="skills">
+      <div class="skills-row">
+        <div class="skills-label">Languages</div>
+        <div class="skills-value">JavaScript (ES2023+), Java, HTML, CSS, SQL</div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-label">Frameworks</div>
+        <div class="skills-value">Node.js, Express, NestJS, Next.js</div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-label">Databases</div>
+        <div class="skills-value">PostgreSQL, Supabase, SQLite, MongoDB (NoSQL)</div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-label">Cloud &amp; DevOps</div>
+        <div class="skills-value">Cloudflare, Render, Vercel, Git</div>
+      </div>
+      <div class="skills-row">
+        <div class="skills-label">Other</div>
+        <div class="skills-value">REST APIs, Row Level Security, event-driven systems, AI-assisted development</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="sec-title">Experience</h2>
+
+    <article class="entry">
+      <div class="entry-head">
+        <div class="entry-role">Full-Stack Web Developer / IT Support</div>
+        <div class="entry-date">July 2026 — Present</div>
+      </div>
+      <div class="entry-org">ACE Outsource Solutions</div>
+      <ul>
+        <li>Build and maintain company web applications and high-traffic websites end-to-end, covering frontend, API, and database schema.</li>
+        <li>Enforce time-entry and data integrity at the database level via Row Level Security and server-side role checks.</li>
+        <li>Handle organization-wide IT support and use AI-assisted development to accelerate delivery without dropping quality standards.</li>
+      </ul>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <div class="entry-role">Freelance Web Developer</div>
+        <div class="entry-date">2021 — 2026</div>
+      </div>
+      <div class="entry-org">Self-employed · Small business websites</div>
+      <ul>
+        <li>Designed and delivered responsive, mobile-first websites for small businesses under private agreements.</li>
+        <li>Managed the full lifecycle — requirements, design, development, and deployment.</li>
+      </ul>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <div class="entry-role">Server-Side Java Developer</div>
+        <div class="entry-date">2014</div>
+      </div>
+      <div class="entry-org">Private multiplayer server community · Bukkit API · Team of 4</div>
+      <ul>
+        <li>Co-developed and maintained a private multiplayer server serving ~3,000 daily players, owning the GTA-inspired game mode end-to-end.</li>
+        <li>Built custom gun mechanics, hit detection, and a timed loot system that spawned weapon crates every 5 minutes.</li>
+        <li>Persisted player data (inventories, ranks, currency) with SQLite and configured game behavior through YAML.</li>
+        <li>Shipped continuous updates and stability fixes under live daily traffic as one of four developers.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="section">
+    <h2 class="sec-title">Projects</h2>
+
+    <article class="entry">
+      <div class="entry-head">
+        <div class="entry-role">ACE Clock In/Out — Time Tracking &amp; Workforce Management</div>
+        <div class="entry-date">2026</div>
+      </div>
+      <div class="entry-org">
+        Web application for ACE Outsource Solutions
+        <span class="tech"> · HTML, CSS, JavaScript, Node.js, Express, Supabase, PostgreSQL</span>
+      </div>
+      <ul>
+        <li>Built a complete workforce management system covering onboarding, schedules, projects, corrections, reports, and admin audit trail.</li>
+        <li>Designed a mobile-first employee experience for clock in/out, break tracking, and project time logging.</li>
+        <li>Enforced time-entry integrity at the database level, preventing wrong numbers under concurrent requests.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="section">
+    <h2 class="sec-title">Education</h2>
+    <article class="entry">
+      <div class="entry-head">
+        <div class="entry-role">Information &amp; Communications Technology (ICT)</div>
+        <div class="entry-date">2021</div>
+      </div>
+      <div class="entry-org">St. Ignatius · Laguna</div>
+    </article>
+  </section>
+
+  <div class="foot-strip">
+    <span><strong>English</strong> — Professional</span>
+    <span><strong>Filipino</strong> — Native</span>
+  </div>
+
+</main>
+
+<script>
+  document.getElementById('print-btn').addEventListener('click', () => window.print());
+</script>
+</body>
+</html>
