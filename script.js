@@ -553,4 +553,34 @@ if (phoneCopy) {
       if (!raf) raf = requestAnimationFrame(loop);
     }
   });
+
+  /* ─────────────────────────────────────────────────────────────
+   10. PAGE TRANSITION — fade out to morph.html
+   ───────────────────────────────────────────────────────────── */
+(function initPageTransition() {
+  const overlay = document.getElementById('page-fade');
+  const links = document.querySelectorAll('a[href="morph.html"]');
+  if (!overlay || !links.length) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  links.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      // Let cmd/ctrl/middle-click pass through normally
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+
+      e.preventDefault();
+
+      if (reduced) {
+        window.location.href = 'morph.html';
+        return;
+      }
+
+      overlay.classList.add('active');
+      setTimeout(() => {
+        window.location.href = 'morph.html';
+      }, 250);
+    });
+  });
+})();
 })();

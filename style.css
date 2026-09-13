@@ -98,7 +98,7 @@ body {
 }
 .wheel-item.active a { color: #ffffff; font-weight: 500; }
 
-@media (min-width: 900px) { .section, .hero-inner { padding-right: 400px; } }
+@media (min-width: 900px) { .section, .hero-inner { padding-right: 340px; } }
 @media (max-width: 899px) {
   .wheel-nav { width: 220px; }
   .wheel-item { right: 24px; }
@@ -193,7 +193,10 @@ body {
   margin-top: 12px; color: var(--muted); max-width: 640px;
   font-size: clamp(0.95rem, 1.2vw, 1.05rem); line-height: 1.65;
 }
-.hero-ctas { margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* ── Hero CTAs — tightened so all three fit on one line ── */
+.hero-ctas { margin-top: 32px; display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-ctas .btn { padding: 12px 20px; font-size: 14.5px; }
 
 @media (max-width: 900px) {
   .hero-inner { flex-direction: column; align-items: center; text-align: center; gap: 40px; }
@@ -848,4 +851,23 @@ body {
   }
   /* Disable tooltips on touch — no hover state anyway */
   .skill-tip { display: none; }
+}
+
+/* ─── Page transition fade ──────────────────────────────── */
+.page-fade {
+  position: fixed;
+  inset: 0;
+  background: #09090b;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2147483647;
+  transition: opacity 0.25s ease;
+  will-change: opacity;
+}
+.page-fade.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-fade { transition: none; }
 }
