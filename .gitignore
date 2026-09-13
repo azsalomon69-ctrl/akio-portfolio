@@ -1,0 +1,25 @@
+﻿# Node / Wrangler
+node_modules/
+.wrangler/
+.dev.vars
+.wrangler.toml
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
