@@ -592,6 +592,7 @@ if (phoneCopy) {
   const aboutView = document.getElementById('about-view');
   if (!toggle || !heroView || !aboutView) return;
 
+  const label = toggle.querySelector('.pill-about-text');
   let isAbout = false;
 
   function setAbout(next) {
@@ -601,11 +602,11 @@ if (phoneCopy) {
     toggle.classList.toggle('active', isAbout);
     toggle.setAttribute('aria-expanded', String(isAbout));
     aboutView.setAttribute('aria-hidden', String(!isAbout));
+    if (label) label.textContent = isAbout ? 'Back' : 'About';
   }
 
   toggle.addEventListener('click', () => setAbout(!isAbout));
 
-  // Escape returns to hero view
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isAbout) setAbout(false);
   });

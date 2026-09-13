@@ -17,7 +17,7 @@
   <link rel="preload" as="image" href="profile.png" fetchpriority="high" />
   <link rel="preload" as="image" href="logo.png" />
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.min.css" />
 </head>
 <body>
 
@@ -39,6 +39,13 @@
     </div>
 
     <div class="topbar-right">
+      <button id="about-toggle" class="pill pill-about" type="button" aria-expanded="false" aria-controls="about-view">
+        <span class="pill-about-text">About</span>
+        <svg class="pill-about-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </button>
+
       <div class="pill pill-location">
         <svg class="pin-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
@@ -146,7 +153,6 @@
 
       <div class="hero-text">
 
-        <!-- ─── HERO VIEW (default) ────────────────────────────── -->
         <div class="hero-view" id="hero-view">
           <h1 class="hero-name" data-i18n="hero.name">Akio Zaki Salomon</h1>
           <p class="hero-tagline" data-i18n="hero.tagline">Full-Stack Web Developer.</p>
@@ -161,7 +167,6 @@
           </div>
         </div>
 
-        <!-- ─── ABOUT VIEW (cross-fades in over hero) ──────────── -->
         <div class="about-view" id="about-view" aria-hidden="true">
           <span class="about-eyebrow">About</span>
           <h2 class="about-title">From player<br>to builder.</h2>
@@ -176,17 +181,6 @@
 
     </div>
   </section>
-
-  <!-- ─── ABOUT TOGGLE (right side, vertical center) ──────────── -->
-  <button id="about-toggle" class="about-toggle" type="button" aria-expanded="false" aria-controls="about-view">
-    <span class="about-toggle-label">
-      <span class="about-toggle-label-a">About me</span>
-      <span class="about-toggle-label-b">Back</span>
-    </span>
-    <svg class="about-toggle-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M5 12h14M13 5l7 7-7 7"/>
-    </svg>
-  </button>
 
   <!-- ─── PROJECTS ──────────────────────────────────────────── -->
   <section id="projects" class="section">
