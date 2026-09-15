@@ -216,6 +216,68 @@ bhQuad.renderOrder = -1000;
 bhQuad.visible = false;
 scene.add(bhQuad);
 
+/* ═══════════════════════════════════════════════════════════
+   BLACK HOLE SOUND
+   ═══════════════════════════════════════════════════════════ */
+const blackholeAudio = new Audio('blackhole.mp3');
+blackholeAudio.preload = 'auto';
+blackholeAudio.loop    = false;
+blackholeAudio.volume  = 0;
+
+// Unmute only after priming
+let audioPrimed = false;
+let blackholeAudioStarted = false;
+let blackholeSoundT = 0;
+
+const BLACKHOLE_TARGET_VOLUME = 0.4;
+const BLACKHOLE_FADE_IN = 2.2;   // was 1.4
+
+/* Prime the audio element on the first user gesture.
+   This "unlocks" playback so a later .play() is allowed. */
+function primeAudio() {
+  if (audioPrimed) return;
+  audioPrimed = true;
+
+  // Muted play unlocks the element in Chrome/Safari/Firefox
+  blackholeAudio.muted = true;
+  const p = blackholeAudio.play();
+  if (p && typeof p.then === 'function') {
+    p.then(() => {
+      blackholeAudio.pause();
+      blackholeAudio.currentTime = 0;
+      blackholeAudio.muted = false;
+    }).catch((err) => {
+      console.warn('[blackhole] prime failed:', err);
+    });
+  }
+}
+
+window.addEventListener('keydown', primeAudio, { once: true });
+window.addEventListener('pointerdown', primeAudio, { once: true });
+window.addEventListener('touchstart', primeAudio, { once: true, passive: true });
+
+/* Start the sound (called when the black hole appears) */
+function startBlackholeSound() {
+  if (blackholeAudioStarted) return;
+  blackholeAudioStarted = true;
+  blackholeSoundT = 0;
+  blackholeAudio.volume = 0;
+  blackholeAudio.muted  = false;
+
+  const p = blackholeAudio.play();
+  if (p && typeof p.catch === 'function') {
+    p.catch((err) => {
+      console.warn('[blackhole] play failed:', err);
+    });
+  }
+
+  // Helpful diagnostics
+  blackholeAudio.addEventListener('error', () => {
+    console.error('[blackhole] audio error:',
+      blackholeAudio.error?.code, blackholeAudio.error?.message);
+  });
+}
+
 /* ─── Star field ─────────────────────────────────────────── */
 (function addStars() {
   const COUNT = 800;
@@ -400,6 +462,7 @@ function animate() {
     camStartPos.copy(camera.position);
     camStartQuat.copy(camera.quaternion);
     bhQuad.visible = true;
+    startBlackholeSound();
   }
 
   if (transitionState === 'reveal') {
@@ -447,6 +510,13 @@ function animate() {
     _basisMat4.makeBasis(_basisRight, _basisUp, _basisFwd);
     bhUniforms.uCamBasis.value.setFromMatrix4(_basisMat4);
     bhUniforms.uTime.value = t;
+  }
+
+  // ── Black hole sound fade-in ────────────────────────────
+  if (blackholeAudioStarted) {
+    blackholeSoundT += delta;
+    const fadeIn = Math.min(1, blackholeSoundT / BLACKHOLE_FADE_IN);
+    blackholeAudio.volume = BLACKHOLE_TARGET_VOLUME * fadeIn;
   }
 
   // ── Card opacity ────────────────────────────────────────
